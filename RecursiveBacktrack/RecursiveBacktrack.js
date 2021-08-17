@@ -2,122 +2,182 @@ let gameCanvas = document.getElementById("RecursiveBacktrackMazeCanvas");
 
 let ctx = gameCanvas.getContext("2d");
 
-let visualise = true;
-
-let mazeWidth = 10;
-let mazeHeight = 10;
-let finalCellCoords = {x: mazeWidth - 1, y: mazeHeight - 1};
-
-let maze = [];
-
 const Paths = {
 	LEFT: "left",
 	RIGHT: "right",
 	UP: "up",
 	DOWN: "down",
 }
-let pathStack = [
-    {x: 0, y:0}
-];
 
-let nCells = mazeHeight * mazeWidth;
-let nVisited = 1;
+class RecursiveBacktrackMazeGen
+{
+    constructor(mazeHeight, mazeWidth, visualise, finalCellCoords, ctx, completedCallback){
+        this.mazeWidth = mazeWidth;
+        this.mazeHeight = mazeHeight;
+        this.nCells = mazeHeight * mazeWidth;
+        this.nVisited = 1;
+        this.pathStack = [{x: 0, y:0}];
+        this.finalCellCoords = {x: mazeWidth - 1, y: mazeHeight - 1};
+        this.ctx = ctx;
+        this.maze = [];
+        this.visualise = true;
+        this.completed = false;
+        this.completedCallback = completedCallback;
+        this.bw = ctx.canvas.width
+        this.bh = ctx.canvas.height
+        this.cellWidth = this.bw / mazeWidth;
+        this.cellHeight = this.bh / mazeHeight;
+
+        this.illustrator = new Illustrator(ctx, this.maze, mazeWidth, mazeHeight);;
+
+        for (let x = 0; x < mazeWidth; x++)
+        {
+            let row = [];
+            for (let y = 0; y < mazeHeight; y++)
+            {
+                row.push({x: x, y: y, visited: false, currentPath: false, connectedCells: [] })
+            }
+    
+            this.maze.push(row)
+        }
+    
+        this.maze[0][0].visited = true;
+        this.maze[0][0].currentPath = true;
+    }
+
+    StepMaze()
+    { 
+        if (this.completed) return;
+
+        let currentCoords = this.pathStack[this.pathStack.length - 1];
+
+        let neighbours = this.GetUnvisitedNeighbours(currentCoords);
+
+        if (neighbours.length == 0) 
+        {
+            let redundant = this.pathStack.pop();
+
+            this.maze[redundant.x][redundant.y].currentPath = false;            
+        }
+        else
+        {
+            let nextNeighbour = neighbours[Math.floor(Math.random() * neighbours.length)];
+            
+            nextNeighbour.cell.visited = true;
+
+            nextNeighbour.cell.currentPath = true;
+
+            this.maze[currentCoords.x][currentCoords.y].connectedCells.push(nextNeighbour.dir);
+
+            this.nVisited++;
+
+            // if (currentCoords.x == this.finalCellCoords.x && currentCoords.y == this.finalCellCoords.y)
+            // {
+            //     // path to end complete, can save current path as solution if you want.
+            // }
+
+            this.pathStack.push({x: nextNeighbour.cell.x, y: nextNeighbour.cell.y});
+        }
+        
+        if (this.nVisited == this.nCells)
+        {
+            this.completed = true;
+            this.completedCallback(this.maze);
+        } 
+
+        this.Draw();
+    }
+
+    GetUnvisitedNeighbours(currentCoords)
+    {  
+        let unvisitedNeighbours = [];
+        
+        if (currentCoords.x >= 1)
+        {
+            let x = currentCoords.x - 1;
+            let y = currentCoords.y;
+            if (!this.maze[x][y].visited) unvisitedNeighbours.push({cell: this.maze[x][y], dir: Paths.LEFT});
+        }
+
+        if (currentCoords.x < this.mazeWidth - 1)
+        {
+            let x = currentCoords.x + 1;
+            let y = currentCoords.y;
+            if (!this.maze[x][y].visited) unvisitedNeighbours.push({cell: this.maze[x][y], dir: Paths.RIGHT});
+        }
+
+        if (currentCoords.y >= 1)
+        {
+            let x = currentCoords.x;
+            let y = currentCoords.y - 1;
+            if (!this.maze[x][y].visited) unvisitedNeighbours.push({cell: this.maze[x][y], dir: Paths.UP});
+        }
+
+        if (currentCoords.y < this.mazeHeight - 1)
+        {
+            let x = currentCoords.x;
+            let y = currentCoords.y + 1;
+            if (!this.maze[x][y].visited) unvisitedNeighbours.push({cell: this.maze[x][y], dir: Paths.DOWN});
+        }
+
+        return unvisitedNeighbours;
+    }
+
+    Draw()
+    {   
+        this.illustrator.DrawGrid();
+
+        for (let row = 0; row < this.mazeHeight; row++)
+        {
+            for (let col = 0; col < this.mazeWidth; col++)
+            {
+                let cell = this.maze[row][col];
+
+                this.illustrator.DrawWallBreaks(cell);
+
+                // this drawing phase is pretty unique to this generator so it's here instead of in illustrator.
+                if (!this.completed)
+                {                
+                    if (cell.visited)
+                    {
+                        this.ctx.beginPath();
+                        this.ctx.fillStyle = "cyan"
+                        this.ctx.arc((cell.x * this.cellWidth) + (this.cellWidth / 2), (cell.y * this.cellHeight) + (this.cellHeight / 2), this.cellWidth / 3, 0, 360);
+                        this.ctx.fill(); 
+                    }
+                    
+                    if (cell.currentPath)
+                    {
+                        this.ctx.beginPath();
+                        this.ctx.fillStyle = "green"
+                        this.ctx.arc((cell.x * this.cellWidth) + (this.cellWidth / 2), (cell.y * this.cellHeight) + (this.cellHeight / 2), this.cellWidth / 4, 0, 360);
+                        this.ctx.fill();
+                    }  
+                }         
+            }
+        }
+    }
+}
+
 function Go()
 {
-    for (let x = 0; x < mazeWidth; x++)
-    {
-        let row = [];
-        for (let y = 0; y < mazeHeight; y++)
+    let maze = new RecursiveBacktrackMazeGen(10, 10, true, null, ctx, CompletedCallback)
+
+    let interval = setInterval(function(){ 
+        if (!maze.completed)
         {
-            row.push({visited: false, x: x, y: y, connectedCells: [], currentPath: false})
+            maze.StepMaze();
         }
-
-        maze.push(row)
-    }
-
-    maze[0][0].visited = true;
-    maze[0][0].currentPath = true;
-
-    let _illustrator = new Illustrator(ctx, maze, mazeWidth, mazeHeight);
-
-    setInterval(function(){ 
-        if (nVisited != nCells)
+        else
         {
-            StepMaze(_illustrator);
+            clearInterval(interval);
         }
-    },1000);
-}
- 
-
-
-function StepMaze(illustrator)
-{ 
-    let currentCoords = pathStack[pathStack.length - 1];
-
-    let neighbours = GetUnvisitedNeighbours(currentCoords);
-
-    if (neighbours.length == 0) 
-    {
-        let redundant = pathStack.pop();
-
-        maze[redundant.x][redundant.y].currentPath = false;            
-    }
-    else
-    {
-        let nextNeighbour = neighbours[Math.floor(Math.random() * neighbours.length)];
-        
-        nextNeighbour.cell.visited = true;
-
-        nextNeighbour.cell.currentPath = true;
-
-        maze[currentCoords.x][currentCoords.y].connectedCells.push(nextNeighbour.dir);
-
-        nVisited++;
-
-        if (currentCoords.x == finalCellCoords.x && currentCoords.y == finalCellCoords.y)
-        {
-            // path complete
-        }
-
-        pathStack.push({x: nextNeighbour.cell.x, y: nextNeighbour.cell.y});
-    }
-    
-    illustrator.Draw();
+    },10);
 }
 
-function GetUnvisitedNeighbours(currentCoords)
-{  
-    let unvisitedNeighbours = [];
-    
-    if (currentCoords.x >= 1)
-    {
-        let x = currentCoords.x - 1;
-        let y = currentCoords.y;
-        if (!maze[x][y].visited) unvisitedNeighbours.push({cell: maze[x][y], dir: Paths.LEFT});
-    }
-
-    if (currentCoords.x < mazeWidth - 1)
-    {
-        let x = currentCoords.x + 1;
-        let y = currentCoords.y;
-        if (!maze[x][y].visited) unvisitedNeighbours.push({cell: maze[x][y], dir: Paths.RIGHT});
-    }
-
-    if (currentCoords.y >= 1)
-    {
-        let x = currentCoords.x;
-        let y = currentCoords.y - 1;
-        if (!maze[x][y].visited) unvisitedNeighbours.push({cell: maze[x][y], dir: Paths.UP});
-    }
-
-    if (currentCoords.y < mazeHeight - 1)
-    {
-        let x = currentCoords.x;
-        let y = currentCoords.y + 1;
-        if (!maze[x][y].visited) unvisitedNeighbours.push({cell: maze[x][y], dir: Paths.DOWN});
-    }
-
-    return unvisitedNeighbours;
+function CompletedCallback(maze)
+{
+    console.log("done!", maze);
 }
 
 class Illustrator
@@ -132,44 +192,10 @@ class Illustrator
         this.cellHeight = this.bh / mazeHeight;
     }
 
-    Draw()
-    {   
-        this.DrawGrid();
-
-        for (let row = 0; row < mazeHeight; row++)
-        {
-            for (let col = 0; col < mazeWidth; col++)
-            {
-                let cell = this.maze[row][col];
-
-                this.DrawWallBreaks(cell);
-
-                // if (cell.visited)
-                // {
-                //     this.ctx.beginPath();
-                //     this.ctx.fillStyle = "cyan"
-                //     this.ctx.arc((cell.x * this.cellWidth) + (this.cellWidth / 2), (cell.y * this.cellHeight) + (this.cellHeight / 2), this.cellWidth / 3, 0, 360);
-                //     this.ctx.fill(); 
-                // }
-                
-                // if (cell.currentPath)
-                // {
-                //     this.ctx.beginPath();
-                //     this.ctx.fillStyle = "green"
-                //     this.ctx.arc((cell.x * this.cellWidth) + (this.cellWidth / 2), (cell.y * this.cellHeight) + (this.cellHeight / 2), this.cellWidth / 4, 0, 360);
-                //     this.ctx.fill();
-                // }           
-            }
-        }
-    }
-
     DrawGrid()
     {
-
         this.ctx.fillStyle = "#222";
         this.ctx.fillRect(0, 0, this.bw, this.bh);
-
-        
 
         var p = 0;
 
@@ -224,14 +250,13 @@ class Illustrator
                     toX = fromX + this.cellWidth;
                     toY = fromY;
                     break;
-                }        
+            }        
 
-                this.ctx.beginPath();
-                this.ctx.moveTo(0.5 + fromX, 0.5 + fromY);
-                this.ctx.lineTo(0.5 + toX, 0.5 +  toY);
-                this.ctx.strokeStyle = "#222";
-                this.ctx.stroke();     
-            });   
-        
+            this.ctx.beginPath();
+            this.ctx.moveTo(0.5 + fromX, 0.5 + fromY);
+            this.ctx.lineTo(0.5 + toX, 0.5 +  toY);
+            this.ctx.strokeStyle = "#222";
+            this.ctx.stroke();     
+        });   
     }
 }
