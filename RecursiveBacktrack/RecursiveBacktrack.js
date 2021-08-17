@@ -4,9 +4,8 @@ let ctx = gameCanvas.getContext("2d");
 
 let visualise = true;
 
-let mazeWidth = 30;
-let mazeHeight = 30;
-
+let mazeWidth = 10;
+let mazeHeight = 10;
 let finalCellCoords = {x: mazeWidth - 1, y: mazeHeight - 1};
 
 let maze = [];
@@ -39,16 +38,19 @@ function Go()
     maze[0][0].visited = true;
     maze[0][0].currentPath = true;
 
+    let _illustrator = new Illustrator(ctx, maze, mazeWidth, mazeHeight);
+
     setInterval(function(){ 
         if (nVisited != nCells)
         {
-            StepMaze();
+            StepMaze(_illustrator);
         }
-    }, 10);
+    },1000);
 }
  
 
-function StepMaze()
+
+function StepMaze(illustrator)
 { 
     let currentCoords = pathStack[pathStack.length - 1];
 
@@ -80,7 +82,7 @@ function StepMaze()
         pathStack.push({x: nextNeighbour.cell.x, y: nextNeighbour.cell.y});
     }
     
-    Draw(maze);
+    illustrator.Draw();
 }
 
 function GetUnvisitedNeighbours(currentCoords)
@@ -118,94 +120,118 @@ function GetUnvisitedNeighbours(currentCoords)
     return unvisitedNeighbours;
 }
 
-function Draw(maze)
+class Illustrator
 {
-    var bw = ctx.canvas.width;
-    var bh = ctx.canvas.height;
-
-    ctx.fillStyle = "#222";
-    ctx.fillRect(0, 0, bw, bh);
-
-    var cellWidth = bw / mazeWidth;
-    var cellHeight = bh / mazeHeight;
-
-    var p = 0;
-
-    for (var x = 0; x <= bw; x += cellWidth) {
-        ctx.moveTo(0.5 + x + p, p);
-        ctx.lineTo(0.5 + x + p, bh + p);
-    }
-
-    for (var x = 0; x <= bh; x += cellHeight) {
-        ctx.moveTo(p, 0.5 + x + p);
-        ctx.lineTo(bw + p, 0.5 + x + p);
-    }
-    
-    ctx.strokeStyle = "#bbb";
-    ctx.stroke();
-
-    for (let row = 0; row < mazeHeight; row++)
+    constructor(ctx, maze, mazeWidth, mazeHeight)
     {
-        for (let col = 0; col < mazeWidth; col++)
+        this.maze = maze;
+        this.ctx = ctx;
+        this.bw = ctx.canvas.width
+        this.bh = ctx.canvas.height
+        this.cellWidth = this.bw / mazeWidth;
+        this.cellHeight = this.bh / mazeHeight;
+    }
+
+    Draw()
+    {   
+        this.DrawGrid();
+
+        for (let row = 0; row < mazeHeight; row++)
         {
-            let cell = maze[row][col];
-
-            if (cell.visited)
+            for (let col = 0; col < mazeWidth; col++)
             {
-                ctx.beginPath();
-                ctx.fillStyle = "cyan"
-                ctx.arc((cell.x * cellWidth) + (cellWidth / 2), (cell.y * cellHeight) + (cellHeight / 2), cellWidth / 3, 0, 360);
-                ctx.fill(); 
-            }
-            
-            if (cell.currentPath)
-            {
-                ctx.beginPath();
-                ctx.fillStyle = "green"
-                ctx.arc((cell.x * cellWidth) + (cellWidth / 2), (cell.y * cellHeight) + (cellHeight / 2), cellWidth / 4, 0, 360);
-                ctx.fill();
-            }           
+                let cell = this.maze[row][col];
 
-            if (cell.connectedCells.forEach(dir => {
-                let fromX = 0;
-                let fromY = 0;
-                let toX = 0;
-                let toY = 0;
+                this.DrawWallBreaks(cell);
+
+                // if (cell.visited)
+                // {
+                //     this.ctx.beginPath();
+                //     this.ctx.fillStyle = "cyan"
+                //     this.ctx.arc((cell.x * this.cellWidth) + (this.cellWidth / 2), (cell.y * this.cellHeight) + (this.cellHeight / 2), this.cellWidth / 3, 0, 360);
+                //     this.ctx.fill(); 
+                // }
                 
-                switch(dir)
-                {                   
-                    case "left":
-                        fromX = row * cellWidth;
-                        fromY = col * cellHeight;
-                        toX = fromX;
-                        toY = fromY + cellHeight;
-                        break;
-                    case "right":
-                        fromX = (row + 1)  * cellWidth;
-                        fromY = col * cellHeight;
-                        toX = fromX;
-                        toY = fromY + cellHeight;
-                        break;
-                    case "up":
-                        fromX = row * cellWidth;
-                        fromY = col * cellHeight;
-                        toX = fromX + cellWidth;
-                        toY = fromY;
-                        break;
-                    case "down":                        
-                        fromX = row  * cellWidth;
-                        fromY = (col + 1) * cellHeight;
-                        toX = fromX + cellWidth;
-                        toY = fromY;
-                        break;
+                // if (cell.currentPath)
+                // {
+                //     this.ctx.beginPath();
+                //     this.ctx.fillStyle = "green"
+                //     this.ctx.arc((cell.x * this.cellWidth) + (this.cellWidth / 2), (cell.y * this.cellHeight) + (this.cellHeight / 2), this.cellWidth / 4, 0, 360);
+                //     this.ctx.fill();
+                // }           
+            }
+        }
+    }
+
+    DrawGrid()
+    {
+
+        this.ctx.fillStyle = "#222";
+        this.ctx.fillRect(0, 0, this.bw, this.bh);
+
+        
+
+        var p = 0;
+
+        for (var x = 0; x <= this.bw; x += this.cellWidth) {
+            this.ctx.moveTo(0.5 + x + p, p);
+            this.ctx.lineTo(0.5 + x + p, this.bh + p);
+        }
+
+        for (var x = 0; x <= this.bh; x += this.cellHeight) {
+            this.ctx.moveTo(p, 0.5 + x + p);
+            this.ctx.lineTo(this.bw + p, 0.5 + x + p);
+        }
+        
+        this.ctx.strokeStyle = "#bbb";
+        this.ctx.stroke();
+    }
+
+    DrawWallBreaks(cell)
+    {
+        let row = cell.x;
+        let col = cell.y;
+
+        cell.connectedCells.forEach(dir => {
+            let fromX = 0;
+            let fromY = 0;
+            let toX = 0;
+            let toY = 0;
+            
+            switch(dir)
+            {                   
+                case "left":
+                    fromX = row * this.cellWidth;
+                    fromY = col * this.cellHeight;
+                    toX = fromX;
+                    toY = fromY + this.cellHeight;
+                    break;
+                case "right":
+                    fromX = (row + 1)  * this.cellWidth;
+                    fromY = col * this.cellHeight;
+                    toX = fromX;
+                    toY = fromY + this.cellHeight;
+                    break;
+                case "up":
+                    fromX = row * this.cellWidth;
+                    fromY = col * this.cellHeight;
+                    toX = fromX + this.cellWidth;
+                    toY = fromY;
+                    break;
+                case "down":                        
+                    fromX = row  * this.cellWidth;
+                    fromY = (col + 1) * this.cellHeight;
+                    toX = fromX + this.cellWidth;
+                    toY = fromY;
+                    break;
                 }        
 
-                ctx.beginPath();
-                ctx.moveTo(0.5 + fromX, 0.5 + fromY);
-                ctx.lineTo(0.5 + toX, 0.5 +  toY);
-                ctx.strokeStyle = "#222";
-                ctx.stroke();     
-            }));   
-        }
+                this.ctx.beginPath();
+                this.ctx.moveTo(0.5 + fromX, 0.5 + fromY);
+                this.ctx.lineTo(0.5 + toX, 0.5 +  toY);
+                this.ctx.strokeStyle = "#222";
+                this.ctx.stroke();     
+            });   
+        
     }
 }
