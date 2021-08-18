@@ -38,6 +38,15 @@ class RecursiveBacktrackMazeGen
         this.maze[0][0].currentPath = true;
     }
 
+    GetFormattedMaze()
+    {
+        return this.maze.map(row => {
+            return row.map(cell => {
+                return {x: cell.x, y: cell.y, connectedCells: cell.connectedCells};
+            });
+        })
+    }
+
     StepMaze()
     { 
         if (this.completed) return;
@@ -75,7 +84,7 @@ class RecursiveBacktrackMazeGen
         if (this.nVisited == this.nCells)
         {
             this.completed = true;
-            this.completedCallback(this.maze);
+            this.completedCallback(this.GetFormattedMaze());
         }
     }
 
@@ -130,25 +139,25 @@ class RecursiveBacktrackMazeGen
                 {                
                     if (cell.visited)
                     {
-                        illustrator.DrawCircleAtLocation(cell.x, cell.y, (dimensions) => dimensions.width / 2.4, "cyan");
+                        illustrator.DrawCircleAtLocation(cell.x, cell.y, (dimensions) => dimensions.width / 1.8, "cyan");
                     }
                     
                     if (cell.currentPath)
                     {
-                        illustrator.DrawCircleAtLocation(cell.x, cell.y, (dimensions) => dimensions.width / 2, "green");
+                        illustrator.DrawCircleAtLocation(cell.x, cell.y, (dimensions) => dimensions.width / 2.4, "green");
                     }  
                 }  
                 
                 // start point
                 if (row == this.startCellCoords.x && col == this.startCellCoords.y)
                 {
-                    illustrator.DrawCircleAtLocation(cell.x, cell.y, (dimensions) => dimensions.width / 2, "red");
+                    illustrator.DrawCircleAtLocation(cell.x, cell.y, (dimensions) => dimensions.width / 1.8, "red");
                 } 
                 
                 // end point
                 if (row == this.endCellCoords.x && col == this.endCellCoords.y)
                 {
-                    illustrator.DrawCircleAtLocation(cell.x, cell.y, (dimensions) => dimensions.width / 2, "red");
+                    illustrator.DrawCircleAtLocation(cell.x, cell.y, (dimensions) => dimensions.width / 1.8, "red");
                 }                 
             }
         }
@@ -159,12 +168,13 @@ function Go()
 {
     let mazeHeight = 10;
     let mazeWidth = 10;
+    let startCoords = {x: 0, y: 0};
+    let endCoords = {x: mazeWidth - 1, y: mazeHeight - 1};
 
     let illustrator = new Illustrator(ctx, mazeWidth, mazeHeight);
     
     let maze = new RecursiveBacktrackMazeGen(
-        mazeHeight, mazeWidth, {x: 0, y: 0}, 
-        {x: mazeWidth - 1, y: mazeHeight - 1}, 
+        mazeHeight, mazeWidth, startCoords, endCoords, 
         (...args) => CompletedCallback(...args, illustrator));
 
     let interval = setInterval(function(){ 
