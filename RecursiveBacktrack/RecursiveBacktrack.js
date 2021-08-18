@@ -11,13 +11,14 @@ const Paths = {
 
 class RecursiveBacktrackMazeGen
 {
-    constructor(mazeHeight, mazeWidth, finalCellCoords, completedCallback){
+    constructor(mazeHeight, mazeWidth, startCellCoords, endCellCoords, completedCallback){
         this.mazeWidth = mazeWidth;
         this.mazeHeight = mazeHeight;
         this.nCells = mazeHeight * mazeWidth;
         this.nVisited = 1;
         this.pathStack = [{x: 0, y:0}];
-        this.finalCellCoords = {x: mazeWidth - 1, y: mazeHeight - 1};
+        this.startCellCoords = startCellCoords;
+        this.endCellCoords = endCellCoords;
         this.maze = [];
         this.completed = false;
         this.completedCallback = completedCallback;
@@ -136,7 +137,19 @@ class RecursiveBacktrackMazeGen
                     {
                         illustrator.DrawCircleAtLocation(cell.x, cell.y, "green");
                     }  
-                }         
+                }  
+                
+                // start point
+                if (row == this.startCellCoords.x && col == this.startCellCoords.y)
+                {
+                    illustrator.DrawCircleAtLocation(cell.x, cell.y, "red");
+                } 
+                
+                // end point
+                if (row == this.endCellCoords.x && col == this.endCellCoords.y)
+                {
+                    illustrator.DrawCircleAtLocation(cell.x, cell.y, "red");
+                }                 
             }
         }
     }
@@ -149,7 +162,10 @@ function Go()
 
     let illustrator = new Illustrator(ctx, mazeWidth, mazeHeight);
     
-    let maze = new RecursiveBacktrackMazeGen(mazeHeight, mazeWidth, null, (...args) => CompletedCallback(...args, illustrator))
+    let maze = new RecursiveBacktrackMazeGen(
+        mazeHeight, mazeWidth, {x: 0, y: 0}, 
+        {x: mazeWidth - 1, y: mazeHeight - 1}, 
+        (...args) => CompletedCallback(...args, illustrator));
 
     let interval = setInterval(function(){ 
         if (!maze.completed)
@@ -161,7 +177,7 @@ function Go()
         {
             clearInterval(interval);
         }
-    },10);
+    }, 10);
 }
 
 function CompletedCallback(maze, illustrator)
