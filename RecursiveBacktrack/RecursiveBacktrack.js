@@ -164,8 +164,20 @@ class RecursiveBacktrackMazeGen
     }
 }
 
-function Go(stepInterval)
+let inProgress = false;
+
+function Go()
 {
+    var stepInterval = document.getElementById("stepInterval").value;
+
+    Generate(stepInterval)
+}
+
+function Generate(stepInterval)
+{
+    if (inProgress) return;
+    inProgress = true;
+
     let mazeHeight = 100;
     let mazeWidth = 100;
     let startCoords = {x: 0, y: 0};
@@ -205,6 +217,8 @@ function Go(stepInterval)
 
 function CompletedCallback(maze, illustrator)
 {
+    inProgress = false;
+    
     // final draw cycle to remove dots
     illustrator.DrawGrid();
 
