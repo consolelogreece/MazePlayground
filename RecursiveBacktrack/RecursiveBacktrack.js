@@ -36,6 +36,8 @@ class RecursiveBacktrackMazeGen
     
         this.maze[0][0].visited = true;
         this.maze[0][0].currentPath = true;
+
+        console.log(this.maze)
     }
 
     GetFormattedMaze()
@@ -168,18 +170,17 @@ let inProgress = false;
 
 function Go()
 {
+    var height = document.getElementById("MazeHeightInput").value;
+    var width = document.getElementById("MazeWidthInput").value;
     var stepInterval = document.getElementById("stepInterval").value;
 
-    Generate(stepInterval)
+    Generate(height, width, stepInterval)
 }
 
-function Generate(stepInterval)
+function Generate(mazeHeight = 10, mazeWidth = 10, stepInterval)
 {
     if (inProgress) return;
     inProgress = true;
-
-    let mazeHeight = 100;
-    let mazeWidth = 100;
     let startCoords = {x: 0, y: 0};
     let endCoords = {x: mazeWidth - 1, y: mazeHeight - 1};
 
@@ -218,7 +219,7 @@ function Generate(stepInterval)
 function CompletedCallback(maze, illustrator)
 {
     inProgress = false;
-    
+
     // final draw cycle to remove dots
     illustrator.DrawGrid();
 
