@@ -11,7 +11,7 @@ const Paths = {
 
 class RecursiveBacktrackMazeGen
 {
-    constructor(mazeHeight, mazeWidth, visualise, finalCellCoords, ctx, completedCallback){
+    constructor(mazeHeight, mazeWidth, finalCellCoords, ctx, completedCallback){
         this.mazeWidth = mazeWidth;
         this.mazeHeight = mazeHeight;
         this.nCells = mazeHeight * mazeWidth;
@@ -20,7 +20,6 @@ class RecursiveBacktrackMazeGen
         this.finalCellCoords = {x: mazeWidth - 1, y: mazeHeight - 1};
         this.ctx = ctx;
         this.maze = [];
-        this.visualise = true;
         this.completed = false;
         this.completedCallback = completedCallback;
         this.bw = ctx.canvas.width
@@ -159,7 +158,7 @@ class RecursiveBacktrackMazeGen
 
 function Go()
 {
-    let maze = new RecursiveBacktrackMazeGen(10, 10, true, null, ctx, CompletedCallback)
+    let maze = new RecursiveBacktrackMazeGen(10, 10, null, ctx, CompletedCallback)
 
     let interval = setInterval(function(){ 
         if (!maze.completed)
