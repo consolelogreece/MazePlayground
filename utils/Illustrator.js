@@ -7,7 +7,6 @@ class Illustrator
         this.bh = ctx.canvas.height
         this.cellWidth = this.bw / mazeWidth;
         this.cellHeight = this.bh / mazeHeight;
-        console.log(this)
     }
 
     DrawGrid()
