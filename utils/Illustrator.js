@@ -15,7 +15,7 @@ class Illustrator
         this.ctx.fillRect(0, 0, this.bw, this.bh);
 
         var p = 0;
-
+        this.ctx.lineWidth = 1;
         for (var col = 0; col <= this.bw; col += this.cellWidth) {
             this.ctx.moveTo(0.5 + col + p, p);
             this.ctx.lineTo(0.5 + col + p, this.bh + p);
@@ -70,6 +70,7 @@ class Illustrator
             }        
 
             this.ctx.beginPath();
+            this.ctx.lineWidth = 3;
             this.ctx.moveTo(0.5 + fromCol, 0.5 + fromRow);
             this.ctx.lineTo(0.5 + toCol, 0.5 + toRow);
             this.ctx.strokeStyle = "#222";
