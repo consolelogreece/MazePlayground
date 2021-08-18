@@ -164,10 +164,10 @@ class RecursiveBacktrackMazeGen
     }
 }
 
-function Go()
+function Go(stepInterval)
 {
-    let mazeHeight = 10;
-    let mazeWidth = 10;
+    let mazeHeight = 100;
+    let mazeWidth = 100;
     let startCoords = {x: 0, y: 0};
     let endCoords = {x: mazeWidth - 1, y: mazeHeight - 1};
 
@@ -177,17 +177,30 @@ function Go()
         mazeHeight, mazeWidth, startCoords, endCoords, 
         (...args) => CompletedCallback(...args, illustrator));
 
-    let interval = setInterval(function(){ 
-        if (!maze.completed)
+    // interval of 0 means don't animate steps.
+    if (stepInterval != 0)
+    {
+        let interval = setInterval(function(){ 
+            if (!maze.completed)
+            {
+                maze.StepMaze();
+                maze.Draw(illustrator);
+            }
+            else
+            {
+                clearInterval(interval);
+            }
+        }, stepInterval);
+    }
+    else
+    {
+        while(!maze.completed)
         {
             maze.StepMaze();
-            maze.Draw(illustrator);
         }
-        else
-        {
-            clearInterval(interval);
-        }
-    }, 10);
+
+        maze.Draw(illustrator);
+    }
 }
 
 function CompletedCallback(maze, illustrator)
