@@ -11,23 +11,16 @@ const Paths = {
 
 class RecursiveBacktrackMazeGen
 {
-    constructor(mazeHeight, mazeWidth, finalCellCoords, ctx, completedCallback){
+    constructor(mazeHeight, mazeWidth, finalCellCoords, completedCallback){
         this.mazeWidth = mazeWidth;
         this.mazeHeight = mazeHeight;
         this.nCells = mazeHeight * mazeWidth;
         this.nVisited = 1;
         this.pathStack = [{x: 0, y:0}];
         this.finalCellCoords = {x: mazeWidth - 1, y: mazeHeight - 1};
-        this.ctx = ctx;
         this.maze = [];
         this.completed = false;
         this.completedCallback = completedCallback;
-        this.bw = ctx.canvas.width
-        this.bh = ctx.canvas.height
-        this.cellWidth = this.bw / mazeWidth;
-        this.cellHeight = this.bh / mazeHeight;
-
-        this.illustrator = new Illustrator(ctx, this.maze, mazeWidth, mazeHeight);
 
         for (let x = 0; x < mazeWidth; x++)
         {
@@ -81,7 +74,7 @@ class RecursiveBacktrackMazeGen
         if (this.nVisited == this.nCells)
         {
             this.completed = true;
-            this.completedCallback(this.maze, this.illustrator);
+            this.completedCallback(this.maze);
         }
     }
 
@@ -120,9 +113,9 @@ class RecursiveBacktrackMazeGen
         return unvisitedNeighbours;
     }
 
-    Draw()
+    Draw(illustrator)
     {   
-        this.illustrator.DrawGrid();
+        illustrator.DrawGrid();
 
         for (let row = 0; row < this.mazeHeight; row++)
         {
@@ -130,25 +123,18 @@ class RecursiveBacktrackMazeGen
             {
                 let cell = this.maze[row][col];
 
-                this.illustrator.DrawWallBreaks(cell);
+                illustrator.DrawWallBreaks(cell);
 
-                // this drawing phase is pretty unique to this generator so it's here instead of in illustrator.
                 if (!this.completed)
                 {                
                     if (cell.visited)
                     {
-                        this.ctx.beginPath();
-                        this.ctx.fillStyle = "cyan"
-                        this.ctx.arc((cell.x * this.cellWidth) + (this.cellWidth / 2), (cell.y * this.cellHeight) + (this.cellHeight / 2), this.cellWidth / 3, 0, 360);
-                        this.ctx.fill(); 
+                        illustrator.DrawCircleAtLocation(cell.x, cell.y, "cyan");
                     }
                     
                     if (cell.currentPath)
                     {
-                        this.ctx.beginPath();
-                        this.ctx.fillStyle = "green"
-                        this.ctx.arc((cell.x * this.cellWidth) + (this.cellWidth / 2), (cell.y * this.cellHeight) + (this.cellHeight / 2), this.cellWidth / 4, 0, 360);
-                        this.ctx.fill();
+                        illustrator.DrawCircleAtLocation(cell.x, cell.y, "green");
                     }  
                 }         
             }
@@ -158,13 +144,18 @@ class RecursiveBacktrackMazeGen
 
 function Go()
 {
-    let maze = new RecursiveBacktrackMazeGen(10, 10, null, ctx, CompletedCallback)
+    let mazeHeight = 10;
+    let mazeWidth = 10;
+
+    let illustrator = new Illustrator(ctx, mazeWidth, mazeHeight);
+    
+    let maze = new RecursiveBacktrackMazeGen(mazeHeight, mazeWidth, null, (...args) => CompletedCallback(...args, illustrator))
 
     let interval = setInterval(function(){ 
         if (!maze.completed)
         {
             maze.StepMaze();
-            maze.Draw();
+            maze.Draw(illustrator);
         }
         else
         {

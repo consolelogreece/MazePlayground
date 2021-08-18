@@ -1,8 +1,7 @@
 class Illustrator
 {
-    constructor(ctx, maze, mazeWidth, mazeHeight)
+    constructor(ctx, mazeWidth, mazeHeight)
     {
-        this.maze = maze;
         this.ctx = ctx;
         this.bw = ctx.canvas.width
         this.bh = ctx.canvas.height
@@ -76,5 +75,13 @@ class Illustrator
             this.ctx.strokeStyle = "#222";
             this.ctx.stroke();     
         });   
+    }
+
+    DrawCircleAtLocation(x, y, fillStyle)
+    {
+        this.ctx.beginPath();
+        this.ctx.fillStyle = fillStyle;
+        this.ctx.arc((x * this.cellWidth) + (this.cellWidth / 2), (y * this.cellHeight) + (this.cellHeight / 2), this.cellWidth / 3, 0, 360);
+        this.ctx.fill(); 
     }
 }
