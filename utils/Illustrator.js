@@ -77,11 +77,12 @@ class Illustrator
         });   
     }
 
-    DrawCircleAtLocation(x, y, fillStyle)
+    DrawCircleAtLocation(x, y, radialDeterminantFunc, fillStyle)
     {
+        let radius = radialDeterminantFunc({width: this.cellWidth, height: this.cellHeight});
         this.ctx.beginPath();
         this.ctx.fillStyle = fillStyle;
-        this.ctx.arc((x * this.cellWidth) + (this.cellWidth / 2), (y * this.cellHeight) + (this.cellHeight / 2), this.cellWidth / 3, 0, 360);
+        this.ctx.arc((x * this.cellWidth) + (this.cellWidth / 2), (y * this.cellHeight) + (this.cellHeight / 2), radius / 3, 0, 360);
         this.ctx.fill(); 
     }
 }

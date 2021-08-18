@@ -130,25 +130,25 @@ class RecursiveBacktrackMazeGen
                 {                
                     if (cell.visited)
                     {
-                        illustrator.DrawCircleAtLocation(cell.x, cell.y, "cyan");
+                        illustrator.DrawCircleAtLocation(cell.x, cell.y, (dimensions) => dimensions.width / 2.4, "cyan");
                     }
                     
                     if (cell.currentPath)
                     {
-                        illustrator.DrawCircleAtLocation(cell.x, cell.y, "green");
+                        illustrator.DrawCircleAtLocation(cell.x, cell.y, (dimensions) => dimensions.width / 2, "green");
                     }  
                 }  
                 
                 // start point
                 if (row == this.startCellCoords.x && col == this.startCellCoords.y)
                 {
-                    illustrator.DrawCircleAtLocation(cell.x, cell.y, "red");
+                    illustrator.DrawCircleAtLocation(cell.x, cell.y, (dimensions) => dimensions.width / 2, "red");
                 } 
                 
                 // end point
                 if (row == this.endCellCoords.x && col == this.endCellCoords.y)
                 {
-                    illustrator.DrawCircleAtLocation(cell.x, cell.y, "red");
+                    illustrator.DrawCircleAtLocation(cell.x, cell.y, (dimensions) => dimensions.width / 2, "red");
                 }                 
             }
         }
