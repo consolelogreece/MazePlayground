@@ -28,7 +28,7 @@ class RecursiveBacktrackMazeGen
         this.cellWidth = this.bw / mazeWidth;
         this.cellHeight = this.bh / mazeHeight;
 
-        this.illustrator = new Illustrator(ctx, this.maze, mazeWidth, mazeHeight);;
+        this.illustrator = new Illustrator(ctx, this.maze, mazeWidth, mazeHeight);
 
         for (let x = 0; x < mazeWidth; x++)
         {
@@ -82,7 +82,7 @@ class RecursiveBacktrackMazeGen
         if (this.nVisited == this.nCells)
         {
             this.completed = true;
-            this.completedCallback(this.maze);
+            this.completedCallback(this.maze, this.illustrator);
         } 
 
         this.Draw();
@@ -175,9 +175,12 @@ function Go()
     },10);
 }
 
-function CompletedCallback(maze)
+function CompletedCallback(maze, illustrator)
 {
-    console.log("done!", maze);
+    // final draw cycle to remove dots
+    illustrator.DrawGrid();
+
+    maze.forEach(row => row.forEach(cell => illustrator.DrawWallBreaks(cell)));
 }
 
 class Illustrator
