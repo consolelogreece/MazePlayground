@@ -16,35 +16,33 @@ class RecursiveBacktrackMazeGen
         this.mazeHeight = mazeHeight;
         this.nCells = mazeHeight * mazeWidth;
         this.nVisited = 1;
-        this.pathStack = [{x: 0, y:0}];
+        this.pathStack = [{row: 0, col:0}];
         this.startCellCoords = startCellCoords;
         this.endCellCoords = endCellCoords;
         this.maze = [];
         this.completed = false;
         this.completedCallback = completedCallback;
 
-        for (let x = 0; x < mazeWidth; x++)
+        for (let row = 0; row < mazeHeight; row++)
         {
-            let row = [];
-            for (let y = 0; y < mazeHeight; y++)
+            let mazeRow = [];
+            for (let col = 0; col < mazeWidth; col++)
             {
-                row.push({x: x, y: y, visited: false, currentPath: false, connectedCells: [] })
+                mazeRow.push({row: row, col: col, visited: false, currentPath: false, connectedCells: [] })
             }
     
-            this.maze.push(row)
+            this.maze.push(mazeRow)
         }
     
         this.maze[0][0].visited = true;
         this.maze[0][0].currentPath = true;
-
-        console.log(this.maze)
     }
 
     GetFormattedMaze()
     {
         return this.maze.map(row => {
             return row.map(cell => {
-                return {x: cell.x, y: cell.y, connectedCells: cell.connectedCells};
+                return {row: cell.row, col: cell.col, connectedCells: cell.connectedCells};
             });
         })
     }
@@ -54,14 +52,14 @@ class RecursiveBacktrackMazeGen
         if (this.completed) return;
 
         let currentCoords = this.pathStack[this.pathStack.length - 1];
-
+        
         let neighbours = this.GetUnvisitedNeighbours(currentCoords);
 
         if (neighbours.length == 0) 
         {
             let redundant = this.pathStack.pop();
 
-            this.maze[redundant.x][redundant.y].currentPath = false;            
+            this.maze[redundant.row][redundant.col].currentPath = false;            
         }
         else
         {
@@ -71,16 +69,16 @@ class RecursiveBacktrackMazeGen
 
             nextNeighbour.cell.currentPath = true;
 
-            this.maze[currentCoords.x][currentCoords.y].connectedCells.push(nextNeighbour.dir);
+            this.maze[currentCoords.row][currentCoords.col].connectedCells.push(nextNeighbour.dir);
 
             this.nVisited++;
 
-            // if (currentCoords.x == this.finalCellCoords.x && currentCoords.y == this.finalCellCoords.y)
+            // if (currentCoords.row == this.finalCellCoords.row && currentCoords.col == this.finalCellCoords.col)
             // {
             //     // path to end complete, can save current path as solution if you want.
             // }
 
-            this.pathStack.push({x: nextNeighbour.cell.x, y: nextNeighbour.cell.y});
+            this.pathStack.push({row: nextNeighbour.cell.row, col: nextNeighbour.cell.col});
         }
         
         if (this.nVisited == this.nCells)
@@ -94,32 +92,32 @@ class RecursiveBacktrackMazeGen
     {  
         let unvisitedNeighbours = [];
         
-        if (currentCoords.x >= 1)
+        if (currentCoords.col >= 1)
         {
-            let x = currentCoords.x - 1;
-            let y = currentCoords.y;
-            if (!this.maze[x][y].visited) unvisitedNeighbours.push({cell: this.maze[x][y], dir: Paths.LEFT});
+            let col = currentCoords.col - 1;
+            let row = currentCoords.row;
+            if (!this.maze[row][col].visited) unvisitedNeighbours.push({cell: this.maze[row][col], dir: Paths.LEFT});
         }
 
-        if (currentCoords.x < this.mazeWidth - 1)
+        if (currentCoords.col < this.mazeWidth - 1)
         {
-            let x = currentCoords.x + 1;
-            let y = currentCoords.y;
-            if (!this.maze[x][y].visited) unvisitedNeighbours.push({cell: this.maze[x][y], dir: Paths.RIGHT});
+            let col = currentCoords.col + 1;
+            let row = currentCoords.row;
+            if (!this.maze[row][col].visited) unvisitedNeighbours.push({cell: this.maze[row][col], dir: Paths.RIGHT});
         }
 
-        if (currentCoords.y >= 1)
+        if (currentCoords.row >= 1)
         {
-            let x = currentCoords.x;
-            let y = currentCoords.y - 1;
-            if (!this.maze[x][y].visited) unvisitedNeighbours.push({cell: this.maze[x][y], dir: Paths.UP});
+            let col = currentCoords.col;
+            let row = currentCoords.row - 1;
+            if (!this.maze[row][col].visited) unvisitedNeighbours.push({cell: this.maze[row][col], dir: Paths.UP});
         }
 
-        if (currentCoords.y < this.mazeHeight - 1)
+        if (currentCoords.row < this.mazeHeight - 1)
         {
-            let x = currentCoords.x;
-            let y = currentCoords.y + 1;
-            if (!this.maze[x][y].visited) unvisitedNeighbours.push({cell: this.maze[x][y], dir: Paths.DOWN});
+            let col = currentCoords.col;
+            let row = currentCoords.row + 1;
+            if (!this.maze[row][col].visited) unvisitedNeighbours.push({cell: this.maze[row][col], dir: Paths.DOWN});
         }
 
         return unvisitedNeighbours;
@@ -141,25 +139,25 @@ class RecursiveBacktrackMazeGen
                 {                
                     if (cell.visited)
                     {
-                        illustrator.DrawCircleAtLocation(cell.x, cell.y, (dimensions) => dimensions.width / 1.8, "cyan");
+                        illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "cyan");
                     }
                     
                     if (cell.currentPath)
                     {
-                        illustrator.DrawCircleAtLocation(cell.x, cell.y, (dimensions) => dimensions.width / 2.4, "green");
+                        illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 2.4, "green");
                     }  
                 }  
                 
                 // start point
-                if (row == this.startCellCoords.x && col == this.startCellCoords.y)
+                if (row == this.startCellCoords.row && col == this.startCellCoords.col)
                 {
-                    illustrator.DrawCircleAtLocation(cell.x, cell.y, (dimensions) => dimensions.width / 1.8, "red");
+                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "red");
                 } 
                 
                 // end point
-                if (row == this.endCellCoords.x && col == this.endCellCoords.y)
+                if (row == this.endCellCoords.row && col == this.endCellCoords.col)
                 {
-                    illustrator.DrawCircleAtLocation(cell.x, cell.y, (dimensions) => dimensions.width / 1.8, "red");
+                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "red");
                 }                 
             }
         }
@@ -181,8 +179,8 @@ function Generate(mazeHeight = 10, mazeWidth = 10, stepInterval)
 {
     if (inProgress) return;
     inProgress = true;
-    let startCoords = {x: 0, y: 0};
-    let endCoords = {x: mazeWidth - 1, y: mazeHeight - 1};
+    let startCoords = {row: 0, col: 0};
+    let endCoords = {row: mazeHeight - 1, col: mazeWidth - 1};
 
     let illustrator = new Illustrator(ctx, mazeWidth, mazeHeight);
     
@@ -190,6 +188,7 @@ function Generate(mazeHeight = 10, mazeWidth = 10, stepInterval)
         mazeHeight, mazeWidth, startCoords, endCoords, 
         (...args) => CompletedCallback(...args, illustrator));
 
+     
     // interval of 0 means don't animate steps.
     if (stepInterval != 0)
     {
