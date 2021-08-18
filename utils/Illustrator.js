@@ -7,6 +7,7 @@ class Illustrator
         this.bh = ctx.canvas.height
         this.cellWidth = this.bw / mazeWidth;
         this.cellHeight = this.bh / mazeHeight;
+        console.log(this)
     }
 
     DrawGrid()
@@ -16,14 +17,14 @@ class Illustrator
 
         var p = 0;
 
-        for (var x = 0; x <= this.bw; x += this.cellWidth) {
-            this.ctx.moveTo(0.5 + x + p, p);
-            this.ctx.lineTo(0.5 + x + p, this.bh + p);
+        for (var col = 0; col <= this.bw; col += this.cellWidth) {
+            this.ctx.moveTo(0.5 + col + p, p);
+            this.ctx.lineTo(0.5 + col + p, this.bh + p);
         }
 
-        for (var x = 0; x <= this.bh; x += this.cellHeight) {
-            this.ctx.moveTo(p, 0.5 + x + p);
-            this.ctx.lineTo(this.bw + p, 0.5 + x + p);
+        for (var row = 0; row <= this.bh; row += this.cellHeight) {
+            this.ctx.moveTo(p, 0.5 + row + p);
+            this.ctx.lineTo(this.bw + p, 0.5 + row + p);
         }
         
         this.ctx.strokeStyle = "#bbb";
@@ -70,19 +71,19 @@ class Illustrator
             }        
 
             this.ctx.beginPath();
-            this.ctx.moveTo(0.5 + fromRow, 0.5 + fromCol);
-            this.ctx.lineTo(0.5 + toRow, 0.5 + toCol);
+            this.ctx.moveTo(0.5 + fromCol, 0.5 + fromRow);
+            this.ctx.lineTo(0.5 + toCol, 0.5 + toRow);
             this.ctx.strokeStyle = "#222";
             this.ctx.stroke();     
         });   
     }
 
-    DrawCircleAtLocation(x, y, radialDeterminantFunc, fillStyle)
+    DrawCircleAtLocation(row, col, radialDeterminantFunc, fillStyle)
     {
         let radius = radialDeterminantFunc({width: this.cellWidth, height: this.cellHeight});
         this.ctx.beginPath();
         this.ctx.fillStyle = fillStyle;
-        this.ctx.arc((x * this.cellWidth) + (this.cellWidth / 2), (y * this.cellHeight) + (this.cellHeight / 2), radius / 3, 0, 360);
+        this.ctx.arc((col * this.cellWidth) + (this.cellWidth / 2), (row * this.cellHeight) + (this.cellHeight / 2), radius / 3, 0, 360);
         this.ctx.fill(); 
     }
 }
