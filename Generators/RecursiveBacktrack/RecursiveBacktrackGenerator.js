@@ -2,13 +2,6 @@ let gameCanvas = document.getElementById("RecursiveBacktrackMazeCanvas");
 
 let ctx = gameCanvas.getContext("2d");
 
-const Paths = {
-	LEFT: "left",
-	RIGHT: "right",
-	UP: "up",
-	DOWN: "down",
-}
-
 class RecursiveBacktrackMazeGen
 {
     constructor(mazeHeight, mazeWidth, startCellCoords, endCellCoords, completedCallback){
@@ -53,7 +46,7 @@ class RecursiveBacktrackMazeGen
 
         let currentCoords = this.pathStack[this.pathStack.length - 1];
         
-        let neighbours = this.GetUnvisitedNeighbours(currentCoords);
+        let neighbours = FindNeighbours(this.maze, currentCoords.row, currentCoords.col, cell => !cell.visited);
 
         if (neighbours.length == 0) 
         {
@@ -86,41 +79,6 @@ class RecursiveBacktrackMazeGen
             this.completed = true;
             this.completedCallback(this.GetFormattedMaze());
         }
-    }
-
-    GetUnvisitedNeighbours(currentCoords)
-    {  
-        let unvisitedNeighbours = [];
-        
-        if (currentCoords.col >= 1)
-        {
-            let col = currentCoords.col - 1;
-            let row = currentCoords.row;
-            if (!this.maze[row][col].visited) unvisitedNeighbours.push({cell: this.maze[row][col], dir: Paths.LEFT});
-        }
-
-        if (currentCoords.col < this.mazeWidth - 1)
-        {
-            let col = currentCoords.col + 1;
-            let row = currentCoords.row;
-            if (!this.maze[row][col].visited) unvisitedNeighbours.push({cell: this.maze[row][col], dir: Paths.RIGHT});
-        }
-
-        if (currentCoords.row >= 1)
-        {
-            let col = currentCoords.col;
-            let row = currentCoords.row - 1;
-            if (!this.maze[row][col].visited) unvisitedNeighbours.push({cell: this.maze[row][col], dir: Paths.UP});
-        }
-
-        if (currentCoords.row < this.mazeHeight - 1)
-        {
-            let col = currentCoords.col;
-            let row = currentCoords.row + 1;
-            if (!this.maze[row][col].visited) unvisitedNeighbours.push({cell: this.maze[row][col], dir: Paths.DOWN});
-        }
-
-        return unvisitedNeighbours;
     }
 
     Draw(illustrator)
@@ -223,4 +181,10 @@ function CompletedCallback(maze, illustrator)
     illustrator.DrawGrid();
 
     maze.forEach(row => row.forEach(cell => illustrator.DrawWallBreaks(cell)));
+
+    Solve(maze);
+}
+
+function Solve(maze)
+{
 }
