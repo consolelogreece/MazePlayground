@@ -55,7 +55,7 @@ class RecursiveBacktrackMazeGen
             this.maze[redundant.row][redundant.col].currentPath = false;            
         }
         else
-        {
+        {            
             let nextNeighbour = unvisitedNeighbours[Math.floor(Math.random() * unvisitedNeighbours.length)];
             
             nextNeighbour.cell.visited = true;
@@ -65,11 +65,6 @@ class RecursiveBacktrackMazeGen
             this.maze[currentCoords.row][currentCoords.col].connectedCells.push(nextNeighbour.dir);
 
             this.nVisited++;
-
-            // if (currentCoords.row == this.finalCellCoords.row && currentCoords.col == this.finalCellCoords.col)
-            // {
-            //     // path to end complete, can save current path as solution if you want.
-            // }
 
             this.pathStack.push({row: nextNeighbour.cell.row, col: nextNeighbour.cell.col});
         }

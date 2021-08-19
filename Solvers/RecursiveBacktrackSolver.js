@@ -33,35 +33,35 @@ class RecursiveBacktrackMazeSolver
 
         let currentCoords = this.pathStack[this.pathStack.length - 1];
 
-        let currentCell = this.maze[currentCoords.row][currentCoords.col];
-        
-        let neighbours = FindNeighbours(this.maze, currentCoords.row, currentCoords.col);
-
-        let validNeighbours = neighbours.filter(neighbour => !neighbour.cell.visited && currentCell.connectedCells.includes(neighbour.dir));
-
-        if (validNeighbours.length == 0) 
+        if (currentCoords.row == this.endCellCoords.row && currentCoords.col == this.endCellCoords.col)
         {
-            let redundant = this.pathStack.pop();      
-            
-            this.maze[redundant.row][redundant.col].currentPath = false;
+            this.completed = true;
+            this.completedCallback();
         }
         else
         {
-            if (currentCoords.row == this.endCellCoords.row && currentCoords.col == this.endCellCoords.col)
+            let currentCell = this.maze[currentCoords.row][currentCoords.col];
+            
+            let neighbours = FindNeighbours(this.maze, currentCoords.row, currentCoords.col);
+    
+            let validNeighbours = neighbours.filter(neighbour => !neighbour.cell.visited && currentCell.connectedCells.includes(neighbour.dir));
+    
+            if (validNeighbours.length == 0) 
             {
-                this.completed = true;
-                this.completedCallback();
+                let redundant = this.pathStack.pop();      
+                
+                this.maze[redundant.row][redundant.col].currentPath = false;
             }
-            else 
-            {        
+            else
+            {  
                 let nextNeighbour = validNeighbours[Math.floor(Math.random() * validNeighbours.length)];
             
                 nextNeighbour.cell.visited = true;
-
+    
                 nextNeighbour.cell.currentPath = true;
-
-                this.pathStack.push({row: nextNeighbour.cell.row, col: nextNeighbour.cell.col});
-            }     
+    
+                this.pathStack.push({row: nextNeighbour.cell.row, col: nextNeighbour.cell.col});    
+            }
         }
     }
 
