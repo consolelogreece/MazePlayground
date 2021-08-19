@@ -1,6 +1,4 @@
-let gameCanvas = document.getElementById("RecursiveBacktrackMazeCanvas");
 
-let ctx = gameCanvas.getContext("2d");
 
 class RecursiveBacktrackMazeGen
 {
@@ -122,71 +120,4 @@ class RecursiveBacktrackMazeGen
             }
         }
     }
-}
-
-let inProgress = false;
-
-function Go()
-{
-    var height = document.getElementById("MazeHeightInput").value;
-    var width = document.getElementById("MazeWidthInput").value;
-    var stepInterval = document.getElementById("stepInterval").value;
-
-    Generate(height, width, stepInterval)
-}
-
-function Generate(mazeHeight = 10, mazeWidth = 10, stepInterval)
-{
-    if (inProgress) return;
-    inProgress = true;
-    let startCoords = {row: 0, col: 0};
-    let endCoords = {row: mazeHeight - 1, col: mazeWidth - 1};
-
-    let illustrator = new Illustrator(ctx, mazeWidth, mazeHeight);
-    
-    let maze = new RecursiveBacktrackMazeGen(
-        mazeHeight, mazeWidth, startCoords, endCoords, 
-        (...args) => CompletedCallback(...args, illustrator));
-
-     
-    // interval of 0 means don't animate steps.
-    if (stepInterval != 0)
-    {
-        let interval = setInterval(function(){ 
-            if (!maze.completed)
-            {
-                maze.StepMaze();
-                maze.Draw(illustrator);
-            }
-            else
-            {
-                clearInterval(interval);
-            }
-        }, stepInterval);
-    }
-    else
-    {
-        while(!maze.completed)
-        {
-            maze.StepMaze();
-        }
-
-        maze.Draw(illustrator);
-    }
-}
-
-function CompletedCallback(maze, illustrator)
-{
-    inProgress = false;
-
-    // final draw cycle to remove dots
-    illustrator.DrawGrid();
-
-    maze.forEach(row => row.forEach(cell => illustrator.DrawWallBreaks(cell)));
-
-    Solve(maze);
-}
-
-function Solve(maze)
-{
 }
