@@ -77,19 +77,6 @@ class RecursiveBacktrackMazeSolver
 
                 illustrator.DrawWallBreaks(cell);
 
-                if (!this.completed)
-                {                
-                    if (cell.visited)
-                    {
-                        illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "cyan");
-                    }                 
-                }  
-
-                if (cell.currentPath)
-                    {
-                        illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 2.4, "green");
-                    }  
-
                 // start point
                 if (row == this.startCellCoords.row && col == this.startCellCoords.col)
                 {
@@ -102,6 +89,14 @@ class RecursiveBacktrackMazeSolver
                     illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "red");
                 }                 
             }
+        }
+
+        for (let i = 0; i < this.pathStack.length - 1; i++)
+        {
+            let from = this.pathStack[i];
+            let to = this.pathStack[i + 1];
+
+            illustrator.DrawLineBetweenCells(from.row, from.col, to.row, to.col, "magenta");
         }
     }
 }

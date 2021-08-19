@@ -86,4 +86,19 @@ class Illustrator
         this.ctx.arc((col * this.cellWidth) + (this.cellWidth / 2), (row * this.cellHeight) + (this.cellHeight / 2), radius / 3, 0, 360);
         this.ctx.fill(); 
     }
+
+    DrawLineBetweenCells(fromRow, fromCol, toRow, toCol, fillStyle)
+    {
+        let fromX = (fromCol * this.cellWidth) + this.cellWidth / 2;
+        let toX = (toCol * this.cellWidth) + this.cellWidth / 2;
+        let fromY = (fromRow * this.cellHeight) + this.cellHeight / 2;
+        let toY = (toRow * this.cellHeight) + this.cellHeight / 2;
+
+        this.ctx.beginPath();
+        this.ctx.lineWidth = 3;
+        this.ctx.moveTo(0.5 + fromX, 0.5 + fromY);
+        this.ctx.lineTo(0.5 + toX, 0.5 + toY);
+        this.ctx.strokeStyle = fillStyle;
+        this.ctx.stroke();  
+    }
 }
