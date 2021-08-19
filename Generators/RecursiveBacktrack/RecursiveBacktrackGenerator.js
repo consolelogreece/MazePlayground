@@ -46,9 +46,11 @@ class RecursiveBacktrackMazeGen
 
         let currentCoords = this.pathStack[this.pathStack.length - 1];
         
-        let neighbours = FindNeighbours(this.maze, currentCoords.row, currentCoords.col, cell => !cell.visited);
+        let neighbours = FindNeighbours(this.maze, currentCoords.row, currentCoords.col);
 
-        if (neighbours.length == 0) 
+        let unvisitedNeighbours = neighbours.filter(neighbour => !neighbour.cell.visited)
+
+        if (unvisitedNeighbours.length == 0) 
         {
             let redundant = this.pathStack.pop();
 
@@ -56,7 +58,7 @@ class RecursiveBacktrackMazeGen
         }
         else
         {
-            let nextNeighbour = neighbours[Math.floor(Math.random() * neighbours.length)];
+            let nextNeighbour = unvisitedNeighbours[Math.floor(Math.random() * unvisitedNeighbours.length)];
             
             nextNeighbour.cell.visited = true;
 
