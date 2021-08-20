@@ -5,7 +5,7 @@ const Paths = {
 	DOWN: "down",
 }
 
-// finds neighbours of a cell that satisfy a predicate
+// finds neighbours of a cell
 function FindNeighbours(maze, cellRow, cellCol)
 {
     let neighbours = [];

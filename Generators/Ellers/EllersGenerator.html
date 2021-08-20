@@ -28,6 +28,7 @@
     <script src="./EllersGenerator.js"></script>
     <script src="../../utils/Illustrator.js"></script>
     <script src="../../utils/FindNeighbours.js"></script>
+    <script src="../../utils/Shuffle.js"></script>
     <script>
       let gameCanvas = document.getElementById("EllersMazeCanvas");
 
@@ -46,9 +47,19 @@
 
       function Generate(mazeHeight = 10, mazeWidth = 10, stepInterval)
       {
-        let maze = new RecursiveBacktrackMazeGen(
-            mazeHeight, mazeWidth, startCoords, endCoords, 
+        let maze = new EllersMazeGen(
+            mazeHeight, mazeWidth, {}, {}, 
             (...args) => CompletedCallback(...args, illustrator));
+
+        let illustrator = new Illustrator(ctx, mazeWidth, mazeHeight);
+
+        let i = 0;
+        while(i < 16)
+        {
+            i++
+            maze.StepMaze();
+            maze.Draw(illustrator);
+        }
       }
     </script>
 </body>

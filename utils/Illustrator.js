@@ -101,4 +101,13 @@ class Illustrator
         this.ctx.strokeStyle = fillStyle;
         this.ctx.stroke();  
     }
+
+    DrawTextInCell(row, col, text)
+    {
+        let x = col * this.cellWidth;
+        let y = (row + 1) * this.cellHeight;
+        this.ctx.font = "12px Arial";
+        this.ctx.fillStyle = "red";
+        ctx.fillText(text, x, y);
+    }
 }
