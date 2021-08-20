@@ -126,6 +126,8 @@ class EllersMazeGen
                 };
             }
         }
+
+        this.completed = true;
     }
 
     Draw(illustrator)
@@ -138,7 +140,8 @@ class EllersMazeGen
             {
                 let cell = this.maze[row][col];
                 illustrator.DrawWallBreaks(cell);
-                if (row == this.currentRow || row == this.currentRow + 1)
+
+                if (!this.completed && (row == this.currentRow || row == this.currentRow + 1))
                 {
                     if (cell.set != -1) illustrator.DrawTextInCell(row, col, cell.set)
                 }
