@@ -8,7 +8,6 @@
  
 <body style="background-color: #444; width: 100%; height: 100%;">
   <canvas id="MazeCanvas" width="600" height="600" style="border:1px solid white; background-color: #222;"></canvas>
-    <button onclick="Go()">Generate</button>
     <div id="Controls">
       <div id="MazeSize">
         <div id="HeightInputContainer">
@@ -24,10 +23,18 @@
         <label>Vizualisation step speed (set to 0 to disable visualisation)</label>
         <input type="range" min="0" max="100" value="50" class="slider" id="stepInterval">
       </div>
-    <select id="GeneratorSelector">
-    </select>
-    <select id="SolverSelector">
-    </select>
+    <div>
+      <label>Generation method: </label>
+      <select id="GeneratorSelector">
+      </select>
+      <button onclick="Generate()">Generate</button>
+    </div>
+    <br />
+    <div>
+      <label>Solver method: </label>
+      <select id="SolverSelector"></select>
+      <button onclick="Solve()">Solve</button>
+    </div>
     </div>
   </body>
   <script src="./utils/FindNeighbours.js"></script>

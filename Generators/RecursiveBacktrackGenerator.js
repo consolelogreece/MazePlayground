@@ -1,5 +1,3 @@
-
-
 class RecursiveBacktrackMazeGen
 {
     constructor(mazeHeight, mazeWidth, startCellCoords, endCellCoords, completedCallback){

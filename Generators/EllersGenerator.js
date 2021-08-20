@@ -35,7 +35,7 @@ class EllersMazeGen
    
     * StepMaze()
     {         
-        for(let row = 0; row < this.mazeWidth; row++)
+        for(let row = 0; row < this.mazeHeight; row++)
         { 
             this.currentRow = row;
             for (let col = 0; col < this.mazeWidth; col++)

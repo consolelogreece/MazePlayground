@@ -1,12 +1,11 @@
 class RecursiveBacktrackMazeSolver 
 {
-    constructor(maze, startCellCoords, endCellCoords, completedCallback)
+    constructor(maze, startCellCoords, endCellCoords)
     {
         this.startCellCoords = startCellCoords;
         this.endCellCoords = endCellCoords;
         this.pathStack = [startCellCoords];
         this.completed =  false;
-        this.completedCallback = completedCallback;
 
         let formattedMaze = [];
 
@@ -27,42 +26,44 @@ class RecursiveBacktrackMazeSolver
         this.maze[startCellCoords.row][startCellCoords.col].currentPath =  true;
     }
 
-    StepMaze()
+    * StepMaze()
     { 
-        if (this.completed) return;
-
-        let currentCoords = this.pathStack[this.pathStack.length - 1];
-
-        if (currentCoords.row == this.endCellCoords.row && currentCoords.col == this.endCellCoords.col)
+        while (!this.completed)
         {
-            this.completed = true;
-            this.completedCallback();
-        }
-        else
-        {
-            let currentCell = this.maze[currentCoords.row][currentCoords.col];
-            
-            let neighbours = FindNeighbours(this.maze, currentCoords.row, currentCoords.col);
-    
-            let validNeighbours = neighbours.filter(neighbour => !neighbour.cell.visited && currentCell.connectedCells.includes(neighbour.dir));
-    
-            if (validNeighbours.length == 0) 
+            let currentCoords = this.pathStack[this.pathStack.length - 1];
+
+            if (currentCoords.row == this.endCellCoords.row && currentCoords.col == this.endCellCoords.col)
             {
-                let redundant = this.pathStack.pop();      
-                
-                this.maze[redundant.row][redundant.col].currentPath = false;
+                this.completed = true;
             }
             else
-            {  
-                let nextNeighbour = validNeighbours[Math.floor(Math.random() * validNeighbours.length)];
-            
-                nextNeighbour.cell.visited = true;
-    
-                nextNeighbour.cell.currentPath = true;
-    
-                this.pathStack.push({row: nextNeighbour.cell.row, col: nextNeighbour.cell.col});    
+            {
+                let currentCell = this.maze[currentCoords.row][currentCoords.col];
+                
+                let neighbours = FindNeighbours(this.maze, currentCoords.row, currentCoords.col);
+        
+                let validNeighbours = neighbours.filter(neighbour => !neighbour.cell.visited && currentCell.connectedCells.includes(neighbour.dir));
+        
+                if (validNeighbours.length == 0) 
+                {
+                    let redundant = this.pathStack.pop();      
+                    
+                    this.maze[redundant.row][redundant.col].currentPath = false;
+                }
+                else
+                {  
+                    let nextNeighbour = validNeighbours[Math.floor(Math.random() * validNeighbours.length)];
+                
+                    nextNeighbour.cell.visited = true;
+        
+                    nextNeighbour.cell.currentPath = true;
+        
+                    this.pathStack.push({row: nextNeighbour.cell.row, col: nextNeighbour.cell.col});    
+                }
             }
-        }
+
+            yield this;
+        };       
     }
 
     Draw(illustrator)
