@@ -104,9 +104,12 @@ class Illustrator
 
     DrawTextInCell(row, col, text)
     {
+        let fontSize = this.ctx.bw > this.ctx.bh ? this.ctx.bh : this.ctx.bw;
+        fontSize /= (this.mazeHeight > this.mazeHeight ? this.mazeHeight : this.mazeWidth ) * 10;
+
         let x = col * this.cellWidth;
         let y = (row + 1) * this.cellHeight;
-        this.ctx.font = "12px Arial";
+        this.ctx.font = fontSize + "px Arial";
         this.ctx.fillStyle = "red";
         ctx.fillText(text, x, y);
     }

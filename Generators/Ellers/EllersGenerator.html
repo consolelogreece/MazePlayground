@@ -48,19 +48,36 @@
       function Generate(mazeHeight = 10, mazeWidth = 10, stepInterval)
       {
         let maze = new EllersMazeGen(
-            mazeHeight, mazeWidth, {}, {}, 
+            mazeHeight, mazeWidth, {row: 0, col: 0}, {row: mazeHeight - 1, col: mazeWidth - 1}, 
             (...args) => CompletedCallback(...args, illustrator));
 
         let illustrator = new Illustrator(ctx, mazeWidth, mazeHeight);
 
-        let i = 0;
-        while(i < 16)
+        let mazeGen = maze.StepMaze();
+
+        if (stepInterval > 0)
         {
-            i++
-            maze.StepMaze();
-            maze.Draw(illustrator);
+          let interval = setInterval(function(){ 
+            let genResult = mazeGen.next(1);
+            if (genResult.done) 
+            {
+              clearInterval(interval);
+            }
+            else genResult.value.Draw(illustrator);
+          }, stepInterval);
         }
+        else
+        {
+          let genResult;
+          do 
+          {
+            genResult = mazeGen.next(1)
+          } while (!genResult.done)
+        }
+
+        maze.Draw(illustrator);
       }
+
     </script>
 </body>
 </html>
