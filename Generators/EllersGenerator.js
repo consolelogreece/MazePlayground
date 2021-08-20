@@ -38,9 +38,10 @@ class EllersMazeGen
         for(let row = 0; row < this.mazeHeight; row++)
         { 
             this.currentRow = row;
+
+            // Assign a set to each unassigned cell
             for (let col = 0; col < this.mazeWidth; col++)
             {
-                // Assign set to as yet unassigned cell.
                 if (this.maze[row][col].set === -1)
                 {
                     this.maze[row][col].set = this.iSet;
@@ -96,7 +97,6 @@ class EllersMazeGen
                     let cellsToConnectVertically = setMap[set].slice(0, nVerticalConnections);
 
                     // Apply vertical connections.
-
                     for (const cell of cellsToConnectVertically)
                     {
                         this.maze[cell.row + 1][cell.col].set = cell.set;
@@ -117,7 +117,7 @@ class EllersMazeGen
 
                     let rightNeighbour = cellNeighbours.find(neighbour => neighbour.dir == Paths.RIGHT);
 
-                    // Connect disjointed sets
+                    // Connect disjointed sets.
                     if (cell.set != rightNeighbour.cell.set) 
                     {
                        cell.connectedCells.push(Paths.RIGHT)
