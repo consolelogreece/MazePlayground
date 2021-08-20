@@ -1,0 +1,55 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Eller's</title>
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+</head>
+ 
+<body style="background-color: #444; width: 100%; height: 100%;">
+  <canvas id="EllersMazeCanvas" width="600" height="600" style="border:1px solid white; background-color: #222;"></canvas>
+    <button onclick="Go()">Generate</button>
+    <div id="Controls">
+      <div id="MazeSize">
+        <div id="HeightInputContainer">
+          <label>Maze Height</label>
+          <input type="number" min="2" max="50" value="10" id="MazeHeightInput">
+        </div>
+        <div id="WidthInputContainer">
+          <label>Maze Width</label>
+          <input type="number" min="2" max="50" value="10" id="MazeWidthInput">
+        </div>
+      </div>
+      <div id="IntervalSpeed">
+        <label>Vizualisation step speed (set to 0 to disable visualisation)</label>
+        <input type="range" min="0" max="100" value="50" class="slider" id="stepInterval">
+      </div>
+    </div>
+    
+    <script src="./EllersGenerator.js"></script>
+    <script src="../../utils/Illustrator.js"></script>
+    <script src="../../utils/FindNeighbours.js"></script>
+    <script>
+      let gameCanvas = document.getElementById("EllersMazeCanvas");
+
+      let ctx = gameCanvas.getContext("2d");
+
+      let inProgress = false;
+
+      function Go()
+      {
+          var height = document.getElementById("MazeHeightInput").value;
+          var width = document.getElementById("MazeWidthInput").value;
+          var stepInterval = document.getElementById("stepInterval").value;
+
+          Generate(height, width, stepInterval)
+      }
+
+      function Generate(mazeHeight = 10, mazeWidth = 10, stepInterval)
+      {
+        let maze = new RecursiveBacktrackMazeGen(
+            mazeHeight, mazeWidth, startCoords, endCoords, 
+            (...args) => CompletedCallback(...args, illustrator));
+      }
+    </script>
+</body>
+</html>
