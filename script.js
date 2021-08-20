@@ -12,7 +12,8 @@ let generatorMap = {
 };
 
 let solverMap = {
-    "Recursive Backtrack": RecursiveBacktrackMazeSolver
+    "Recursive Backtrack": RecursiveBacktrackMazeSolver,
+    "Breadth First": BreadthFirstMazeSolver
 };
 
 (function _(){
