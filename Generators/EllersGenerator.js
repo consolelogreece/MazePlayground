@@ -7,6 +7,8 @@ class EllersMazeGen
         this.endCellCoords = endCellCoords;
         this.maze = [];
         this.completed = false;
+        this.initialDraw = true;
+        this.cellsToDraw = [];
         this.currentRow = 0;
         this.iSet = 1;
 
@@ -46,6 +48,7 @@ class EllersMazeGen
                 {
                     this.maze[row][col].set = this.iSet;
                     this.iSet ++;
+                    this.cellsToDraw.push(this.maze[row][col]);
                     yield this;
                 }
             }
@@ -63,6 +66,7 @@ class EllersMazeGen
                         neighbour.set = cell.set;
                         cell.connectedCells.push(Paths.RIGHT);
                         neighbour.connectedCells.push(Paths.LEFT);
+                        this.cellsToDraw.push(cell, neighbour);
                     }
                     yield this;
                 }
@@ -103,6 +107,8 @@ class EllersMazeGen
                         this.maze[cell.row + 1][cell.col].connectedCells.push(Paths.UP);
                         this.maze[cell.row][cell.col].connectedCells.push(Paths.DOWN);
 
+                        this.cellsToDraw.push(this.maze[cell.row][cell.col], this.maze[cell.row + 1][cell.col]);
+
                         yield this; 
                     };  
                 }
@@ -122,6 +128,8 @@ class EllersMazeGen
                     {
                        cell.connectedCells.push(Paths.RIGHT)
                        rightNeighbour.cell.connectedCells.push(Paths.LEFT);
+
+                       this.cellsToDraw.push(cell, rightNeighbour.cell);
                     };
                     yield this;
                 };
@@ -133,32 +141,44 @@ class EllersMazeGen
 
     Draw(illustrator)
     {   
-        illustrator.DrawGrid();
-
-        for (let row = 0; row < this.mazeHeight; row++)
+        if (this.initialDraw)
         {
-            for (let col = 0; col < this.mazeWidth; col++)
-            {
-                let cell = this.maze[row][col];
-                illustrator.DrawWallBreaks(cell);
+            illustrator.DrawGrid();
+            this.initialDraw = false;
+        }        
 
-                if (!this.completed && (row == this.currentRow || row == this.currentRow + 1))
-                {
-                    if (cell.set != -1) illustrator.DrawTextInCell(row, col, cell.set)
-                }
-                     
-                // start point
-                if (row == this.startCellCoords.row && col == this.startCellCoords.col)
-                {
-                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.3, "red");
-                } 
+        if (!this.completed)
+        {
+            this.cellsToDraw.forEach(cell => {               
                 
-                // end point
-                if (row == this.endCellCoords.row && col == this.endCellCoords.col)
-                {
-                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.3, "red");
-                }                 
-            }
+                illustrator.EraseCellContents(cell.row, cell.col);
+                
+                illustrator.DrawWallBreaks(cell)
+
+                if (cell.set != -1) illustrator.DrawTextInCell(cell.row, cell.col, cell.set)
+            })   
+        }  
+        else
+        {
+            for(let i = 0; i < this.mazeWidth; i++)  
+            {
+                illustrator.EraseCellContents(this.currentRow, i);
+                illustrator.DrawWallBreaks(this.maze[this.currentRow - 1][i])
+            }   
+
+            illustrator.DrawCircleAtLocation(this.startCellCoords.row, this.startCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
+            illustrator.DrawCircleAtLocation(this.endCellCoords.row, this.endCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
+        }  
+
+        if (this.currentRow >= 1)
+        {
+            for(let i = 0; i < this.mazeWidth; i++)  
+            {
+                illustrator.EraseCellContents(this.currentRow  -1, i);
+                illustrator.DrawWallBreaks(this.maze[this.currentRow - 1][i])
+            } 
         }
+        
+        this.cellsToDraw = [];
     }
 }

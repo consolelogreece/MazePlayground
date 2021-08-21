@@ -108,7 +108,7 @@ class RecursiveBacktrackMazeGen
         if (!this.completed)
         {
             this.cellsToDraw.forEach(cell => {
-                 if (cell.visited)
+                if (cell.visited)
                 {
                     illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "cyan");
                 }

@@ -105,7 +105,7 @@ class RecursiveBacktrackMazeSolver
                 {
                     illustrator.EraseCellContents(cell.row, cell.col);
                 }
-                console.log(cell)
+                
                 illustrator.DrawWallBreaks(cell)
             })   
         }       

@@ -106,8 +106,7 @@ class Illustrator
 
     DrawTextInCell(row, col, text)
     {
-        let fontSize = this.ctx.bw > this.ctx.bh ? this.ctx.bh : this.ctx.bw;
-        fontSize /= (this.mazeHeight > this.mazeHeight ? this.mazeHeight : this.mazeWidth ) * 10;
+        let fontSize = this.cellWidth / 2;
 
         let x = col * this.cellWidth;
         let y = (row + 1) * this.cellHeight;
@@ -115,7 +114,6 @@ class Illustrator
         this.ctx.fillStyle = "red";
         ctx.fillText(text, x, y);
     }
-
     EraseCellContents(row, col)
     {
         let fromX = (col * this.cellWidth) + 0.5;
