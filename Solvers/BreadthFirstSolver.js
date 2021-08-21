@@ -73,6 +73,8 @@ class BreadthFirstMazeSolver
 
                         this.shortestPath = path;
 
+                        this.cellsToUpdate = [];
+
                         return;
                     }
 
@@ -102,13 +104,11 @@ class BreadthFirstMazeSolver
             // remove dead ends from path considerations
             for(let i = deadEndPaths.length - 1; i >= 0; i--) this.paths.splice(deadEndPaths[i], 1);
         }
-    }
-
-    
+    }    
 
     Draw(illustrator)
     {   
-        if (this.initialDraw)
+        if (this.initialDraw || this.completed)
         {
             illustrator.DrawGrid();
 
@@ -132,7 +132,7 @@ class BreadthFirstMazeSolver
         })   
         
         if (this.completed)
-        {
+        {           
             for (let i = 0; i < this.shortestPath.length - 1; i++)
             {
                 let from = this.shortestPath[i];
