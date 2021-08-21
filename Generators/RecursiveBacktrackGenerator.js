@@ -1,6 +1,6 @@
 class RecursiveBacktrackMazeGen
 {
-    constructor(mazeHeight, mazeWidth, startCellCoords, endCellCoords, completedCallback){
+    constructor(mazeHeight, mazeWidth, startCellCoords, endCellCoords){
         this.mazeWidth = mazeWidth;
         this.mazeHeight = mazeHeight;
         this.nCells = mazeHeight * mazeWidth;
@@ -10,7 +10,6 @@ class RecursiveBacktrackMazeGen
         this.endCellCoords = endCellCoords;
         this.maze = [];
         this.completed = false;
-        this.completedCallback = completedCallback;
 
         for (let row = 0; row < mazeHeight; row++)
         {
