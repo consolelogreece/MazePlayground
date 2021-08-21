@@ -1,10 +1,49 @@
 #controls
 {
-    
+  max-width: 260px;
+  color: white;
+  float: right;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+  text-align: center;
+}
+
+button {
+    width: 50%;
+    border-radius: 5%;
+    padding: 6px;
+}
+
+select, input, button {
+    color: white;
+    background-color: #333;
+    border: 1px solid #666;
+}
+
+.label {
+    display: block;
+    margin: 0px 30px;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+-webkit-appearance: none;
+}
+
+input[type=number] { 
+-moz-appearance: textfield;
+appearance: textfield;
+margin: 0; 
+}
+
+button:hover {
+    background-color: #555;
 }
 
 #main {
     max-width: 1000px;
     margin: 0 auto;
-    border: 1px solid white;
+    border: 1px solid #999;
+    margin-top: 6%;
+    box-shadow: 10px 5px 5px #222;
 }

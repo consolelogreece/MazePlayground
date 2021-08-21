@@ -8,35 +8,38 @@
  
 <body style="background-color: #444; width: 100%; height: 100%;">
   <div id="main">
-    <canvas id="MazeCanvas" width="1000" height="600" style="border:1px solid white; background-color: #222;"></canvas>
-      <div id="Controls">
+    <canvas id="MazeCanvas" width="700" height="700" style="border-right:1px solid #999; background-color: #222;"></canvas>
+      <div id="Controls">     
+        <h3>Maze Playground</h3>   
         <div id="MazeSize">
+          <h4>Dimensions</h4>
           <div id="HeightInputContainer">
-            <label>Maze Height</label>
-            <input type="number" min="2" max="50" value="12" id="MazeHeightInput">
+            <span class="label">Height</span>
+            <input type="number" min="2" max="50" value="15" id="MazeHeightInput">
           </div>
           <div id="WidthInputContainer">
-            <label>Maze Width</label>
-            <input type="number" min="2" max="50" value="20" id="MazeWidthInput">
+            <span class="label">Width</span>
+            <input type="number" min="2" max="50" value="15" id="MazeWidthInput">
           </div>
         </div>
+        <h4>Visualization</h4>
+        <label>Visualise:</label> <input type="checkbox" id="ShouldVisualise">
         <div id="IntervalSpeed">
-          <label>Vizualisation step speed (set to 0 to disable visualisation)</label>
-          <input type="number" min="0" max="100" value="0" id="stepInterval">
+          <span class="label">Step speed</span>
+          <input type="range" min="1" max="100" value="0" id="stepInterval">
         </div>
         <div id="StepsPerCycle">
-          <label>Steps per cycle (not relevant if not visualised)</label>
-          <input type="number" min="0" max="50" value="1" id="stepsPerCycle">
+          <span class="label">Steps per cycle</span>
+          <input type="number" min="0" max="1000" value="1" id="stepsPerCycle">
         </div>
       <div>
-        <label>Generation method: </label>
-        <select id="GeneratorSelector">
-        </select>
+        <h4>Generation</h4>
+        <select id="GeneratorSelector"></select>
         <button onclick="Generate()">Generate</button>
       </div>
       <br />
       <div>
-        <label>Solver method: </label>
+        <h4>Solving</h4>
         <select id="SolverSelector"></select>
         <button onclick="Solve()">Solve</button>
       </div>
