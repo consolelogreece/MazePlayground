@@ -122,37 +122,4 @@ class RecursiveBacktrackMazeGen
 
         this.cellsToDraw = [];
     }
-
-
-    oldfDraw(illustrator)
-    {   
-        illustrator.DrawGrid();
-
-        for (let row = 0; row < this.mazeHeight; row++)
-        {
-            for (let col = 0; col < this.mazeWidth; col++)
-            {
-                let cell = this.maze[row][col];
-
-                illustrator.DrawWallBreaks(cell);
-
-                if (!this.completed)
-                {                
-                     
-                }  
-                
-                // start point
-                if (row == this.startCellCoords.row && col == this.startCellCoords.col)
-                {
-                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.3, "red");
-                } 
-                
-                // end point
-                if (row == this.endCellCoords.row && col == this.endCellCoords.col)
-                {
-                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.3, "red");
-                }                 
-            }
-        }
-    }
 }
