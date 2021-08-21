@@ -7,6 +7,8 @@ class Illustrator
         this.bh = ctx.canvas.height
         this.cellWidth = this.bw / mazeWidth;
         this.cellHeight = this.bh / mazeHeight;
+        this.mazeBGColour = "#222";
+        this.wallWidth = 1;
     }
 
     DrawGrid()
@@ -15,7 +17,7 @@ class Illustrator
         this.ctx.fillRect(0, 0, this.bw, this.bh);
 
         var p = 0;
-        this.ctx.lineWidth = 1;
+        this.ctx.lineWidth = this.wallWidth;
         for (var col = 0; col <= this.bw; col += this.cellWidth) {
             this.ctx.moveTo(0.5 + col + p, p);
             this.ctx.lineTo(0.5 + col + p, this.bh + p);
@@ -73,7 +75,7 @@ class Illustrator
             this.ctx.lineWidth = 3;
             this.ctx.moveTo(0.5 + fromCol, 0.5 + fromRow);
             this.ctx.lineTo(0.5 + toCol, 0.5 + toRow);
-            this.ctx.strokeStyle = "#222";
+            this.ctx.strokeStyle = this.mazeBGColour;
             this.ctx.stroke();     
         });   
     }
@@ -112,5 +114,21 @@ class Illustrator
         this.ctx.font = fontSize + "px Arial";
         this.ctx.fillStyle = "red";
         ctx.fillText(text, x, y);
+    }
+
+    EraseCellContents(row, col)
+    {
+        let fromX = (col * this.cellWidth) + 0.5;
+        let fromY = (row * this.cellHeight) + 0.5;
+
+        ctx.beginPath();
+        this.ctx.fillStyle = this.mazeBGColour;
+        ctx.rect(fromX, fromY, this.cellWidth, this.cellHeight);
+
+        this.ctx.strokeStyle = "white";
+        this.ctx.lineWidth = this.wallWidth / 2;
+        
+        ctx.fill(); 
+        ctx.stroke();
     }
 }
