@@ -104,13 +104,13 @@ class RecursiveBacktrackMazeGen
                 // start point
                 if (row == this.startCellCoords.row && col == this.startCellCoords.col)
                 {
-                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "red");
+                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.3, "red");
                 } 
                 
                 // end point
                 if (row == this.endCellCoords.row && col == this.endCellCoords.col)
                 {
-                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "red");
+                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.3, "red");
                 }                 
             }
         }

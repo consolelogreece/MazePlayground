@@ -56,14 +56,14 @@ function Solve()
     if (stepInterval > 0)
     {
         let interval = setInterval(function(){ 
-        let solveResult = solverGen.next(1);
-        if (solveResult.done) 
-        {
-            clearInterval(interval);
-            inProgress = false;
-            solver.Draw(illustrator);
-        }
-        else solveResult.value.Draw(illustrator);
+            let solveResult = solverGen.next(1);
+            if (solveResult.done) 
+            {
+                clearInterval(interval);
+                inProgress = false;
+                solver.Draw(illustrator);
+            }
+            else solveResult.value.Draw(illustrator);
         }, stepInterval);
     }
     else
