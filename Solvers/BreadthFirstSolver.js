@@ -7,6 +7,9 @@ class BreadthFirstMazeSolver
         this.completed =  false;
         this.paths = [];
         this.shortestPath = [];
+        this.initialDraw = true;
+        this.cellsToUpdate = [];
+               
         let formattedMaze = [];
      
         for (let row = 0; row < maze.length; row++)
@@ -33,6 +36,7 @@ class BreadthFirstMazeSolver
         while (!this.completed)
         {        
             let deadEndPaths = [];
+            this.cellsToUpdate = [];
 
             for(let i = 0; i < this.paths.length; i++)
             {
@@ -55,12 +59,15 @@ class BreadthFirstMazeSolver
                 {
                     let neighbour = validNeighbours[j];
 
+                    this.cellsToUpdate.push(neighbour.cell);
+
                     neighbour.cell.visited = true;
 
                     if (neighbour.cell.row == this.endCellCoords.row && neighbour.cell.col == this.endCellCoords.col)
                     {
                         neighbour.cell.pathKey = currentCell.pathKey;
-                        this.paths[i].push({...neighbour.cell});
+
+                        this.paths[i].push(neighbour.cell);
 
                         this.completed = true;
 
@@ -72,7 +79,7 @@ class BreadthFirstMazeSolver
                     if (j == 0)
                     {
                         neighbour.cell.pathKey = currentCell.pathKey;
-                        this.paths[i].push({...neighbour.cell});
+                        this.paths[i].push(neighbour.cell);
                     }  
                     // Copy and create new path as is a new branch
                     else
@@ -81,20 +88,14 @@ class BreadthFirstMazeSolver
 
                         neighbour.cell.pathKey = pathKeyIterator;
 
-                        let pathCopy = [];
-
-                        for (let k = 0; k < path.length; k++)
-                        {
-                            pathCopy.push({...this.maze[path[k].row][path[k].col]});
-                            this.maze[path[k].row][path[k].col];
-                        }
+                        let pathCopy = [...path];
     
-                        pathCopy.push({...neighbour.cell});
+                        pathCopy.push(neighbour.cell);
 
                         this.paths.push(pathCopy);
                     }  
                 } 
-                
+
                 yield this;
             }
 
@@ -107,42 +108,38 @@ class BreadthFirstMazeSolver
 
     Draw(illustrator)
     {   
-        illustrator.DrawGrid();
-
-        for (let row = 0; row < this.maze.length; row++)
+        if (this.initialDraw)
         {
-            for (let col = 0; col < this.maze[row].length; col++)
+            illustrator.DrawGrid();
+
+            illustrator.DrawCircleAtLocation(this.startCellCoords.row, this.startCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
+            illustrator.DrawCircleAtLocation(this.endCellCoords.row, this.endCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
+            
+            for (let row = 0; row < this.maze.length; row++)
             {
-                let cell = this.maze[row][col];
-
-                illustrator.DrawWallBreaks(cell);
-
-                if (!this.completed && cell.visited)
+                for (let col = 0; col < this.maze[row].length; col++)
                 {
-                    illustrator.DrawTextInCell(row, col, cell.pathKey)
-                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "cyan");
-                } 
-                
-                // start point
-                if (row == this.startCellCoords.row && col == this.startCellCoords.col)
-                {
-                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.3, "red");
-                } 
-                
-                // end point
-                if (row == this.endCellCoords.row && col == this.endCellCoords.col)
-                {
-                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.3, "red");
-                }                 
+                    illustrator.DrawWallBreaks(this.maze[row][col]);
+                }
             }
-        }
 
-        for (let i = 0; i < this.shortestPath.length - 1; i++)
+            this.initialDraw = false;
+        }   
+
+        this.cellsToUpdate.forEach(cell => {
+            illustrator.DrawTextInCell(cell.row, cell.col, cell.pathKey)
+            illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "cyan");
+        })   
+        
+        if (this.completed)
         {
-            let from = this.shortestPath[i];
-            let to = this.shortestPath[i + 1];
-
-            illustrator.DrawLineBetweenCells(from.row, from.col, to.row, to.col, "magenta");
+            for (let i = 0; i < this.shortestPath.length - 1; i++)
+            {
+                let from = this.shortestPath[i];
+                let to = this.shortestPath[i + 1];
+    
+                illustrator.DrawLineBetweenCells(from.row, from.col, to.row, to.col, "magenta");
+            }
         }
     }
 }
