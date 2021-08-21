@@ -56,6 +56,7 @@ function Solve()
     if (stepInterval > 0)
     {
         let interval = setInterval(function(){ 
+            steps++
             let solveResult = solverGen.next(1);
             if (solveResult.done) 
             {

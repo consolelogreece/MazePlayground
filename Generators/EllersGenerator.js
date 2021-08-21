@@ -121,6 +121,7 @@ class EllersMazeGen
                     if (cell.set != rightNeighbour.cell.set) 
                     {
                        cell.connectedCells.push(Paths.RIGHT)
+                       rightNeighbour.cell.connectedCells.push(Paths.LEFT);
                     };
                     yield this;
                 };
