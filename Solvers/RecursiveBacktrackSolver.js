@@ -6,6 +6,8 @@ class RecursiveBacktrackMazeSolver
         this.endCellCoords = endCellCoords;
         this.pathStack = [startCellCoords];
         this.completed =  false;
+        this.initialDraw = true;
+        this.cellsToDraw = [];
 
         let formattedMaze = [];
 
@@ -30,7 +32,9 @@ class RecursiveBacktrackMazeSolver
     { 
         while (!this.completed)
         {
-            let currentCoords = this.pathStack[this.pathStack.length - 1];
+            let currentCoords = this.pathStack[this.pathStack.length - 1];            
+
+            this.cellsToDraw.push(this.maze[currentCoords.row][currentCoords.col]);
 
             if (currentCoords.row == this.endCellCoords.row && currentCoords.col == this.endCellCoords.col)
             {
@@ -49,6 +53,8 @@ class RecursiveBacktrackMazeSolver
                     let redundant = this.pathStack.pop();      
                     
                     this.maze[redundant.row][redundant.col].currentPath = false;
+
+                    this.cellsToDraw.push(this.maze[redundant.row][redundant.col]);
                 }
                 else
                 {  
@@ -59,6 +65,8 @@ class RecursiveBacktrackMazeSolver
                     nextNeighbour.cell.currentPath = true;
         
                     this.pathStack.push({row: nextNeighbour.cell.row, col: nextNeighbour.cell.col});    
+
+                    this.cellsToDraw.push(nextNeighbour.cell);
                 }
             }
 
@@ -67,37 +75,52 @@ class RecursiveBacktrackMazeSolver
     }
 
     Draw(illustrator)
-    {   
-        illustrator.DrawGrid();
-
-        for (let row = 0; row < this.maze.length; row++)
+    {
+        if (this.initialDraw || this.completed)
         {
-            for (let col = 0; col < this.maze[row].length; col++)
+            illustrator.DrawGrid();
+
+            illustrator.DrawCircleAtLocation(this.startCellCoords.row, this.startCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
+            illustrator.DrawCircleAtLocation(this.endCellCoords.row, this.endCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
+            
+            for (let row = 0; row < this.maze.length; row++)
             {
-                let cell = this.maze[row][col];
-
-                illustrator.DrawWallBreaks(cell);
-
-                // start point
-                if (row == this.startCellCoords.row && col == this.startCellCoords.col)
+                for (let col = 0; col < this.maze[row].length; col++)
                 {
-                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.3, "red");
-                } 
-                
-                // end point
-                if (row == this.endCellCoords.row && col == this.endCellCoords.col)
-                {
-                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.3, "red");
-                }                 
+                    illustrator.DrawWallBreaks(this.maze[row][col]);
+                }
             }
-        }
 
-        for (let i = 0; i < this.pathStack.length - 1; i++)
+           this.initialDraw = false;
+        }   
+
+        if (!this.completed)
         {
-            let from = this.pathStack[i];
-            let to = this.pathStack[i + 1];
+            this.cellsToDraw.forEach(cell => {               
+                if (cell.currentPath)
+                {
+                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "green");
+                }
+                else
+                {
+                    illustrator.EraseCellContents(cell.row, cell.col);
+                }
+                console.log(cell)
+                illustrator.DrawWallBreaks(cell)
+            })   
+        }       
 
-            illustrator.DrawLineBetweenCells(from.row, from.col, to.row, to.col, "magenta");
+        this.cellsToDraw = [];
+
+        if (this.completed)
+        {
+            for (let i = 0; i < this.pathStack.length - 1; i++)
+            {
+                let from = this.pathStack[i];
+                let to = this.pathStack[i + 1];
+
+                illustrator.DrawLineBetweenCells(from.row, from.col, to.row, to.col, "magenta");
+            }
         }
     }
 }

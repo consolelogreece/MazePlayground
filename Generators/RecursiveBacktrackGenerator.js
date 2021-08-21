@@ -71,6 +71,8 @@ class RecursiveBacktrackMazeGen
     
                 this.pathStack.push({row: nextNeighbour.cell.row, col: nextNeighbour.cell.col});
 
+                nextNeighbour.cell.connectedCells.push(nextNeighbour.relativePositionRequesting);
+
                 this.cellsToDraw.push(nextNeighbour.cell);
             }
             

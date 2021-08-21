@@ -17,28 +17,28 @@ function FindNeighbours(maze, cellRow, cellCol)
     {
         let col = cellCol - 1;
         let row = cellRow;
-        neighbours.push({cell: maze[row][col], dir: Paths.LEFT});
+        neighbours.push({cell: maze[row][col], dir: Paths.LEFT, relativePositionRequesting: Paths.RIGHT});
     }
 
     if (cellCol < mazeWidth - 1)
     {
         let col = cellCol + 1;
         let row = cellRow;
-        neighbours.push({cell: maze[row][col], dir: Paths.RIGHT});
+        neighbours.push({cell: maze[row][col], dir: Paths.RIGHT, relativePositionRequesting: Paths.LEFT});
     }
 
     if (cellRow >= 1)
     {
         let col = cellCol;
         let row = cellRow - 1;
-        neighbours.push({cell: maze[row][col], dir: Paths.UP});
+        neighbours.push({cell: maze[row][col], dir: Paths.UP, relativePositionRequesting: Paths.DOWN});
     }
 
     if (cellRow < mazeHeight - 1)
     {
         let col = cellCol;
         let row = cellRow + 1;
-        neighbours.push({cell: maze[row][col], dir: Paths.DOWN});
+        neighbours.push({cell: maze[row][col], dir: Paths.DOWN, relativePositionRequesting: Paths.UP});
     }
 
     return neighbours;
