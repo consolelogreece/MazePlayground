@@ -149,6 +149,15 @@ class EllersMazeGen
 
         if (!this.completed)
         {
+            if (this.currentRow >= 1)
+            {
+                for(let i = 0; i < this.mazeWidth; i++)  
+                {
+                    illustrator.EraseCellContents(this.currentRow  -1, i);
+                    illustrator.DrawWallBreaks(this.maze[this.currentRow - 1][i])
+                } 
+            }
+            
             this.cellsToDraw.forEach(cell => {               
                 
                 illustrator.EraseCellContents(cell.row, cell.col);
@@ -158,26 +167,23 @@ class EllersMazeGen
                 if (cell.set != -1) illustrator.DrawTextInCell(cell.row, cell.col, cell.set)
             })   
         }  
-        else
-        {
-            for(let i = 0; i < this.mazeWidth; i++)  
+        else // redraw everything on last cycle to make the process more efficient, while preserving functionality when visualisation is disabled.
+        {        
+            illustrator.DrawGrid();
+
+            for (let row = 0; row < this.mazeHeight; row++)
             {
-                illustrator.EraseCellContents(this.currentRow, i);
-                illustrator.DrawWallBreaks(this.maze[this.currentRow - 1][i])
-            }   
+                for (let col = 0; col < this.mazeWidth; col++)
+                {
+                    let cell = this.maze[row][col];
+
+                    illustrator.DrawWallBreaks(cell)
+                }
+            }
 
             illustrator.DrawCircleAtLocation(this.startCellCoords.row, this.startCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
             illustrator.DrawCircleAtLocation(this.endCellCoords.row, this.endCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
         }  
-
-        if (this.currentRow >= 1)
-        {
-            for(let i = 0; i < this.mazeWidth; i++)  
-            {
-                illustrator.EraseCellContents(this.currentRow  -1, i);
-                illustrator.DrawWallBreaks(this.maze[this.currentRow - 1][i])
-            } 
-        }
         
         this.cellsToDraw = [];
     }
