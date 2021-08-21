@@ -21,7 +21,11 @@
       </div>
       <div id="IntervalSpeed">
         <label>Vizualisation step speed (set to 0 to disable visualisation)</label>
-        <input type="range" min="0" max="100" value="50" class="slider" id="stepInterval">
+        <input type="number" min="0" max="100" value="0" id="stepInterval">
+      </div>
+      <div id="StepsPerCycle">
+        <label>Steps per cycle (not relevant if not visualised)</label>
+        <input type="number" min="0" max="50" value="1" id="stepsPerCycle">
       </div>
     <div>
       <label>Generation method: </label>

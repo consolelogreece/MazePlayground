@@ -37,6 +37,18 @@ let solverMap = {
     }
 })();
 
+function GetSpeedParameters()
+{    
+    let stepInterval = document.getElementById("stepInterval").value;
+    let stepsPerCycle = document.getElementById("stepsPerCycle").value;
+
+    return {
+        cycleInterval: 100 - stepInterval, 
+        stepsPerCycle: stepsPerCycle,
+        shouldAnimate: stepInterval > 0
+    }
+}
+
 function Solve()
 {
     if (currentMaze == null || inProgress) return;
@@ -45,7 +57,6 @@ function Solve()
 
     let mazeHeight = currentMaze.length;
     let mazeWidth = currentMaze[0].length;
-    let stepInterval = document.getElementById("stepInterval").value;
     let solverSelection = solverMap[document.getElementById("SolverSelector").value]; 
 
     let solver = new solverSelection(currentMaze, {row: 0, col: 0}, {row: mazeHeight - 1,  col: mazeWidth - 1});
@@ -53,18 +64,28 @@ function Solve()
 
     let solverGen = solver.StepMaze();
 
-    if (stepInterval > 0)
+    let speedParams = GetSpeedParameters();
+
+    if (speedParams.shouldAnimate)
     {
-        let interval = setInterval(function(){ 
-            let solveResult = solverGen.next(1);
+        let interval = setInterval(function()
+        { 
+            let solveResult;
+
+            for (let step = 0; step < speedParams.stepsPerCycle; step++)
+            {
+                solveResult = solverGen.next(1);
+
+                if (solveResult.done) break;
+            }   
+            
             if (solveResult.done) 
             {
                 clearInterval(interval);
                 inProgress = false;
-                solver.Draw(illustrator);
-            }
-            else solveResult.value.Draw(illustrator);
-        }, stepInterval);
+                solver.Draw(illustrator);                
+            } else solveResult.value.Draw(illustrator)
+        }, speedParams.cycleInterval);
     }
     else
     {
@@ -88,7 +109,6 @@ function Generate()
 
     let mazeHeight = document.getElementById("MazeHeightInput").value;
     let mazeWidth = document.getElementById("MazeWidthInput").value;
-    let stepInterval = document.getElementById("stepInterval").value;
     let generator = generatorMap[document.getElementById("GeneratorSelector").value];
 
     let maze = new generator(
@@ -99,19 +119,32 @@ function Generate()
 
     let mazeGen = maze.StepMaze();
 
-    if (stepInterval > 0)
+    let speedParams = GetSpeedParameters();
+
+    console.log(speedParams)
+
+    if (speedParams.shouldAnimate)
     {
-        let interval = setInterval(function(){ 
-        let genResult = mazeGen.next(1);
-        if (genResult.done) 
-        {
-            clearInterval(interval);
-            inProgress = false;
-            currentMaze = maze.GetFormattedMaze();
-            maze.Draw(illustrator);
-        }
-        else genResult.value.Draw(illustrator);
-        }, stepInterval);
+        let interval = setInterval(function()
+        { 
+            let genResult;
+
+            for (let step = 0; step < speedParams.stepsPerCycle; step++)
+            {
+                genResult = mazeGen.next(1);
+
+                if (genResult.done) break;                
+            }
+            
+            if (genResult.done)
+            {
+                clearInterval(interval);
+                inProgress = false;
+                currentMaze = maze.GetFormattedMaze();                    
+                maze.Draw(illustrator);
+            }
+            else genResult.value.Draw(illustrator);
+        }, speedParams.cycleInterval);
     }
     else
     {
