@@ -101,7 +101,11 @@ function Generate()
 
 function Solve()
 {
-    if (currentMaze == null) return;
+    if (currentMaze == null) 
+    {
+        alert("You must generate a maze first!");
+        return;
+    }
     let mazeHeight = mazeHeightEl.value;
     let mazeWidth = mazeWidthEl.value;
     let solverSelection = solverMap[solverEl.value];   
