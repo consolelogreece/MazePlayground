@@ -49,9 +49,10 @@ class EllersMazeGen
                     this.maze[row][col].set = this.iSet;
                     this.iSet ++;
                     this.cellsToDraw.push(this.maze[row][col]);
-                    yield this;
                 }
             }
+
+            yield this;
 
             // Randomly merge sets.
             for (let col = 0; col < this.mazeWidth -1; col++)
@@ -63,14 +64,28 @@ class EllersMazeGen
 
                     if (cell.set != neighbour.set)
                     {
+                        for (let rowingtong = 0; rowingtong < this.maze.length; rowingtong++)
+                        {
+                            for (let colingtong = 0; colingtong < this.maze[rowingtong].length; colingtong++)
+                            {
+                                if (neighbour.row == rowingtong && neighbour.col == colingtong ) continue
+
+                                if(this.maze[rowingtong][colingtong].set == neighbour.set) 
+                                {
+                                    this.maze[rowingtong][colingtong].set = cell.set;
+                                }
+                            } 
+                        }
+
                         neighbour.set = cell.set;
                         cell.connectedCells.push(Paths.RIGHT);
                         neighbour.connectedCells.push(Paths.LEFT);
                         this.cellsToDraw.push(cell, neighbour);
-                    }
-                    yield this;
+                    }  
                 }
             } 
+
+            yield this;
 
             // If this is false, we are on the last row, so no cells to connect to.
             if (row < this.mazeHeight - 1)
@@ -107,11 +122,11 @@ class EllersMazeGen
                         this.maze[cell.row + 1][cell.col].connectedCells.push(Paths.UP);
                         this.maze[cell.row][cell.col].connectedCells.push(Paths.DOWN);
 
-                        this.cellsToDraw.push(this.maze[cell.row][cell.col], this.maze[cell.row + 1][cell.col]);
-
-                        yield this; 
+                        this.cellsToDraw.push(this.maze[cell.row][cell.col], this.maze[cell.row + 1][cell.col]); 
                     };  
                 }
+
+                yield this;
             }
             else
             {
@@ -131,8 +146,9 @@ class EllersMazeGen
 
                        this.cellsToDraw.push(cell, rightNeighbour.cell);
                     };
-                    yield this;
                 };
+
+                yield this;
             }
         }
 
@@ -149,14 +165,14 @@ class EllersMazeGen
 
         if (!this.completed)
         {
-            // if (this.currentRow >= 1)
-            // {
-            //     for(let i = 0; i < this.mazeWidth; i++)  
-            //     {
-            //         illustrator.EraseCellContents(this.currentRow  -1, i);
-            //         illustrator.DrawWallBreaks(this.maze[this.currentRow - 1][i])
-            //     } 
-            // }
+            if (this.currentRow >= 1)
+            {
+                for(let i = 0; i < this.mazeWidth; i++)  
+                {
+                    illustrator.EraseCellContents(this.currentRow  -1, i);
+                    illustrator.DrawWallBreaks(this.maze[this.currentRow - 1][i])
+                } 
+            }
             
             this.cellsToDraw.forEach(cell => {               
                 
