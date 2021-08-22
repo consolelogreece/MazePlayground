@@ -39,7 +39,7 @@ class DeadEndFillerMazeSolver
 
                 if (currentCell.filled || (row == this.endCellCoords.row && col == this.endCellCoords.col) || (row == this.startCellCoords.row && col == this.startCellCoords.col)) continue;
 
-                let validNeighbours = FindNeighbours(this.maze, row, col).filter(neighbour => !neighbour.cell.filled && currentCell.connectedCells.includes(neighbour.dir));
+                let validNeighbours = FindNeighbours(this.maze, row, col).filter(neighbour => currentCell.connectedCells.includes(neighbour.dir));
 
                 if (validNeighbours.length <= 1)
                 {
@@ -47,11 +47,12 @@ class DeadEndFillerMazeSolver
 
                     this.deadEnds.push(currentCell);
 
-                    this.cellsToDraw.push(currentCell)
+                    this.cellsToDraw.push(currentCell)                    
+
+                    yield this;
                 }
-            }
-        }
-        yield this;
+            }            
+        }        
 
         let hasUpdated = true;
 
