@@ -47,12 +47,13 @@ class DeadEndFillerMazeSolver
 
                     this.deadEnds.push(currentCell);
 
-                    this.cellsToDraw.push(currentCell)                    
-
-                    yield this;
+                    this.cellsToDraw.push(currentCell);
                 }
-            }            
-        }        
+            }   
+            yield this;     
+        }
+        
+     
 
         let hasUpdated = true;
 

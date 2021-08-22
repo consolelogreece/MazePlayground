@@ -105,8 +105,8 @@ function Solve()
         alert("You must generate a maze first!");
         return;
     }
-    let mazeHeight = mazeHeightEl.value;
-    let mazeWidth = mazeWidthEl.value;
+    let mazeHeight = currentMaze.length;
+    let mazeWidth = currentMaze[0].length;
     let solverSelection = solverMap[solverEl.value];   
 
     let solver = new solverSelection(currentMaze, {row: 0, col: 0}, 
