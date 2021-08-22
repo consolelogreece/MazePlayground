@@ -81,7 +81,7 @@ class BreadthFirstMazeSolver
 
                     if (j == 0)
                     {
-                        neighbour.cell.pathKey =  "." + currentCell.pathKey;
+                        neighbour.cell.pathKey = currentCell.pathKey;
                         this.paths[i].push(neighbour.cell);
                     }  
                     // Copy and create new path as is a new branch

@@ -149,14 +149,14 @@ class EllersMazeGen
 
         if (!this.completed)
         {
-            if (this.currentRow >= 1)
-            {
-                for(let i = 0; i < this.mazeWidth; i++)  
-                {
-                    illustrator.EraseCellContents(this.currentRow  -1, i);
-                    illustrator.DrawWallBreaks(this.maze[this.currentRow - 1][i])
-                } 
-            }
+            // if (this.currentRow >= 1)
+            // {
+            //     for(let i = 0; i < this.mazeWidth; i++)  
+            //     {
+            //         illustrator.EraseCellContents(this.currentRow  -1, i);
+            //         illustrator.DrawWallBreaks(this.maze[this.currentRow - 1][i])
+            //     } 
+            // }
             
             this.cellsToDraw.forEach(cell => {               
                 
