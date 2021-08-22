@@ -7,7 +7,7 @@ h4 {
 }
 
 input[type=number]::-webkit-inner-spin-button {
--webkit-appearance: none;
+    -webkit-appearance: none;
 }
 
 input[type=number] { 
@@ -74,6 +74,10 @@ button:hover {
 
 #IntervalSpeed {
     margin: 15px 0px;
+}
+
+#stepInterval {
+    width: 85% !important
 }
 
 .olabel {

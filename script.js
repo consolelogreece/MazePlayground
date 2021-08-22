@@ -21,7 +21,8 @@ let generatorMap = {
 
 let solverMap = {
     "Recursive Backtrack": RecursiveBacktrackMazeSolver,
-    "Breadth First": BreadthFirstMazeSolver
+    "Breadth First": BreadthFirstMazeSolver,
+    "Dead End Filler": DeadEndFillerMazeSolver
 };
 
 let operationElMap = {
