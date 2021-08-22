@@ -11,6 +11,8 @@ let inProgress = false;
 
 let currentMaze = null;
 
+let interval;
+
 let generatorMap = {
     "Recursive Backtrack": RecursiveBacktrackMazeGen,
     "Ellers": EllersMazeGen
@@ -48,7 +50,7 @@ function GetSpeedParameters()
     console.log(ShouldVisualise)
 
     return {
-        cycleInterval: 100 - stepInterval, 
+        cycleInterval: 1000 - stepInterval, 
         stepsPerCycle: stepsPerCycle,
         shouldAnimate: ShouldVisualise
     }
@@ -86,17 +88,15 @@ function Solve()
 
 function Go(maze, illustrator, cb)
 {
-    if (inProgress) return;
-
-    inProgress = true;
-
     let mazeGen = maze.StepMaze();
 
     let speedParams = GetSpeedParameters();
+
+    clearInterval(interval);
     
     if (speedParams.shouldAnimate)
     {
-        let interval = setInterval(function()
+        interval = setInterval(function()
         { 
             let genResult;
 

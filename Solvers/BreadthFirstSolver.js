@@ -37,6 +37,8 @@ class BreadthFirstMazeSolver
         {        
             let deadEndPaths = [];
 
+            let pathsToAdd = [];
+
             for(let i = 0; i < this.paths.length; i++)
             {
                 let path = this.paths[i];
@@ -53,7 +55,7 @@ class BreadthFirstMazeSolver
                     continue;
                 }
 
-                // Necessary to loop backwards so new paths arent copied after origina path is modified
+                // Necessary to loop backwards so new paths arent copied after original path is modified
                 for (let j = validNeighbours.length - 1; j >= 0; j--)
                 {
                     let neighbour = validNeighbours[j];
@@ -79,7 +81,7 @@ class BreadthFirstMazeSolver
 
                     if (j == 0)
                     {
-                        neighbour.cell.pathKey = currentCell.pathKey;
+                        neighbour.cell.pathKey =  "." + currentCell.pathKey;
                         this.paths[i].push(neighbour.cell);
                     }  
                     // Copy and create new path as is a new branch
@@ -93,15 +95,17 @@ class BreadthFirstMazeSolver
     
                         pathCopy.push(neighbour.cell);
 
-                        this.paths.push(pathCopy);
+                        pathsToAdd.push(pathCopy);
                     }  
                 } 
-
-                yield this;
             }
-
+           
             // remove dead ends from path considerations
             for(let i = deadEndPaths.length - 1; i >= 0; i--) this.paths.splice(deadEndPaths[i], 1);
+
+            this.paths.push(...pathsToAdd);
+            
+            yield this;
         }
     }    
 
