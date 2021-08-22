@@ -77,8 +77,28 @@ button:hover {
 }
 
 #stepInterval {
-    width: 85% !important
+    -webkit-appearance: none;
+    width: 85% !important;
+    background: #333 ;
 }
+#stepInterval::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px; 
+    height: 22px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+}
+
+#stepInterval::-moz-range-thumb {
+    background: white;
+    width: 22px; 
+    height: 22px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+  
 
 .olabel {
     display: block;
