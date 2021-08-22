@@ -65,18 +65,7 @@ class EllersMazeGen
                     // update all cells of same set
                     if (cell.set != neighbour.set)
                     {
-                        for (let i = 0; i < this.mazeHeight; i++)
-                        {
-                            if (neighbour.row == this.currentRow && neighbour.col == i) continue
-
-                            if(this.maze[this.currentRow][i].set == neighbour.set) 
-                            {
-                                this.maze[this.currentRow][i].set = cell.set;
-                            }
-                            
-                        }
-
-                        neighbour.set = cell.set;
+                        this.UpdateAllOfSetOnRow(row, neighbour.set, cell.set)
                         cell.connectedCells.push(Paths.RIGHT);
                         neighbour.connectedCells.push(Paths.LEFT);
                         this.cellsToDraw.push(cell, neighbour);
@@ -139,9 +128,11 @@ class EllersMazeGen
 
                     // Connect disjointed sets.
                     if (cell.set != rightNeighbour.cell.set) 
-                    {
-                       cell.connectedCells.push(Paths.RIGHT)
-                       rightNeighbour.cell.connectedCells.push(Paths.LEFT);
+                    {                       
+                        this.UpdateAllOfSetOnRow(row, rightNeighbour.cell.set, cell.set)
+                        
+                        cell.connectedCells.push(Paths.RIGHT)
+                        rightNeighbour.cell.connectedCells.push(Paths.LEFT);
 
                        this.cellsToDraw.push(cell, rightNeighbour.cell);
                     };
@@ -152,6 +143,16 @@ class EllersMazeGen
         }
 
         this.completed = true;
+    }
+
+    UpdateAllOfSetOnRow(row, from, to)
+    {
+        for (let col = 0; col < this.mazeWidth; col++)
+        {
+            let cell = this.maze[row][col];
+
+            if (cell.set == from) cell.set = to;
+        }
     }
 
     Draw(illustrator)
