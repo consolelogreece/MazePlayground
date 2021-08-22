@@ -53,29 +53,48 @@ class DeadEndFillerMazeSolver
         }
         yield this;
 
-        let updateMade = true;
+        let hasUpdated = true;
 
-        while (updateMade)
+        // Loop through each deadend until cell updates are made
+        while (hasUpdated)
         {
-            updateMade = false;
+            hasUpdated = false;
 
-            for (let path of this.deadEndPaths){
+            let deadEndPathsToForget = [];
+
+            for (let i = 0; i < this.deadEndPaths.length; i++)
+            {
+                let path = this.deadEndPaths[i];
 
                 let currentCell = path[path.length - 1];
 
                 let connectedNeighbours = FindNeighbours(this.maze, currentCell.row, currentCell.col).filter(neighbour => currentCell.connectedCells.includes(neighbour.dir));
 
-                let validNeighbours = connectedNeighbours.filter(neighbour => !neighbour.cell.filled)
+                let validNeighbours = connectedNeighbours.filter(neighbour =>
+                {
+                    return (
+                        !neighbour.cell.filled && 
+                        !(neighbour.cell.row == this.endCellCoords.row && neighbour.cell.col == this.endCellCoords.col) && 
+                        !(neighbour.cell.row == this.startCellCoords.row && neighbour.cell.col == this.startCellCoords.col)
+                    );
+                });
 
+                // If there are no valid neighbours, no need to check this path again
+                if(validNeighbours.length == 0) deadEndPathsToForget.push(i);
+
+                // For each of the valid neighbours of the current cell, fill if necessary
                 for (let neighbour of validNeighbours) 
                 {
+                    // Skip if the neighbour is a start or end coord.
                     if ((neighbour.cell.row == this.endCellCoords.row && neighbour.cell.col == this.endCellCoords.col) || 
                     (neighbour.cell.row == this.startCellCoords.row && neighbour.cell.col == this.startCellCoords.col)) return;
 
+                    // Get neighbours of the neighbour. This techincally includs the current cell, but that is eliminated by a filled check next.
                     let connectedNeighbours = FindNeighbours(this.maze, neighbour.cell.row, neighbour.cell.col).filter(neighboursNeighbour => neighbour.cell.connectedCells.includes(neighboursNeighbour.dir));
-
+                    
                     let nValidRoutes = connectedNeighbours.reduce((n, val) => n + (!val.cell.filled), 0)
 
+                    // If there is only 1 valid route, fill it as it the next logical square of the deadend and is not at a junction.
                     if (nValidRoutes == 1)
                     {
                         neighbour.cell.filled = true;
@@ -83,11 +102,14 @@ class DeadEndFillerMazeSolver
                         this.cellsToDraw.push(neighbour.cell);
 
                         path.push(neighbour.cell)
-    
-                        updateMade = true;
+
+                        hasUpdated = true;
                     }
                 }
-            }           
+            }   
+            
+            // Remove unused paths
+            for(let i = deadEndPathsToForget.length - 1; i >= 0; i--) this.deadEndPaths.splice(deadEndPathsToForget[i], 1)
             
             yield this;
         }
@@ -151,15 +173,13 @@ class DeadEndFillerMazeSolver
                 illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "cyan");
             })   
         }       
-        else
+        
+        for (let i = 0; i < this.path.length - 1; i++)
         {
-            for (let i = 0; i < this.path.length - 1; i++)
-            {
-                let from = this.path[i];
-                let to = this.path[i + 1];
+            let from = this.path[i];
+            let to = this.path[i + 1];
 
-                illustrator.DrawLineBetweenCells(from.row, from.col, to.row, to.col, "magenta");
-            }
+            illustrator.DrawLineBetweenCells(from.row, from.col, to.row, to.col, "magenta");
         }
 
         this.cellsToDraw = [];
