@@ -8,7 +8,7 @@ class DeadEndFillerMazeSolver
         this.initialDraw = true;
         this.cellsToDraw = [];
 
-        this.deadEndPaths = [];
+        this.deadEnds = [];
 
         this.path = [];
                
@@ -45,7 +45,7 @@ class DeadEndFillerMazeSolver
                 {
                     currentCell.filled = true;
 
-                    this.deadEndPaths.push([currentCell]);
+                    this.deadEnds.push(currentCell);
 
                     this.cellsToDraw.push(currentCell)
                 }
@@ -60,13 +60,11 @@ class DeadEndFillerMazeSolver
         {
             hasUpdated = false;
 
-            let deadEndPathsToForget = [];
+            let deadEndsToForget = [];
 
-            for (let i = 0; i < this.deadEndPaths.length; i++)
+            for (let i = 0; i < this.deadEnds.length; i++)
             {
-                let path = this.deadEndPaths[i];
-
-                let currentCell = path[path.length - 1];
+                let currentCell = this.deadEnds[i];
 
                 let connectedNeighbours = FindNeighbours(this.maze, currentCell.row, currentCell.col).filter(neighbour => currentCell.connectedCells.includes(neighbour.dir));
 
@@ -80,7 +78,7 @@ class DeadEndFillerMazeSolver
                 });
 
                 // If there are no valid neighbours, no need to check this path again
-                if(validNeighbours.length == 0) deadEndPathsToForget.push(i);
+                if(validNeighbours.length == 0) deadEndsToForget.push(i);
 
                 // For each of the valid neighbours of the current cell, fill if necessary
                 for (let neighbour of validNeighbours) 
@@ -101,15 +99,17 @@ class DeadEndFillerMazeSolver
     
                         this.cellsToDraw.push(neighbour.cell);
 
-                        path.push(neighbour.cell)
+                        this.deadEnds[i] = neighbour.cell;
 
                         hasUpdated = true;
                     }
+                    // Won't use this again, clear it from memory.
+                    else deadEndsToForget.push(i);
                 }
             }   
             
-            // Remove unused paths
-            for(let i = deadEndPathsToForget.length - 1; i >= 0; i--) this.deadEndPaths.splice(deadEndPathsToForget[i], 1)
+            // Remove finished deadends
+            for(let i = deadEndsToForget.length - 1; i >= 0; i--) this.deadEnds.splice(deadEndsToForget[i], 1)
             
             yield this;
         }
