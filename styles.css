@@ -1,3 +1,7 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 h4 {
     margin: 20px 0px 10px 0px;
 }
@@ -64,19 +68,20 @@ button:hover {
 }
 
 #Visualise {
-    padding-top: 10px;
     display: block;
+    padding: 3px 0px !important;
 }
 
 #IntervalSpeed {
-    margin: 30px;
+    margin: 15px 0px;
 }
 
 .olabel {
     display: block;
-    margin: 10px 0px 10px 0px
+    margin: 0px 0px 10px 0px
 }
 
+/*checkbox thanks to: https://www.html5canvastutorials.com/blog/2012/06/custom-form-radio-checkbox/ */
 .checkbox {
 	-webkit-appearance: none;
 	background-color: #333;
@@ -84,7 +89,7 @@ button:hover {
     padding: 8px;
 	display: inline-block;
 	position: relative;
-    top: 6px;
+    top: 7px;
 }
 
 .checkbox:checked:after {
@@ -95,10 +100,34 @@ button:hover {
 	left: 3px;
 	color: white;
 }
+.title {
+    font-weight: 1px;
+}
+
+.header {
+    font-weight: lighter;
+    font-size: 15px;
+    margin-bottom: 16px;
+}
 
 .section {
     box-sizing: border-box;
     border-top: 1px solid #999;
     width: 100%;
-    padding-bottom: 30px;
+    font-size: 12px;
+}
+
+.el {
+    border-top: 1px dashed #555;
+    padding: 12px 0px;
+    margin-top: 6px;
+}
+
+.dimBox {
+    width: 40px;
+    text-align: center;
+}
+
+.dimLbl {
+    margin-right: 6px;
 }
