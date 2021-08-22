@@ -6,6 +6,7 @@ let mazeHeightEl = document.getElementById("MazeHeightInput");
 let mazeWidthEl = document.getElementById("MazeWidthInput");
 let generatorEl = document.getElementById("GeneratorSelector");
 let solverEl = document.getElementById("SolverSelector");
+let operationSelectorEl = document.getElementById("OperationSelector");
 
 let inProgress = false;
 
@@ -21,6 +22,11 @@ let generatorMap = {
 let solverMap = {
     "Recursive Backtrack": RecursiveBacktrackMazeSolver,
     "Breadth First": BreadthFirstMazeSolver
+};
+
+let operationElMap = {
+    "Generate": "generateSection",
+    "Solve": "solveSection"
 };
 
 (function _(){
@@ -39,7 +45,29 @@ let solverMap = {
         opt.innerHTML = key;
         solverEl.appendChild(opt);
     }
+
+    for (let key in operationElMap)
+    {
+        var opt = document.createElement('option');
+        opt.value = key;
+        opt.innerHTML = key;
+        operationSelectorEl.appendChild(opt);
+    }
+
+    UpdateOperationDisplay()
 })();
+
+function UpdateOperationDisplay()
+{
+    let opSelector = operationSelectorEl.value;
+
+    for (let key in operationElMap)
+    {
+        let el = document.getElementById(operationElMap[key]);
+        if (opSelector == key) el.style.display = "block";
+        else el.style.display = "none";
+    }
+}
 
 function GetSpeedParameters()
 {    

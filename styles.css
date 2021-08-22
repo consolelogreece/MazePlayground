@@ -1,29 +1,5 @@
-#controls
-{
-  max-width: 260px;
-  color: white;
-  float: right;
-  width: 100%;
-  margin: 0 auto;
-  padding: 10px;
-  text-align: center;
-}
-
-button {
-    width: 50%;
-    border-radius: 5%;
-    padding: 6px;
-}
-
-select, input, button {
-    color: white;
-    background-color: #333;
-    border: 1px solid #666;
-}
-
-.label {
-    display: block;
-    margin: 0px 30px;
+h4 {
+    margin: 20px 0px 10px 0px;
 }
 
 input[type=number]::-webkit-inner-spin-button {
@@ -31,9 +7,30 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 input[type=number] { 
--moz-appearance: textfield;
-appearance: textfield;
-margin: 0; 
+    -moz-appearance: textfield;
+    appearance: textfield;
+    margin: 0; 
+}
+
+select, input, button {
+    color: white;
+    background-color: #333;
+    border: 1px solid #666;
+    
+}
+select, button {
+    width: 100%;
+    max-width: 60%;
+}
+
+select {
+    margin-bottom: 10px;
+}
+
+button {
+    border-radius: 5%;
+    padding: 6px;
+    margin-top: 20px;
 }
 
 button:hover {
@@ -46,4 +43,62 @@ button:hover {
     border: 1px solid #999;
     margin-top: 6%;
     box-shadow: 10px 5px 5px #222;
+    height:700px;
+}
+
+#MazeCanvas {
+    background-color: #222;
+}
+
+#controls
+{
+  max-width: 300px;  
+  border-left:1px solid #999; 
+  box-sizing: border-box;
+  color: white;
+  float: right;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  height: 100%;
+}
+
+#Visualise {
+    padding-top: 10px;
+    display: block;
+}
+
+#IntervalSpeed {
+    margin: 30px;
+}
+
+.olabel {
+    display: block;
+    margin: 10px 0px 10px 0px
+}
+
+.checkbox {
+	-webkit-appearance: none;
+	background-color: #333;
+	border: 1px solid #9999;
+    padding: 8px;
+	display: inline-block;
+	position: relative;
+    top: 6px;
+}
+
+.checkbox:checked:after {
+	content: '\2714';
+	font-size: 12px;
+	position: absolute;
+	top: 0px;
+	left: 3px;
+	color: white;
+}
+
+.section {
+    box-sizing: border-box;
+    border-top: 1px solid #999;
+    width: 100%;
+    padding-bottom: 30px;
 }
