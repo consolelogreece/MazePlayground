@@ -26,7 +26,11 @@ class DeadEndFillerMazeSolver
 
     * StepMaze()
     { 
-       
+        while (!this.completed)
+        {        
+
+            yield this;
+        }
     }    
 
     Draw(illustrator)

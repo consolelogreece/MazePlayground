@@ -76,8 +76,6 @@ function GetSpeedParameters()
     let stepsPerCycle = document.getElementById("stepsPerCycle").value;
     let ShouldVisualise = document.getElementById("ShouldVisualise").checked;
 
-    console.log(ShouldVisualise)
-
     return {
         cycleInterval: 1000 - stepInterval, 
         stepsPerCycle: stepsPerCycle,

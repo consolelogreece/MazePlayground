@@ -1,5 +1,6 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
 }
 
 h4 {
@@ -45,7 +46,7 @@ button:hover {
     max-width: 1000px;
     margin: 0 auto;
     border: 1px solid #999;
-    margin-top: 6%;
+    margin-top: 30px;
     box-shadow: 10px 5px 5px #222;
     height:700px;
 }
@@ -97,6 +98,11 @@ button:hover {
     height: 22px;
     border-radius: 50%;
     cursor: pointer;
+}
+
+#generateSection, #solverSection
+{
+    display: none;
 }
   
 
@@ -154,4 +160,25 @@ button:hover {
 
 .dimLbl {
     margin-right: 6px;
+}
+
+.github
+{
+  height: 40px;
+  width: 40px;
+  fill: white;
+  text-align: center;
+  margin: 50px auto 0px auto;
+}
+
+.github:hover
+{
+  fill: #ccc;
+}
+
+#nojs
+{
+  color:#ebf2ff;
+  margin:0 auto;
+  text-align: center;
 }
