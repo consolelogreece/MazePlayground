@@ -43,7 +43,7 @@ button:hover {
 }
 
 #main {
-    max-width: 1000px;
+    width: 1000px;
     margin: 0 auto;
     border: 1px solid #999;
     margin-top: 30px;
