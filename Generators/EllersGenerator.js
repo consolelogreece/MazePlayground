@@ -62,19 +62,18 @@ class EllersMazeGen
                     let cell = this.maze[row][col];
                     let neighbour = this.maze[row][col + 1];
 
+                    // update all cells of same set
                     if (cell.set != neighbour.set)
                     {
-                        for (let rowingtong = 0; rowingtong < this.maze.length; rowingtong++)
+                        for (let i = 0; i < this.mazeHeight; i++)
                         {
-                            for (let colingtong = 0; colingtong < this.maze[rowingtong].length; colingtong++)
-                            {
-                                if (neighbour.row == rowingtong && neighbour.col == colingtong ) continue
+                            if (neighbour.row == this.currentRow && neighbour.col == i) continue
 
-                                if(this.maze[rowingtong][colingtong].set == neighbour.set) 
-                                {
-                                    this.maze[rowingtong][colingtong].set = cell.set;
-                                }
-                            } 
+                            if(this.maze[this.currentRow][i].set == neighbour.set) 
+                            {
+                                this.maze[this.currentRow][i].set = cell.set;
+                            }
+                            
                         }
 
                         neighbour.set = cell.set;

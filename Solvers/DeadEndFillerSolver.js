@@ -7,6 +7,10 @@ class DeadEndFillerMazeSolver
         this.completed =  false;
         this.initialDraw = true;
         this.cellsToDraw = [];
+
+        this.deadEndPaths = [];
+
+        this.path = [];
                
         let formattedMaze = [];
      
@@ -15,7 +19,7 @@ class DeadEndFillerMazeSolver
             let formattedRow = [];
             for (let col = 0; col < maze[row].length; col++)
             {
-                formattedRow.push({...maze[row][col], filled:false});
+                formattedRow.push({...maze[row][col], filled:false, truePath: false});
             }
 
             formattedMaze.push(formattedRow);
@@ -41,7 +45,9 @@ class DeadEndFillerMazeSolver
                 {
                     currentCell.filled = true;
 
-                    this.cellsToDraw.push(currentCell);
+                    this.deadEndPaths.push([currentCell]);
+
+                    this.cellsToDraw.push(currentCell)
                 }
             }
         }
@@ -52,33 +58,72 @@ class DeadEndFillerMazeSolver
         while (updateMade)
         {
             updateMade = false;
-            for (let row = 0; row < this.maze.length; row++)
-            {
-                for (let col = 0; col < this.maze[row].length; col++)
+
+            for (let path of this.deadEndPaths){
+
+                let currentCell = path[path.length - 1];
+
+                let connectedNeighbours = FindNeighbours(this.maze, currentCell.row, currentCell.col).filter(neighbour => currentCell.connectedCells.includes(neighbour.dir));
+
+                let validNeighbours = connectedNeighbours.filter(neighbour => !neighbour.cell.filled)
+
+                for (let neighbour of validNeighbours) 
                 {
-                    let currentCell = this.maze[row][col];
+                    if ((neighbour.cell.row == this.endCellCoords.row && neighbour.cell.col == this.endCellCoords.col) || 
+                    (neighbour.cell.row == this.startCellCoords.row && neighbour.cell.col == this.startCellCoords.col)) return;
 
-                    if ((row == this.endCellCoords.row && col == this.endCellCoords.col) || (row == this.startCellCoords.row && col == this.startCellCoords.col)) continue;
+                    let connectedNeighbours = FindNeighbours(this.maze, neighbour.cell.row, neighbour.cell.col).filter(neighboursNeighbour => neighbour.cell.connectedCells.includes(neighboursNeighbour.dir));
 
-                    let connectedNeighbours = FindNeighbours(this.maze, row, col).filter(neighbour => currentCell.connectedCells.includes(neighbour.dir));
-
-                    let nValidRoutes = connectedNeighbours.reduce((n, val) => n + (!val.cell.filled), 0);
+                    let nValidRoutes = connectedNeighbours.reduce((n, val) => n + (!val.cell.filled), 0)
 
                     if (nValidRoutes == 1)
                     {
-                        currentCell.filled = true;
+                        neighbour.cell.filled = true;
+    
+                        this.cellsToDraw.push(neighbour.cell);
 
-                        this.cellsToDraw.push(currentCell);
-
+                        path.push(neighbour.cell)
+    
                         updateMade = true;
                     }
                 }
-            }
+            }           
+            
             yield this;
         }
 
-        console.log("done")
+        this.MapPath();
+
+        this.completed = true;
     }    
+
+    MapPath()
+    {
+        let startCell = this.maze[this.startCellCoords.row][this.startCellCoords.col];
+
+        let currentCell = startCell;
+
+        let previousCell = startCell
+
+        let endCell = this.maze[this.endCellCoords.row][this.endCellCoords.col];
+
+        while (currentCell != endCell)
+        {
+            this.path.push(currentCell);
+
+            let connectedNeighbours = FindNeighbours(this.maze, currentCell.row, currentCell.col).filter(neighbour => currentCell.connectedCells.includes(neighbour.dir));
+
+            // Find the neighbour which isnt the current cell and isnt filled. there should only be 1.
+            let nextCell = connectedNeighbours.filter(neighbour => neighbour.cell != previousCell && !neighbour.cell.filled && neighbour.cell)[0].cell;
+
+            previousCell = currentCell;
+
+            currentCell = nextCell;
+        }
+
+        // Finally, add end cell
+        this.path.push(endCell);
+    }
 
     Draw(illustrator)
     {   
@@ -103,22 +148,18 @@ class DeadEndFillerMazeSolver
         if (!this.completed)
         {
             this.cellsToDraw.forEach(cell => {
-                let connectedNeighbours = FindNeighbours(this.maze, cell.row, cell.col).filter(neighbour => cell.connectedCells.includes(neighbour.dir));
-
-                let nValidRoutes = connectedNeighbours.reduce((n, val) => n + (!val.cell.filled), 0);
-                illustrator.DrawTextInCell(cell.row, cell.col, nValidRoutes)
                 illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "cyan");
             })   
         }       
         else
         {
-            // for (let i = 0; i < this.shortestPath.length - 1; i++)
-            // {
-            //     let from = this.shortestPath[i];
-            //     let to = this.shortestPath[i + 1];
-    
-            //     illustrator.DrawLineBetweenCells(from.row, from.col, to.row, to.col, "magenta");
-            // }
+            for (let i = 0; i < this.path.length - 1; i++)
+            {
+                let from = this.path[i];
+                let to = this.path[i + 1];
+
+                illustrator.DrawLineBetweenCells(from.row, from.col, to.row, to.col, "magenta");
+            }
         }
 
         this.cellsToDraw = [];
