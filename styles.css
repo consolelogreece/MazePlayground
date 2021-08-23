@@ -1,82 +1,73 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
+    background-color: #222;
+    width: 100%;
+    height: 100%;
 }
-
 h4 {
     margin: 20px 0px 10px 0px;
 }
-
 input[type=number]::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
-
-input[type=number] { 
+input[type=number] {
     -moz-appearance: textfield;
     appearance: textfield;
-    margin: 0; 
+    margin: 0;
 }
-
 select, input, button {
     color: white;
     background-color: #333;
     border: 1px solid #666;
-    
 }
 select, button {
     width: 100%;
     max-width: 60%;
 }
-
 select {
     margin-bottom: 10px;
 }
-
 button {
     border-radius: 5%;
     padding: 6px;
-    margin-top: 20px;
 }
-
 button:hover {
-    background-color: #555;
+    background-color: #444;
+    cursor: pointer;
 }
-
 #main {
     width: 1000px;
     margin: 0 auto;
     border: 1px solid #999;
     margin-top: 30px;
-    box-shadow: 10px 5px 5px #222;
+    box-shadow: 10px 5px 5px #111;
     height:700px;
 }
-
 #MazeCanvas {
     background-color: #222;
 }
-
-#controls
-{
-  max-width: 300px;  
-  border-left:1px solid #999; 
-  box-sizing: border-box;
-  color: white;
-  float: right;
-  width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  height: 100%;
+#controls {
+    max-width: 300px;
+    border-left:1px solid #999;
+    box-sizing: border-box;
+    color: white;
+    float: right;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    height: 100%;
+    background-color: #333;
+    display: flex;
+    flex-direction: column;
 }
-
 #Visualise {
     display: block;
     padding: 3px 0px 15px!important;
 }
-
 #IntervalSpeed {
     margin: 15px 0px;
 }
-
 #stepInterval {
     -webkit-appearance: none;
     width: 85% !important;
@@ -85,100 +76,100 @@ button:hover {
 #stepInterval::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 22px; 
+    width: 22px;
     height: 22px;
     border-radius: 50%;
     background: white;
     cursor: pointer;
 }
-
 #stepInterval::-moz-range-thumb {
     background: white;
-    width: 22px; 
+    width: 22px;
     height: 22px;
     border-radius: 50%;
     cursor: pointer;
 }
-
-#generateSection, #solverSection
-{
+#generateSection, #solveSection {
     display: none;
 }
-  
-
 .olabel {
     display: block;
-    margin: 0px 0px 10px 0px
+    margin: 0px 0px 10px 0px 
 }
-
 /*checkbox thanks to: https://www.html5canvastutorials.com/blog/2012/06/custom-form-radio-checkbox/ */
 .checkbox {
-	-webkit-appearance: none;
-	background-color: #333;
-	border: 1px solid #9999;
+    -webkit-appearance: none;
+    background-color: #333;
+    border: 1px solid #9999;
     padding: 8px;
-	display: inline-block;
-	position: relative;
+    display: inline-block;
+    position: relative;
     top: 7px;
 }
-
 .checkbox:checked:after {
-	content: '\2714';
-	font-size: 12px;
-	position: absolute;
-	top: 0px;
-	left: 3px;
-	color: white;
+    content: '\2714';
+    font-size: 12px;
+    position: absolute;
+    top: 0px;
+    left: 3px;
+    color: white;
 }
-.title {
-    font-weight: 1px;
-}
-
 .header {
     font-weight: lighter;
     font-size: 15px;
     margin-bottom: 16px;
 }
-
 .section {
     box-sizing: border-box;
     border-top: 1px solid #999;
     width: 100%;
     font-size: 12px;
 }
-
 .el {
     border-top: 1px dashed #555;
-    padding: 12px 0px;
+    padding: 13px 0px;
     margin-top: 6px;
 }
-
 .dimBox {
     width: 40px;
     text-align: center;
 }
-
 .dimLbl {
     margin-right: 6px;
 }
-
-.github
-{
-  height: 40px;
-  width: 40px;
-  fill: white;
-  text-align: center;
-  margin: 50px auto 0px auto;
+.github {
+    height: 40px;
+    width: 40px;
+    fill: white;
+    text-align: center;
+    margin: 50px auto 0px auto;
 }
-
-.github:hover
-{
-  fill: #ccc;
+.github:hover {
+    fill: #ccc;
 }
-
-#nojs
-{
-  color:#ebf2ff;
-  margin:0 auto;
-  text-align: center;
+#actionButton {
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    position: absolute;
+}
+.title {
+    font-weight: 1px;
+}
+.visSection {
+    flex: 2 1 ;
+    justify-content: center;
+    flex-direction: column;
+}
+.opSection {
+    flex: 3 1;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+}
+#nojs {
+    color:#ebf2ff;
+    margin:0 auto;
+    text-align: center;
 }

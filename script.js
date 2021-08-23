@@ -7,6 +7,7 @@ let mazeWidthEl = document.getElementById("MazeWidthInput");
 let generatorEl = document.getElementById("GeneratorSelector");
 let solverEl = document.getElementById("SolverSelector");
 let operationSelectorEl = document.getElementById("OperationSelector");
+let buttonEl = document.getElementById("actionButton");
 
 let inProgress = false;
 
@@ -28,6 +29,11 @@ let solverMap = {
 let operationElMap = {
     "Generate": "generateSection",
     "Solve": "solveSection"
+};
+
+let operationElCallbackMap = {
+    "Generate": Generate,
+    "Solve": Solve
 };
 
 (function _(){
@@ -68,6 +74,8 @@ function UpdateOperationDisplay()
         if (opSelector == key) el.style.display = "block";
         else el.style.display = "none";
     }
+
+    buttonEl.onclick = operationElCallbackMap[opSelector]
 }
 
 function GetSpeedParameters()

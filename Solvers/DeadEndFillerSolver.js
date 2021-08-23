@@ -116,6 +116,9 @@ class DeadEndFillerMazeSolver
             yield this;
         }
 
+        // Should iterate over each cell here. If any have more than 2 connections, maze is imperfect and cant be solved further using this method. 
+        // Important to check for this after implementing generation of imperfect mazes.
+
         this.MapPath();
 
         this.completed = true;
