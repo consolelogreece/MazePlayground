@@ -92,6 +92,11 @@ button:hover {
 #generateSection, #solveSection {
     display: none;
 }
+#nojs {
+    color:#ebf2ff;
+    margin:0 auto;
+    text-align: center;
+}
 .olabel {
     display: block;
     margin: 0px 0px 10px 0px 
@@ -127,7 +132,7 @@ button:hover {
 }
 .el {
     border-top: 1px dashed #555;
-    padding: 13px 0px;
+    padding: 10px 0px;
     margin-top: 6px;
 }
 .dimBox {
@@ -168,8 +173,9 @@ button:hover {
     flex-direction: column;
     position: relative;
 }
-#nojs {
-    color:#ebf2ff;
-    margin:0 auto;
-    text-align: center;
+.note {
+    font-size: 10px;    
+    border-top: 1px dashed #555;
+    width: 100%;
+    padding: 7px 0px
 }

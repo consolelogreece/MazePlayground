@@ -4,6 +4,10 @@ let ctx = mazeCanvas.getContext("2d");
 
 let mazeHeightEl = document.getElementById("MazeHeightInput");
 let mazeWidthEl = document.getElementById("MazeWidthInput");
+
+mazeHeightEl.onchange = () => ValidateBounds(mazeHeightEl, 1000, 1);
+mazeWidthEl.onchange = () => ValidateBounds(mazeWidthEl, 1000, 1);
+
 let generatorEl = document.getElementById("GeneratorSelector");
 let solverEl = document.getElementById("SolverSelector");
 let operationSelectorEl = document.getElementById("OperationSelector");
@@ -23,7 +27,8 @@ let generatorMap = {
 let solverMap = {
     "Recursive Backtrack": RecursiveBacktrackMazeSolver,
     "Breadth First": BreadthFirstMazeSolver,
-    "Dead End Filler": DeadEndFillerMazeSolver
+    "Dead End Filler": DeadEndFillerMazeSolver,
+    "Trémaux": TremauxMazeSolver
 };
 
 let operationElMap = {
@@ -91,6 +96,12 @@ function GetSpeedParameters()
     }
 }
 
+function ValidateBounds(el, ubound, lbound)
+{
+    if (el.value > ubound) el.value = ubound;
+    else if(el.value < lbound)el.value = lbound;
+}
+
 function Generate()
 {
     let mazeHeight = mazeHeightEl.value;
@@ -103,7 +114,7 @@ function Generate()
     
     let illustrator = new Illustrator(ctx, mazeWidth, mazeHeight);
 
-    Go(generator, illustrator, (mazeObj) => currentMaze = mazeObj.maze);
+    Go(generator, illustrator, (mazeObj) => currentMaze = mazeObj.GetFormattedMaze());
 }
 
 function Solve()

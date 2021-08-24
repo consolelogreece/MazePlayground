@@ -28,48 +28,34 @@ class TremauxMazeSolver
         this.maze[this.startCellCoords.row][this.startCellCoords.col].isCurrent = true;
     }
 
-    /*
-    1 Every time you visit a cell, mark it once.
-    2 When you hit a dead end, turn around and go back.
-    3 When you hit a junction you haven't visited, pick a new passage at random.
-    4 If you're walking down a new passage and hit a junction you have visited, treat it like a dead end and go back.
-    5 If walking down a passage you have visited before (i.e. marked once) and you hit a junction, take any new passage available, otherwise take an old passage (i.e. marked once).
-    6 When you finally reach the end, follow cells marked exactly once back to the start.
-    7 If the Maze has no solution, you'll find yourself at the start with all cells marked twice.
-    */
-
-    IsJunction(cell) 
-    {
-        
-        // 3 When you hit a junction you haven't visited, pick a new passage at random.
-        // 4 If you're walking down a new passage and hit a junction you have visited, treat it like a dead end and go back.
-        // 5 If walking down a passage you have visited before (i.e. marked once) and you hit a junction, take any new passage available, otherwise take an old passage (i.e. marked once).
-    }
-
-    IsDeadEnd(cell)
-    {
-
-    }
-
     * StepMaze()
     { 
         let endCell = this.maze[this.endCellCoords.row][this.endCellCoords.col];
 
         let previousCell = this.maze[this.startCellCoords.row][this.startCellCoords.col];
 
+        let connectedNeighbours = FindNeighbours(this.maze, previousCell.row, previousCell.col).filter(neighbour => previousCell.connectedCells.includes(neighbour.dir));
+
+        let currentCell = connectedNeighbours[0].cell;  
+
         previousCell.visited = true;
 
         previousCell.marks++;
 
-        let connectedNeighbours = FindNeighbours(this.maze, previousCell.row, previousCell.col).filter(neighbour => previousCell.connectedCells.includes(neighbour.dir));
+        previousCell.drawConCellList.push(currentCell);
 
-        let currentCell = connectedNeighbours[0].cell;  
+        this.cellsToDraw.push(previousCell, currentCell)
 
         yield this;
 
         while (!this.completed)
         {   
-            if (currentCell == endCell) {this.completed = true; currentCell.marks++; continue;}
+            if (currentCell == endCell) {
+                this.completed = true; 
+                currentCell.marks++; 
+                continue;
+            }
+
             let nextCell;
 
             let connectedNeighbours = FindNeighbours(this.maze, currentCell.row, currentCell.col).filter(neighbour => currentCell.connectedCells.includes(neighbour.dir));
@@ -107,6 +93,7 @@ class TremauxMazeSolver
                     
                     currentCell.marks++;
                 }
+                // Seen junction and been on this path before, take any new passage if one exists otherwise travel down another passage marked once.
                 else
                 {
                     let validNeighbours = connectedNeighbours.filter(neighbour => neighbour.cell !== currentCell);
@@ -195,29 +182,30 @@ class TremauxMazeSolver
            this.initialDraw = false;
         }   
 
-        this.cellsToDraw.forEach(cellFrom => {
-
-            cellFrom.drawConCellList.forEach(cellTo => {
-                // means they are vertical neighbours
-                if (cellFrom.row != cellTo.row)
-                {
-                    let offset = 1;
-                    if (cellFrom.row > cellTo.row) offset = -1;
-                    illustrator.DrawLineBetweenCells(cellFrom.row, cellFrom.col, cellTo.row, cellTo.col, () => 0,  dimensions => (dimensions.height / 3) * offset,  "orange");
-                }
-                else
-                {
-                    let offset = 1;
-                    if (cellFrom.col > cellTo.col) offset = -1;
-                    illustrator.DrawLineBetweenCells(cellFrom.row, cellFrom.col, cellTo.row, cellTo.col, dimensions => (dimensions.width / 3) * offset, () => 0,  "orange");
-                }
-                
+        if (!this.completed)
+        {
+            this.cellsToDraw.forEach(cellFrom => {
+                cellFrom.drawConCellList.forEach(cellTo => {
+                    // cells are horizontal neighbours
+                    if (cellFrom.row == cellTo.row)
+                    {
+                        let offset = 1;
+                        if (cellFrom.col > cellTo.col) offset = -1;
+                        illustrator.DrawLineBetweenCells(cellFrom.row, cellFrom.col, cellTo.row, cellTo.col, "cyan", 2, () => 0,  dimensions => (dimensions.height / 10) * offset);
+                    }
+                    // cells are vertical neighbours
+                    else
+                    {
+                        let offset = 1;
+                        if (cellFrom.row > cellTo.row) offset = -1;
+                        illustrator.DrawLineBetweenCells(cellFrom.row, cellFrom.col, cellTo.row, cellTo.col, "cyan", 2, dimensions => (dimensions.width / 10) * offset, () => 0);
+                    }
+                    
+                });
+    
+                cellFrom.drawConCellList = [];            
             });
-            
-            if (cell.isCurrent) illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.3, "cyan");
-
-            // if (cell.junction || true) illustrator.DrawTextInCell(cell.row, cell.col, cell.marks)
-        });
+        }       
 
         if (this.completed)
         {

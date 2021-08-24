@@ -89,15 +89,17 @@ class Illustrator
         this.ctx.fill(); 
     }
 
-    DrawLineBetweenCells(fromRow, fromCol, toRow, toCol, fillStyle)
+    DrawLineBetweenCells(fromRow, fromCol, toRow, toCol, fillStyle, lineWidth = 3, offsetXDeterminantFunc = _ => 0, offsetYDeterminantFunc = _ => 0)
     {
-        let fromX = (fromCol * this.cellWidth) + this.cellWidth / 2;
-        let toX = (toCol * this.cellWidth) + this.cellWidth / 2;
-        let fromY = (fromRow * this.cellHeight) + this.cellHeight / 2;
-        let toY = (toRow * this.cellHeight) + this.cellHeight / 2;
+        let pixelOffsetX = offsetXDeterminantFunc({width: this.cellWidth, height: this.cellHeight});
+        let pixelOffsetY = offsetYDeterminantFunc({width: this.cellWidth, height: this.cellHeight});
+        let fromX = ((fromCol * this.cellWidth) + this.cellWidth / 2) + pixelOffsetX;
+        let toX = ((toCol * this.cellWidth) + this.cellWidth / 2) + pixelOffsetX;
+        let fromY = ((fromRow * this.cellHeight) + this.cellHeight / 2) + pixelOffsetY;
+        let toY = ((toRow * this.cellHeight) + this.cellHeight / 2) + pixelOffsetY;
 
         this.ctx.beginPath();
-        this.ctx.lineWidth = 3;
+        this.ctx.lineWidth = lineWidth;
         this.ctx.moveTo(0.5 + fromX, 0.5 + fromY);
         this.ctx.lineTo(0.5 + toX, 0.5 + toY);
         this.ctx.strokeStyle = fillStyle;
