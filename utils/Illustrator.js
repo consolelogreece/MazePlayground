@@ -11,13 +11,17 @@ class Illustrator
         this.wallWidth = 1;
     }
 
-    DrawGrid()
+    EraseContents()
     {
         this.ctx.fillStyle = "#222";
         this.ctx.fillRect(0, 0, this.bw, this.bh);
+    }
 
+    DrawGrid()
+    {      
         var p = 0;
         this.ctx.lineWidth = this.wallWidth;
+
         for (var col = 0; col <= this.bw; col += this.cellWidth) {
             this.ctx.moveTo(0.5 + col + p, p);
             this.ctx.lineTo(0.5 + col + p, this.bh + p);
@@ -31,7 +35,7 @@ class Illustrator
         this.ctx.strokeStyle = "#bbb";
         this.ctx.stroke();
     }
-
+    
     DrawWallBreaks(cell)
     {
         let row = cell.row;

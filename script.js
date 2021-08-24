@@ -113,6 +113,8 @@ function Generate()
         {row: mazeHeight - 1, col: mazeWidth - 1});
     
     let illustrator = new Illustrator(ctx, mazeWidth, mazeHeight);
+    
+    illustrator.EraseContents();
 
     Go(generator, illustrator, (mazeObj) => currentMaze = mazeObj.GetFormattedMaze());
 }

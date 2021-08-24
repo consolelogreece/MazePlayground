@@ -157,12 +157,6 @@ class EllersMazeGen
 
     Draw(illustrator)
     {   
-        if (this.initialDraw)
-        {
-            illustrator.DrawGrid();
-            this.initialDraw = false;
-        }        
-
         if (!this.completed)
         {
             if (this.currentRow >= 1)
@@ -193,6 +187,7 @@ class EllersMazeGen
                 {
                     let cell = this.maze[row][col];
 
+                    illustrator.EraseCellContents(cell.row, cell.col);
                     illustrator.DrawWallBreaks(cell)
                 }
             }

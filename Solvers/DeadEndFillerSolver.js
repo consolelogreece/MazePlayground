@@ -156,6 +156,7 @@ class DeadEndFillerMazeSolver
     {   
         if (this.initialDraw || this.completed)
         {
+            illustrator.EraseContents();
             illustrator.DrawGrid();
 
             illustrator.DrawCircleAtLocation(this.startCellCoords.row, this.startCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");

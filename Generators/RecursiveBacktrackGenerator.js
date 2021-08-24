@@ -87,38 +87,37 @@ class RecursiveBacktrackMazeGen
 
     Draw(illustrator)
     {
-        if (this.initialDraw || this.completed)
+        if (this.completed)
         {
-            illustrator.DrawGrid();
-
-            illustrator.DrawCircleAtLocation(this.startCellCoords.row, this.startCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
-            illustrator.DrawCircleAtLocation(this.endCellCoords.row, this.endCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
+            illustrator.EraseContents();
             
             for (let row = 0; row < this.maze.length; row++)
             {
                 for (let col = 0; col < this.maze[row].length; col++)
                 {
+                    illustrator.EraseCellContents(row, col);
                     illustrator.DrawWallBreaks(this.maze[row][col]);
                 }
             }
 
-           this.initialDraw = false;
+            
+            illustrator.DrawCircleAtLocation(this.startCellCoords.row, this.startCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
+            illustrator.DrawCircleAtLocation(this.endCellCoords.row, this.endCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
         }   
-
-        if (!this.completed)
-        {
+        else
+        {          
             this.cellsToDraw.forEach(cell => {
+                illustrator.EraseCellContents(cell.row, cell.col);
+                illustrator.DrawWallBreaks(cell);
                 if (cell.visited)
                 {
-                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "cyan");
+                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "green");
                 }
                 
                 if (cell.currentPath)
                 {
-                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 2.4, "green");
+                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 2.4, "cyan");
                 }
-
-                illustrator.DrawWallBreaks(cell)
             })   
         }       
 
