@@ -115,7 +115,7 @@ class RecursiveBacktrackMazeGen
                 
                 if (cell.currentPath)
                 {
-                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 2.4, "cyan");
+                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "cyan");
                 }
             })   
         }       
