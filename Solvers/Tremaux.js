@@ -36,7 +36,7 @@ class TremauxMazeSolver
 
         let connectedNeighbours = FindNeighbours(this.maze, previousCell.row, previousCell.col).filter(neighbour => previousCell.connectedCells.includes(neighbour.dir));
 
-        let currentCell = connectedNeighbours[0].cell;  
+        let currentCell = connectedNeighbours[Math.floor(Math.random() * connectedNeighbours.length)].cell;  
 
         previousCell.visited = true;
 
@@ -81,7 +81,7 @@ class TremauxMazeSolver
                 {
                     previousCell = currentCell;
                     let validNeighbours = connectedNeighbours.filter(neighbour => neighbour.cell !== currentCell && neighbour.cell.marks === 0);
-                    nextCell = validNeighbours[0].cell;
+                    nextCell = validNeighbours[Math.floor(Math.random() * validNeighbours.length)].cell;
                 }
                 // been at junction before and not been on this path before, treat like dead end
                 else if (previousCell.marks === 1)
@@ -102,12 +102,12 @@ class TremauxMazeSolver
                     if (unvisitedNeighbours.length !== 0)
                     {                        
                         previousCell = currentCell;
-                        nextCell = unvisitedNeighbours[0].cell;
+                        nextCell = unvisitedNeighbours[Math.floor(Math.random() * unvisitedNeighbours.length)].cell;
                     }
                     else 
                     {                       
                         previousCell = currentCell;
-                        nextCell = visitedOnce[0].cell;
+                        nextCell = visitedOnce[Math.floor(Math.random() * visitedOnce.length)].cell;
                     }
 
                     if (nextCell.marks == 0) currentCell.marks--;
