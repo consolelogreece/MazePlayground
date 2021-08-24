@@ -21,7 +21,8 @@ let interval;
 
 let generatorMap = {
     "Recursive Backtrack": RecursiveBacktrackMazeGen,
-    "Ellers": EllersMazeGen
+    "Eller's": EllersMazeGen,
+    "Randomized Prim's": RandomizedPrimsMazeGen
 };
 
 let solverMap = {
