@@ -13,8 +13,6 @@ class RandomizedPrimsMazeGen
         this.initialDraw = true;
         this.cellsToDraw = [];
 
-        this.directions = ["UP", "DOWN", "LEFT", "RIGHT"]
-
         for (let row = 0; row < mazeHeight; row++)
         {
             let mazeRow = [];
@@ -37,7 +35,6 @@ class RandomizedPrimsMazeGen
         })
     }
     
-
     * StepMaze()
     { 
         let startCell = this.maze[Math.floor(Math.random() * this.mazeHeight)][Math.floor(Math.random() * this.mazeWidth)];
@@ -75,8 +72,6 @@ class RandomizedPrimsMazeGen
                 .map(n =>({cell1: nextWall.cell2, cell2: n.cell, dir: n.dir, relativePositionRequesting: n.relativePositionRequesting}));
                 
                 this.cellsToDraw.push(nextWall.cell1, nextWall.cell2);
-
-                nextWall.cell2.lastUpdated = true;
             }
 
             walls.splice(nextWallIndex, 1);
@@ -84,7 +79,7 @@ class RandomizedPrimsMazeGen
 
             yield this;
         }
-        
+
 
         this.completed = true;
     }
@@ -104,7 +99,6 @@ class RandomizedPrimsMazeGen
                 }
             }
 
-            
             illustrator.DrawCircleAtLocation(this.startCellCoords.row, this.startCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
             illustrator.DrawCircleAtLocation(this.endCellCoords.row, this.endCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
         }   
@@ -113,7 +107,7 @@ class RandomizedPrimsMazeGen
             this.cellsToDraw.forEach(cell => {
                 illustrator.EraseCellContents(cell.row, cell.col);
                 illustrator.DrawWallBreaks(cell);
-                illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "cyan");                
+                illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "cyan");;   
             })   
         }       
 
