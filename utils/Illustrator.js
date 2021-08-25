@@ -35,6 +35,44 @@ class Illustrator
         this.ctx.strokeStyle = "#bbb";
         this.ctx.stroke();
     }
+
+    ConvertDirToLineCoords(row, col, dir)
+    {
+        let fromCol = 0;
+        let fromRow = 0;
+        let toCol = 0;
+        let toRow = 0;
+
+        switch(dir)
+        {                   
+            case "left":
+                fromCol = col * this.cellWidth;
+                fromRow = row * this.cellHeight;
+                toCol = fromCol;
+                toRow = fromRow + this.cellHeight;
+                break;
+            case "right":
+                fromCol = (col + 1)  * this.cellWidth;
+                fromRow = row * this.cellHeight;
+                toCol = fromCol;
+                toRow = fromRow + this.cellHeight;
+                break;
+            case "up":
+                fromCol = col * this.cellWidth;
+                fromRow = row * this.cellHeight;
+                toCol = fromCol + this.cellWidth;
+                toRow = fromRow;
+                break;
+            case "down":                        
+                fromCol = col * this.cellWidth;
+                fromRow = (row + 1) * this.cellHeight;
+                toCol = fromCol + this.cellWidth;
+                toRow = fromRow;
+                break;
+        }     
+        
+        return {fromX: fromCol, fromY: fromRow, toX: toCol, toY: toRow};
+    }
     
     DrawWallBreaks(cell)
     {
@@ -42,46 +80,21 @@ class Illustrator
         let col = cell.col;
 
         cell.connectedCells.forEach(dir => {
-            let fromCol = 0;
-            let fromRow = 0;
-            let toCol = 0;
-            let toRow = 0;
-            
-            switch(dir)
-            {                   
-                case "left":
-                    fromCol = col * this.cellWidth;
-                    fromRow = row * this.cellHeight;
-                    toCol = fromCol;
-                    toRow = fromRow + this.cellHeight;
-                    break;
-                case "right":
-                    fromCol = (col + 1)  * this.cellWidth;
-                    fromRow = row * this.cellHeight;
-                    toCol = fromCol;
-                    toRow = fromRow + this.cellHeight;
-                    break;
-                case "up":
-                    fromCol = col * this.cellWidth;
-                    fromRow = row * this.cellHeight;
-                    toCol = fromCol + this.cellWidth;
-                    toRow = fromRow;
-                    break;
-                case "down":                        
-                    fromCol = col * this.cellWidth;
-                    fromRow = (row + 1) * this.cellHeight;
-                    toCol = fromCol + this.cellWidth;
-                    toRow = fromRow;
-                    break;
-            }        
-
-            this.ctx.beginPath();
-            this.ctx.lineWidth = 3;
-            this.ctx.moveTo(0.5 + fromCol, 0.5 + fromRow);
-            this.ctx.lineTo(0.5 + toCol, 0.5 + toRow);
-            this.ctx.strokeStyle = this.mazeBGColour;
-            this.ctx.stroke();     
+            this.DrawWall(row, col, dir, this.mazeBGColour)   
         });   
+    }
+
+    DrawChamber(topLeftCellRow, topLeftCellCol, bottomRightCellRow, bottomRightCellCol)
+    {
+        let fromX = (topLeftCellCol * this.cellWidth) + 0.5;
+        let fromY = (topLeftCellRow * this.cellHeight) + 0.5;
+
+        let height = (bottomRightCellRow - topLeftCellRow + 1) * this.cellHeight;
+        let width = (bottomRightCellCol - topLeftCellCol + 1) * this.cellWidth
+
+        this.ctx.strokeStyle = "orange";
+        this.ctx.rect(fromX, fromY, width, height);
+        ctx.stroke(); 
     }
 
     DrawCircleAtLocation(row, col, radialDeterminantFunc, fillStyle)
@@ -120,6 +133,19 @@ class Illustrator
         this.ctx.fillStyle = "red";
         ctx.fillText(text, x, y);
     }
+
+    DrawWall(row, col, dir, colour)
+    {
+        let lineCoords = this.ConvertDirToLineCoords(row, col, dir)
+
+        this.ctx.beginPath();
+        this.ctx.lineWidth = 3;
+        this.ctx.moveTo(0.5 + lineCoords.fromX, 0.5 + lineCoords.fromY);
+        this.ctx.lineTo(0.5 + lineCoords.toX, 0.5 + lineCoords.toY);
+        this.ctx.strokeStyle = colour;
+        this.ctx.stroke();     
+    }
+
     EraseCellContents(row, col)
     {
         let fromX = (col * this.cellWidth) + 0.5;
