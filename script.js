@@ -20,15 +20,16 @@ let currentMaze = null;
 let interval;
 
 let generatorMap = {
-    "Recursive Backtrack": RecursiveBacktrackMazeGen,
     "Eller's": EllersMazeGen,
-    "Randomized Prim's": RandomizedPrimsMazeGen
+    "Randomized Prim's": RandomizedPrimsMazeGen,
+    "Recursive Backtrack": RecursiveBacktrackMazeGen,
+    "Recursive Division": RecursiveDivisionMazeGen
 };
 
 let solverMap = {
-    "Recursive Backtrack": RecursiveBacktrackMazeSolver,
     "Breadth First": BreadthFirstMazeSolver,
     "Dead End Filler": DeadEndFillerMazeSolver,
+    "Recursive Backtrack": RecursiveBacktrackMazeSolver,
     "Trémaux": TremauxMazeSolver
 };
 
