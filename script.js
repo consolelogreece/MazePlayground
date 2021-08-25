@@ -21,6 +21,7 @@ let interval;
 
 let generatorMap = {
     "Eller's": EllersMazeGen,
+    "Hunt and Kill": HuntAndKillMazeGen,
     "Randomized Prim's": RandomizedPrimsMazeGen,
     "Recursive Backtrack": RecursiveBacktrackMazeGen,
     "Recursive Division": RecursiveDivisionMazeGen
