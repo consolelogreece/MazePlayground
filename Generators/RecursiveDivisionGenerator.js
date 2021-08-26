@@ -1,6 +1,6 @@
 class RecursiveDivisionMazeGen
 {
-    constructor(mazeHeight, mazeWidth, startCellCoords, endCellCoords){
+    constructor(mazeHeight, mazeWidth, startCellCoords, endCellCoords, params){
         this.mazeWidth = mazeWidth;
         this.mazeHeight = mazeHeight;
         this.startCellCoords = startCellCoords;
@@ -9,6 +9,8 @@ class RecursiveDivisionMazeGen
         this.completed = false;
         this.initialDraw = true;
         this.cellsToDraw = [];
+
+        this.randomizeChamberBreaks = params.RandomizeChamberBreaks;
 
         this.chamberStack = [];
 
@@ -42,6 +44,8 @@ class RecursiveDivisionMazeGen
         })
     }
 
+    CoinToss = () => Math.floor(Math.random() * 2) == 1;
+
     * StepMaze()
     { 
         this.chamberStack.push([this.maze[0][0], this.maze[this.mazeHeight -1][this.mazeWidth - 1]]);
@@ -58,13 +62,24 @@ class RecursiveDivisionMazeGen
                 continue;
             } 
 
-            // create two random walls
-            let splitRow = Math.floor(Math.random() * (bottomRightCell.row - topLeftCell.row) + 1) + (topLeftCell.row - 1) ;
-            let splitCol = Math.floor(Math.random() * (bottomRightCell.col - topLeftCell.col ) + 1 ) + (topLeftCell.col -1 );
+            let splitRow, splitCol;
+
+            if (this.randomizeChamberBreaks)
+            {
+                // Create two random walls intersecting at a random point in the chamber
+                splitRow = Math.floor(Math.random() * (bottomRightCell.row - topLeftCell.row) + 1) + (topLeftCell.row - 1) ;
+                splitCol = Math.floor(Math.random() * (bottomRightCell.col - topLeftCell.col ) + 1 ) + (topLeftCell.col -1 );
+            }
+            else
+            {
+                // Create two walls intersecting the center of the chamber
+                splitRow = Math.floor(((bottomRightCell.row - topLeftCell.row) / 2) + topLeftCell.row);
+                splitCol = Math.floor(((bottomRightCell.col - topLeftCell.col) / 2) + topLeftCell.col);
+            }
 
             let chamber1, chamber2, chamber3, chamber4;
 
-            // get coordinates of 4 new chambers created and add them to chambers stack
+            // Get coordinates of 4 new chambers created and add them to chambers stack
             chamber1 = [topLeftCell, this.maze[splitRow][splitCol]];
             chamber2 = [this.maze[topLeftCell.row][splitCol + 1], this.maze[splitRow][bottomRightCell.col]];
             chamber3 = [this.maze[splitRow + 1][topLeftCell.col], this.maze[bottomRightCell.row][splitCol]];
@@ -72,11 +87,7 @@ class RecursiveDivisionMazeGen
 
             this.chamberStack.push(chamber1, chamber2, chamber3, chamber4)
 
-            // random breaks. two on the row break and one in the column break to connect all cells.
-            let wallBreakCol1 = Math.floor(Math.random() * (splitCol - topLeftCell.col)) + topLeftCell.col;
-            let wallBreakCol2 = Math.floor(Math.random() * (bottomRightCell.col - (splitCol + 1))) + splitCol + 1;
-            let wallBreakRow = Math.floor(Math.random() * (bottomRightCell.row - topLeftCell.row )) + topLeftCell.row;
-
+            // Register the walls as boundaries for each cell adjacent to the wall
             for (let col = topLeftCell.col; col <= bottomRightCell.col; col++)
             {
                 let cell1 = this.maze[splitRow][col];
@@ -86,13 +97,6 @@ class RecursiveDivisionMazeGen
 
                 this.cellsToDraw.push(cell1, cell2);
             }
-        
-            // remove previously se boundary from these cells as they are connected now.
-            this.maze[splitRow][wallBreakCol1].boundaries.delete(Paths.DOWN);
-            this.maze[splitRow + 1][wallBreakCol1].boundaries.delete(Paths.UP);
-
-            this.maze[splitRow][wallBreakCol2].boundaries.delete(Paths.DOWN);
-            this.maze[splitRow + 1][wallBreakCol2].boundaries.delete(Paths.UP);
             
             for (let row = topLeftCell.row; row <= bottomRightCell.row; row++)
             {
@@ -104,17 +108,54 @@ class RecursiveDivisionMazeGen
 
                 this.cellsToDraw.push(cell1, cell2);
             }
+            
+            // Select a random wall break for each chamber divider
+            let wallBreakCol1 = Math.floor(Math.random() * (splitCol - topLeftCell.col + 1) + topLeftCell.col)
+            let wallBreakCol2 = Math.floor(Math.random() * (bottomRightCell.col - (splitCol + 1) + 1) + (splitCol + 1));
+            let wallBreakRow1 = Math.floor(Math.random() * (splitRow - topLeftCell.row + 1) + topLeftCell.row);
+            let wallBreakRow2 = Math.floor(Math.random() * (bottomRightCell.row - (splitRow + 1) + 1) + (splitRow + 1));
 
-            // remove previously se boundary from these cells as they are connected now.
-            this.maze[wallBreakRow][splitCol].boundaries.delete(Paths.RIGHT);
-            this.maze[wallBreakRow][splitCol + 1].boundaries.delete(Paths.LEFT);
+            // randomly pick 3 of those wall breaks and apply them
+            if (this.CoinToss())
+            {                
+                this.maze[wallBreakRow1][splitCol].boundaries.delete(Paths.RIGHT);
+                this.maze[wallBreakRow1][splitCol + 1].boundaries.delete(Paths.LEFT);
+                this.maze[wallBreakRow2][splitCol].boundaries.delete(Paths.RIGHT);
+                this.maze[wallBreakRow2][splitCol + 1].boundaries.delete(Paths.LEFT);
+                if (this.CoinToss())
+                {
+                    this.maze[splitRow][wallBreakCol1].boundaries.delete(Paths.DOWN);
+                    this.maze[splitRow + 1][wallBreakCol1].boundaries.delete(Paths.UP);
+                }
+                else 
+                {
+                    this.maze[splitRow][wallBreakCol2].boundaries.delete(Paths.DOWN);
+                    this.maze[splitRow + 1][wallBreakCol2].boundaries.delete(Paths.UP); 
+                }
         
-            yield this;
+            } else {
+                this.maze[splitRow][wallBreakCol1].boundaries.delete(Paths.DOWN);
+                this.maze[splitRow + 1][wallBreakCol1].boundaries.delete(Paths.UP);
+                this.maze[splitRow][wallBreakCol2].boundaries.delete(Paths.DOWN);
+                this.maze[splitRow + 1][wallBreakCol2].boundaries.delete(Paths.UP); 
+                if (this.CoinToss())
+                {
+                    this.maze[wallBreakRow1][splitCol].boundaries.delete(Paths.RIGHT);
+                    this.maze[wallBreakRow1][splitCol + 1].boundaries.delete(Paths.LEFT); 
+                }
+                else 
+                {
+                    this.maze[wallBreakRow2][splitCol].boundaries.delete(Paths.RIGHT);
+                    this.maze[wallBreakRow2][splitCol + 1].boundaries.delete(Paths.LEFT);
+                }
+            }
 
+            yield this;
         }
 
         let directions = [Paths.UP, Paths.DOWN, Paths.LEFT, Paths.RIGHT];
 
+        // For each cell, register each cell that isnt blocked by a boundary as a connected neighbour
         for(let row = 0; row < this.mazeHeight; row++)
         {
             for (let col = 0; col < this.mazeWidth; col++)

@@ -20,18 +20,19 @@ let currentMaze = null;
 let interval;
 
 let generatorMap = {
-    "Eller's": EllersMazeGen,
-    "Hunt and Kill": HuntAndKillMazeGen,
-    "Randomized Prim's": RandomizedPrimsMazeGen,
-    "Recursive Backtrack": RecursiveBacktrackMazeGen,
-    "Recursive Division": RecursiveDivisionMazeGen
+    "Eller's": {Class: EllersMazeGen, AdditionalParams: {}},
+    "Hunt and Kill": {Class: HuntAndKillMazeGen, AdditionalParams: {}},
+    "Randomized Prim's": {Class: RandomizedPrimsMazeGen, AdditionalParams: {}},
+    "Recursive Backtrack": {Class: RecursiveBacktrackMazeGen, AdditionalParams: {}},
+    "Recursive Division": {Class: RecursiveDivisionMazeGen, AdditionalParams: {RandomizeChamberBreaks: false}},
+    "Recursive Division (Randomized Chamber Breaks)": {Class: RecursiveDivisionMazeGen, AdditionalParams: {RandomizeChamberBreaks: true}}
 };
 
 let solverMap = {
-    "Breadth First": BreadthFirstMazeSolver,
-    "Dead End Filler": DeadEndFillerMazeSolver,
-    "Recursive Backtrack": RecursiveBacktrackMazeSolver,
-    "Trémaux": TremauxMazeSolver
+    "Breadth First": {Class: BreadthFirstMazeSolver, AdditionalParams: {}},
+    "Dead End Filler": {Class: DeadEndFillerMazeSolver, AdditionalParams: {}},
+    "Recursive Backtrack": {Class: RecursiveBacktrackMazeSolver, AdditionalParams: {}},
+    "Trémaux": {Class: TremauxMazeSolver, AdditionalParams: {}}
 };
 
 let operationElMap = {
@@ -111,9 +112,9 @@ function Generate()
     let mazeWidth = mazeWidthEl.value;
     let generatorSelection = generatorMap[generatorEl.value];
 
-    let generator = new generatorSelection(
+    let generator = new generatorSelection.Class(
         mazeHeight, mazeWidth, {row: 0, col: 0}, 
-        {row: mazeHeight - 1, col: mazeWidth - 1});
+        {row: mazeHeight - 1, col: mazeWidth - 1}, generatorSelection.AdditionalParams);
     
     let illustrator = new Illustrator(ctx, mazeWidth, mazeHeight);
     
@@ -133,8 +134,8 @@ function Solve()
     let mazeWidth = currentMaze[0].length;
     let solverSelection = solverMap[solverEl.value];   
 
-    let solver = new solverSelection(currentMaze, {row: 0, col: 0}, 
-        {row: mazeHeight - 1, col: mazeWidth - 1});
+    let solver = new solverSelection.Class(currentMaze, {row: 0, col: 0}, 
+        {row: mazeHeight - 1, col: mazeWidth - 1}, solverSelection.AdditionalParams);
     
     let illustrator = new Illustrator(ctx, mazeWidth, mazeHeight);
 
