@@ -46,6 +46,7 @@ button:hover {
 }
 #MazeCanvas {
     background-color: #222;
+    shape-rendering: crispEdges
 }
 #controls {
     max-width: 300px;

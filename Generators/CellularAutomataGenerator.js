@@ -94,11 +94,11 @@ class CellularAutomataMazeGen
         this.cellsToDraw.forEach(cell => {
             if (cell.aliveNow)
             {
-                illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width, "white");
+                illustrator.FillCell(cell.row, cell.col, "tomato");
             }
             else
             {
-                illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width , "#222");
+                illustrator.FillCell(cell.row, cell.col,"#222");
             }
         });
         

@@ -193,7 +193,7 @@ class RecursiveDivisionMazeGen
         {
             this.cellsToDraw.forEach(cell => {
                 cell.boundaries.forEach(b => {
-                    illustrator.DrawWall(cell.row, cell.col, b, "orange");
+                    illustrator.DrawWall(cell.row, cell.col, b, "tomato");
                 })
             })
          }       

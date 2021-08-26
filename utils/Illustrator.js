@@ -146,19 +146,34 @@ class Illustrator
         this.ctx.stroke();     
     }
 
+    FillCell(row, col, colour)
+    {
+        let fromX = (col * this.cellWidth) + 0.5;
+        let fromY = (row * this.cellHeight) + 0.5;
+
+        let width = this.cellWidth;
+        let height = this.cellHeight;
+        
+        this.ctx.beginPath();
+        this.ctx.fillStyle = colour;
+        this.ctx.rect(fromX, fromY, width, height);
+
+        this.ctx.fill(); 
+    }
+
     EraseCellContents(row, col)
     {
         let fromX = (col * this.cellWidth) + 0.5;
         let fromY = (row * this.cellHeight) + 0.5;
 
-        ctx.beginPath();
+        this.ctx.beginPath();
         this.ctx.fillStyle = this.mazeBGColour;
-        ctx.rect(fromX, fromY, this.cellWidth, this.cellHeight);
+        this.ctx.rect(fromX, fromY, this.cellWidth, this.cellHeight);
 
         this.ctx.strokeStyle = "white";
         this.ctx.lineWidth = this.wallWidth / 2;
         
-        ctx.fill(); 
-        ctx.stroke();
+        this.ctx.fill(); 
+        this.ctx.stroke();
     }
 }
