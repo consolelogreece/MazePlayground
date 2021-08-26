@@ -59,7 +59,7 @@ class RecursiveBacktrackMazeGen
             }
             else
             {            
-                let nextNeighbour = unvisitedNeighbours[Math.floor(Math.random() * unvisitedNeighbours.length)];
+                let nextNeighbour = unvisitedNeighbours[RandomizationUtils.RandomFromZero(unvisitedNeighbours.length)];
                 
                 nextNeighbour.cell.visited = true;
     

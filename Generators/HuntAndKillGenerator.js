@@ -53,8 +53,8 @@ class HuntAndKillMazeGen
 
     * StepMaze()
     { 
-        let firstCellCol = Math.floor(Math.random() * this.mazeWidth)
-        let firstCellRow = Math.floor(Math.random() * this.mazeHeight);
+        let firstCellCol = RandomizationUtils.RandomFromZero(this.mazeWidth);
+        let firstCellRow = RandomizationUtils.RandomFromZero(this.mazeHeight);
 
         let firstCell = this.maze[firstCellRow][firstCellCol];
 
@@ -96,7 +96,7 @@ class HuntAndKillMazeGen
             }
             else
             {            
-                let nextNeighbour = unvisitedNeighbours[Math.floor(Math.random() * unvisitedNeighbours.length)];
+                let nextNeighbour = unvisitedNeighbours[RandomizationUtils.RandomFromZero(unvisitedNeighbours.length)];
                 
                 nextNeighbour.cell.visited = true;
 

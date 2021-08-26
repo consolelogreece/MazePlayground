@@ -37,7 +37,7 @@ class RandomizedPrimsMazeGen
     
     * StepMaze()
     { 
-        let startCell = this.maze[Math.floor(Math.random() * this.mazeHeight)][Math.floor(Math.random() * this.mazeWidth)];
+        let startCell = this.maze[RandomizationUtils.RandomFromZero(this.mazeHeight)][RandomizationUtils.RandomFromZero(this.mazeWidth)];
 
         startCell.visited = true;
 
@@ -53,7 +53,7 @@ class RandomizedPrimsMazeGen
 
         while (walls.length > 0)
         {
-            let nextWallIndex = Math.floor(Math.random() * walls.length);
+            let nextWallIndex = RandomizationUtils.RandomFromZero(walls.length);
 
             let nextWall = walls[nextWallIndex];
 

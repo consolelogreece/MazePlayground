@@ -24,8 +24,6 @@ class EllersMazeGen
         }
     }
 
-    CoinToss = () => Math.floor(Math.random() * 2) == 1;
-
     GetFormattedMaze()
     {
         return this.maze.map(row => {
@@ -57,7 +55,7 @@ class EllersMazeGen
             // Randomly merge sets.
             for (let col = 0; col < this.mazeWidth -1; col++)
             {
-                if (this.CoinToss())
+                if (RandomizationUtils.CoinToss())
                 {
                     let cell = this.maze[row][col];
                     let neighbour = this.maze[row][col + 1];
@@ -97,10 +95,10 @@ class EllersMazeGen
                     let nCells = setMap[set].length;
 
                     // Determine number of vertical connections, has to be atleast 1.
-                    let nVerticalConnections = Math.floor(Math.random() * nCells) + 1;
-
+                    let nVerticalConnections =  RandomizationUtils.RandomFromZero(nCells) + 1;
+                    
                     // Shuffle cells then take a slice based on number of vertical connections. Shuffling makes the cells chosen random.
-                    shuffle(setMap[set]);
+                    RandomizationUtils.shuffle(setMap[set]);
                     let cellsToConnectVertically = setMap[set].slice(0, nVerticalConnections);
 
                     // Apply vertical connections.

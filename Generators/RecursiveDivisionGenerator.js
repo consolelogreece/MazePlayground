@@ -44,8 +44,6 @@ class RecursiveDivisionMazeGen
         })
     }
 
-    CoinToss = () => Math.floor(Math.random() * 2) == 1;
-
     * StepMaze()
     { 
         this.chamberStack.push([this.maze[0][0], this.maze[this.mazeHeight -1][this.mazeWidth - 1]]);
@@ -67,8 +65,8 @@ class RecursiveDivisionMazeGen
             if (this.randomizeChamberBreaks)
             {
                 // Create two random walls intersecting at a random point in the chamber
-                splitRow = Math.floor(Math.random() * (bottomRightCell.row - topLeftCell.row) + 1) + (topLeftCell.row - 1) ;
-                splitCol = Math.floor(Math.random() * (bottomRightCell.col - topLeftCell.col ) + 1 ) + (topLeftCell.col -1 );
+                splitRow = RandomizationUtils.RandomNumberBetweenMinMaxInclusive(topLeftCell.row, bottomRightCell.row -1);
+                splitCol = RandomizationUtils.RandomNumberBetweenMinMaxInclusive(topLeftCell.col, bottomRightCell.col -1);
             }
             else
             {
@@ -110,19 +108,19 @@ class RecursiveDivisionMazeGen
             }
             
             // Select a random wall break for each chamber divider
-            let wallBreakCol1 = Math.floor(Math.random() * (splitCol - topLeftCell.col + 1) + topLeftCell.col)
-            let wallBreakCol2 = Math.floor(Math.random() * (bottomRightCell.col - (splitCol + 1) + 1) + (splitCol + 1));
-            let wallBreakRow1 = Math.floor(Math.random() * (splitRow - topLeftCell.row + 1) + topLeftCell.row);
-            let wallBreakRow2 = Math.floor(Math.random() * (bottomRightCell.row - (splitRow + 1) + 1) + (splitRow + 1));
+            let wallBreakCol1 = RandomizationUtils.RandomNumberBetweenMinMaxInclusive(topLeftCell.col, splitCol);
+            let wallBreakCol2 = RandomizationUtils.RandomNumberBetweenMinMaxInclusive(splitCol + 1, bottomRightCell.col);
+            let wallBreakRow1 = RandomizationUtils.RandomNumberBetweenMinMaxInclusive(splitRow, topLeftCell.row);
+            let wallBreakRow2 = RandomizationUtils.RandomNumberBetweenMinMaxInclusive(bottomRightCell.row, splitRow + 1);
 
             // randomly pick 3 of those wall breaks and apply them
-            if (this.CoinToss())
+            if (RandomizationUtils.CoinToss())
             {                
                 this.maze[wallBreakRow1][splitCol].boundaries.delete(Paths.RIGHT);
                 this.maze[wallBreakRow1][splitCol + 1].boundaries.delete(Paths.LEFT);
                 this.maze[wallBreakRow2][splitCol].boundaries.delete(Paths.RIGHT);
                 this.maze[wallBreakRow2][splitCol + 1].boundaries.delete(Paths.LEFT);
-                if (this.CoinToss())
+                if (RandomizationUtils.CoinToss())
                 {
                     this.maze[splitRow][wallBreakCol1].boundaries.delete(Paths.DOWN);
                     this.maze[splitRow + 1][wallBreakCol1].boundaries.delete(Paths.UP);
@@ -138,7 +136,7 @@ class RecursiveDivisionMazeGen
                 this.maze[splitRow + 1][wallBreakCol1].boundaries.delete(Paths.UP);
                 this.maze[splitRow][wallBreakCol2].boundaries.delete(Paths.DOWN);
                 this.maze[splitRow + 1][wallBreakCol2].boundaries.delete(Paths.UP); 
-                if (this.CoinToss())
+                if (RandomizationUtils.CoinToss())
                 {
                     this.maze[wallBreakRow1][splitCol].boundaries.delete(Paths.RIGHT);
                     this.maze[wallBreakRow1][splitCol + 1].boundaries.delete(Paths.LEFT); 
