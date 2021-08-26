@@ -9,9 +9,24 @@ mazeHeightEl.onchange = () => ValidateBounds(mazeHeightEl, 1000, 1);
 mazeWidthEl.onchange = () => ValidateBounds(mazeWidthEl, 1000, 1);
 
 let generatorEl = document.getElementById("GeneratorSelector");
+generatorEl.onchange = handleAlgoChange;
+
+let unsolvableNoteEl = document.getElementById("unsolvableNote")
+
 let solverEl = document.getElementById("SolverSelector");
 let operationSelectorEl = document.getElementById("OperationSelector");
+
+operationSelectorEl.onchange = () => {
+    handleAlgoChange();
+    UpdateOperationDisplay();
+};
 let buttonEl = document.getElementById("actionButton");
+
+function handleAlgoChange()
+{
+    if (operationSelectorEl.value != "Generate" || generatorMap[generatorEl.value].Solvable)  unsolvableNoteEl.style.display = "none"
+    else unsolvableNoteEl.style.display = "block"
+}
 
 let inProgress = false;
 
@@ -20,12 +35,14 @@ let currentMaze = null;
 let interval;
 
 let generatorMap = {
-    "Eller's": {Class: EllersMazeGen, AdditionalParams: {}},
-    "Hunt and Kill": {Class: HuntAndKillMazeGen, AdditionalParams: {}},
-    "Randomized Prim's": {Class: RandomizedPrimsMazeGen, AdditionalParams: {}},
-    "Recursive Backtrack": {Class: RecursiveBacktrackMazeGen, AdditionalParams: {}},
-    "Recursive Division": {Class: RecursiveDivisionMazeGen, AdditionalParams: {RandomizeChamberBreaks: false}},
-    "Recursive Division (Randomized Chamber Breaks)": {Class: RecursiveDivisionMazeGen, AdditionalParams: {RandomizeChamberBreaks: true}}
+    "Cellular Automata B3/S1234": {Class: CellularAutomataMazeGen, Solvable: false, AdditionalParams: {surviveMin: 1, surviveMax: 5, bornMin: 3, bornMax: 3}},
+    "Cellular Automata B3/S12345": {Class: CellularAutomataMazeGen, Solvable: false, AdditionalParams: {surviveMin: 1, surviveMax: 4, bornMin: 3, bornMax: 3}},
+    "Eller's": {Class: EllersMazeGen, Solvable: true, AdditionalParams: {}},
+    "Hunt and Kill": {Class: HuntAndKillMazeGen,Solvable: true, AdditionalParams: {}},
+    "Randomized Prim's": {Class: RandomizedPrimsMazeGen, Solvable: true, AdditionalParams: {}},
+    "Recursive Backtrack": {Class: RecursiveBacktrackMazeGen, Solvable: true, AdditionalParams: {}},
+    "Recursive Division": {Class: RecursiveDivisionMazeGen, Solvable: true, AdditionalParams: {RandomizeChamberBreaks: false}},
+    "Recursive Division (Randomized Chamber Breaks)": {Class: RecursiveDivisionMazeGen, Solvable: true, AdditionalParams: {RandomizeChamberBreaks: true}}
 };
 
 let solverMap = {
@@ -108,6 +125,7 @@ function ValidateBounds(el, ubound, lbound)
 
 function Generate()
 {
+    currentMaze = null;
     let mazeHeight = mazeHeightEl.value;
     let mazeWidth = mazeWidthEl.value;
     let generatorSelection = generatorMap[generatorEl.value];
@@ -120,14 +138,18 @@ function Generate()
     
     illustrator.EraseContents();
 
-    Go(generator, illustrator, (mazeObj) => currentMaze = mazeObj.GetFormattedMaze());
+    Go(generator, illustrator, (mazeObj) =>{
+        let maze = mazeObj.GetFormattedMaze();
+        if (maze.solvable) currentMaze = maze.maze;
+        else maze = null;
+    });
 }
 
 function Solve()
 {
     if (currentMaze == null) 
     {
-        alert("You must generate a maze first!");
+        alert("You must generate a valid maze first!");
         return;
     }
     let mazeHeight = currentMaze.length;

@@ -37,17 +37,18 @@ class RecursiveDivisionMazeGen
 
     GetFormattedMaze()
     {
-        return this.maze.map(row => {
-            return row.map(cell => {
-                return {row: cell.row, col: cell.col, connectedCells: cell.connectedCells};
-            });
-        })
+        let formatted = {
+            maze: this.maze.map(row => row.map(cell => { return {row: cell.row, col: cell.col, connectedCells: cell.connectedCells};})),
+            solvable:true
+        }
+
+        return formatted;
     }
 
     * StepMaze()
     { 
         this.chamberStack.push([this.maze[0][0], this.maze[this.mazeHeight -1][this.mazeWidth - 1]]);
-
+        
         while (this.chamberStack.length > 0)
         {
             let nextChamber = this.chamberStack.pop();

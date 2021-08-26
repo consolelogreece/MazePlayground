@@ -53,6 +53,9 @@
                   </div>
                </div>
                <button id="actionButton" onclick="Generate()">Go</button>
+               <div id="unsolvableNote" class="Note">
+                  <span>Note: Solvers are disabled for this Algorithm as mazes produced can be impossible.</span>
+               </div>
             </div>
          </div>
       </div>
@@ -72,6 +75,7 @@
    <script src="./Generators/RandomizedPrimsGenerator.js"></script>
    <script src="./Generators/RecursiveDivisionGenerator.js"></script>
    <script src="./Generators/HuntAndKillGenerator.js"></script>
+   <script src="./Generators/CellularAutomataGenerator.js"></script>
    <script src="./Solvers/RecursiveBacktrackSolver.js"></script>
    <script src="./Solvers/BreadthFirstSolver.js"></script>
    <script src="./Solvers/DeadEndFillerSolver.js"></script>

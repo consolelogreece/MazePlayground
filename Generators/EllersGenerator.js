@@ -26,11 +26,12 @@ class EllersMazeGen
 
     GetFormattedMaze()
     {
-        return this.maze.map(row => {
-            return row.map(cell => {
-                return {row: cell.row, col: cell.col, connectedCells: cell.connectedCells};
-            });
-        })
+        let formatted = {
+            maze: this.maze.map(row => row.map(cell => { return {row: cell.row, col: cell.col, connectedCells: cell.connectedCells};})),
+            solvable:true
+        }
+
+        return formatted;
     }
    
     * StepMaze()
