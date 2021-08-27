@@ -100,7 +100,7 @@ class RecursiveBacktrackMazeSolver
             this.cellsToDraw.forEach(cell => {               
                 if (cell.currentPath)
                 {
-                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "cyan");
+                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "#ffff00");
                 }
                 else
                 {

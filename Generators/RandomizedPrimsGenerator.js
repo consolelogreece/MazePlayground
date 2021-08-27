@@ -108,7 +108,7 @@ class RandomizedPrimsMazeGen
             this.cellsToDraw.forEach(cell => {
                 illustrator.EraseCellContents(cell.row, cell.col);
                 illustrator.DrawWallBreaks(cell);
-                illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "cyan");;   
+                illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "#00ff80");;   
             })   
         }       
 

@@ -192,14 +192,14 @@ class TremauxMazeSolver
                     {
                         let offset = 1;
                         if (cellFrom.col > cellTo.col) offset = -1;
-                        illustrator.DrawLineBetweenCells(cellFrom.row, cellFrom.col, cellTo.row, cellTo.col, "cyan", 2, () => 0,  dimensions => (dimensions.height / 10) * offset);
+                        illustrator.DrawLineBetweenCells(cellFrom.row, cellFrom.col, cellTo.row, cellTo.col, "#ff8000", 2, () => 0,  dimensions => (dimensions.height / 10) * offset);
                     }
                     // cells are vertical neighbours
                     else
                     {
                         let offset = 1;
                         if (cellFrom.row > cellTo.row) offset = -1;
-                        illustrator.DrawLineBetweenCells(cellFrom.row, cellFrom.col, cellTo.row, cellTo.col, "cyan", 2, dimensions => (dimensions.width / 10) * offset, () => 0);
+                        illustrator.DrawLineBetweenCells(cellFrom.row, cellFrom.col, cellTo.row, cellTo.col, "#ff8000", 2, dimensions => (dimensions.width / 10) * offset, () => 0);
                     }
                     
                 });

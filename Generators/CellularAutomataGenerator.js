@@ -94,7 +94,7 @@ class CellularAutomataMazeGen
         this.cellsToDraw.forEach(cell => {
             if (cell.aliveNow)
             {
-                illustrator.FillCell(cell.row, cell.col, "tomato");
+                illustrator.FillCell(cell.row, cell.col, "#ff9999");
             }
             else
             {

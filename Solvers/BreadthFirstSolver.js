@@ -134,7 +134,7 @@ class BreadthFirstMazeSolver
         {
             this.cellsToDraw.forEach(cell => {
                 illustrator.DrawTextInCell(cell.row, cell.col, cell.pathKey)
-                illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "cyan");
+                illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "#bfff00");
             })   
         }       
 

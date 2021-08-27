@@ -149,12 +149,12 @@ class HuntAndKillMazeGen
                 illustrator.DrawWallBreaks(cell);
                 if (cell.visited)
                 {
-                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "green");
+                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "#ff6600");
                 }
                 
                 if (cell.currentPath)
                 {
-                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "cyan");
+                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "#ffff66");
                 }
             })   
         }       
