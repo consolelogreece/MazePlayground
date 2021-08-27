@@ -49,7 +49,8 @@ let solverMap = {
     "Breadth First": {Class: BreadthFirstMazeSolver, AdditionalParams: {}},
     "Dead End Filler": {Class: DeadEndFillerMazeSolver, AdditionalParams: {}},
     "Recursive Backtrack": {Class: RecursiveBacktrackMazeSolver, AdditionalParams: {}},
-    "Trémaux": {Class: TremauxMazeSolver, AdditionalParams: {}}
+    "Trémaux": {Class: TremauxMazeSolver, AdditionalParams: {}},
+    "Wall Flower": {Class: WallFlowerMazeSolver, AdditionalParams: {}}
 };
 
 let operationElMap = {

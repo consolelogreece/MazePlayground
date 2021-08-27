@@ -134,14 +134,45 @@ class Illustrator
         ctx.fillText(text, x, y);
     }
 
-    DrawWall(row, col, dir, colour)
+    DrawWall(row, col, dir, colour, lineWidth = 3)
     {
         let lineCoords = this.ConvertDirToLineCoords(row, col, dir)
 
         this.ctx.beginPath();
-        this.ctx.lineWidth = 3;
+        this.ctx.lineWidth = lineWidth;
         this.ctx.moveTo(0.5 + lineCoords.fromX, 0.5 + lineCoords.fromY);
         this.ctx.lineTo(0.5 + lineCoords.toX, 0.5 + lineCoords.toY);
+        this.ctx.strokeStyle = colour;
+        this.ctx.stroke();     
+    }
+
+    DrawLine(row, col, orientation, colour, lengthDeterminantFunc = _ => 0, offsetXDeterminantFunc = _ => 0, offsetYDeterminantFunc = _ => 0)
+    {
+        let length = lengthDeterminantFunc({width: this.cellWidth, height: this.cellHeight})
+        let pixelOffsetX = offsetXDeterminantFunc({width: this.cellWidth, height: this.cellHeight});
+        let pixelOffsetY = offsetYDeterminantFunc({width: this.cellWidth, height: this.cellHeight});
+        let x = (this.cellWidth * col) + (this.cellWidth / 2) + pixelOffsetX;
+        let y = (this.cellHeight * row) + (this.cellHeight / 2) + pixelOffsetY;
+        let toX;
+        let toY;
+
+        if (orientation == "horizontal")
+        {
+            x -= length / 2;
+            toX = x + length;  
+            toY = y;
+        }
+        else
+        {
+            y -= length / 2;
+            toY = y + length;
+            toX = x;
+        }
+
+        this.ctx.beginPath();
+        this.ctx.lineWidth = 1;
+        this.ctx.moveTo(0.5 + x, 0.5 + y);
+        this.ctx.lineTo(0.5 + toX, 0.5 + toY);
         this.ctx.strokeStyle = colour;
         this.ctx.stroke();     
     }

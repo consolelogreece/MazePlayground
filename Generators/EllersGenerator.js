@@ -153,7 +153,7 @@ class EllersMazeGen
             if (cell.set == from) cell.set = to;
         }
     }
-
+    // multiple step ellers not removing old numbers for some reason...
     Draw(illustrator)
     {   
         if (!this.completed)
