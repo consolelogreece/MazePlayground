@@ -176,7 +176,7 @@ class DeadEndFillerMazeSolver
         if (!this.completed)
         {
             this.cellsToDraw.forEach(cell => {
-                illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "#8000ff");
+                illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.6, "#a1ffff");
             })   
         }       
         
