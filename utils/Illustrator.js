@@ -146,31 +146,31 @@ class Illustrator
         this.ctx.stroke();     
     }
 
-    DrawLine(row, col, orientation, colour, lengthDeterminantFunc = _ => 0, offsetXDeterminantFunc = _ => 0, offsetYDeterminantFunc = _ => 0)
+    DrawLine(row, col, lineOrientation, colour, lineWidth = 3, lengthDeterminantFunc = _ => 0, offsetXDeterminantFunc = _ => 0, offsetYDeterminantFunc = _ => 0)
     {
-        let length = lengthDeterminantFunc({width: this.cellWidth, height: this.cellHeight})
-        let pixelOffsetX = offsetXDeterminantFunc({width: this.cellWidth, height: this.cellHeight});
-        let pixelOffsetY = offsetYDeterminantFunc({width: this.cellWidth, height: this.cellHeight});
-        let x = (this.cellWidth * col) + (this.cellWidth / 2) + pixelOffsetX;
-        let y = (this.cellHeight * row) + (this.cellHeight / 2) + pixelOffsetY;
+        let length;
+        let pixelOffsetX = offsetXDeterminantFunc(this.cellWidth);
+        let pixelOffsetY = offsetYDeterminantFunc(this.cellHeight);
+        let x = (this.cellWidth * col)  + pixelOffsetX;
+        let y = (this.cellHeight * row)  + pixelOffsetY;
         let toX;
         let toY;
 
-        if (orientation == "horizontal")
+        if (lineOrientation == "horizontal")
         {
-            x -= length / 2;
+            length = lengthDeterminantFunc(this.cellWidth)
             toX = x + length;  
             toY = y;
         }
         else
-        {
-            y -= length / 2;
+        { 
+            length = lengthDeterminantFunc(this.cellHeight)
             toY = y + length;
             toX = x;
         }
 
         this.ctx.beginPath();
-        this.ctx.lineWidth = 1;
+        this.ctx.lineWidth = lineWidth;
         this.ctx.moveTo(0.5 + x, 0.5 + y);
         this.ctx.lineTo(0.5 + toX, 0.5 + toY);
         this.ctx.strokeStyle = colour;
