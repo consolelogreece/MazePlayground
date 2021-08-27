@@ -4,7 +4,7 @@ Experimental maze page which visualises some different maze generation and solut
 [Click here](https://consolelogreece.github.io/MazePlayground/) for live version.
 
 ## Generation Algorithms: 
-- Cellular
+- Cellular Automata
 - Eller's
 - Hunt and Kill 
 - Randomized Prim's
