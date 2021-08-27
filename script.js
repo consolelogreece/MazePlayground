@@ -35,14 +35,14 @@ let currentMaze = null;
 let interval;
 
 let generatorMap = {
-    "Cellular Automata B3/S1234": {Class: CellularAutomataMazeGen, Solvable: false, AdditionalParams: {surviveMin: 1, surviveMax: 5, bornMin: 3, bornMax: 3}},
-    "Cellular Automata B3/S12345": {Class: CellularAutomataMazeGen, Solvable: false, AdditionalParams: {surviveMin: 1, surviveMax: 4, bornMin: 3, bornMax: 3}},
     "Eller's": {Class: EllersMazeGen, Solvable: true, AdditionalParams: {}},
     "Hunt and Kill": {Class: HuntAndKillMazeGen,Solvable: true, AdditionalParams: {}},
     "Randomized Prim's": {Class: RandomizedPrimsMazeGen, Solvable: true, AdditionalParams: {}},
     "Recursive Backtrack": {Class: RecursiveBacktrackMazeGen, Solvable: true, AdditionalParams: {}},
     "Recursive Division": {Class: RecursiveDivisionMazeGen, Solvable: true, AdditionalParams: {RandomizeChamberBreaks: false}},
-    "Recursive Division (Randomized Chamber Breaks)": {Class: RecursiveDivisionMazeGen, Solvable: true, AdditionalParams: {RandomizeChamberBreaks: true}}
+    "Recursive Division (Randomized Chamber Breaks)": {Class: RecursiveDivisionMazeGen, Solvable: true, AdditionalParams: {RandomizeChamberBreaks: true}},
+    "Cellular Automata B3/S1234": {Class: CellularAutomataMazeGen, Solvable: false, AdditionalParams: {surviveMin: 1, surviveMax: 5, bornMin: 3, bornMax: 3}},
+    "Cellular Automata B3/S12345": {Class: CellularAutomataMazeGen, Solvable: false, AdditionalParams: {surviveMin: 1, surviveMax: 4, bornMin: 3, bornMax: 3}},
 };
 
 let solverMap = {

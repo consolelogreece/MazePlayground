@@ -1,5 +1,21 @@
-Experimental maze visualisation page, animating some different maze generation and solution algorithms.
+# Maze Playground
+Experimental maze page which visualises some different maze generation and solution algorithms. 
 
-The entire thing is manually drawn on a canvas through js.
+[Click here](https://consolelogreece.github.io/MazePlayground/) for live version.
 
-live version: https://consolelogreece.github.io/MazePlayground
+## Generation Algorithms: 
+- Cellular
+- Eller's
+- Hunt and Kill 
+- Randomized Prim's
+- Recursive backtrack
+- Recursive division 
+
+## Solving Algorithms:
+- Breadth first
+- Dead end filler
+- Recursive backtrack
+- Trémaux
+- Wall flower
+
+All drawing is done manually on a canvas.
