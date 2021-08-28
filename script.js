@@ -161,7 +161,15 @@ function Generate()
 
     Go(generator, illustrator, (mazeObj) =>{
         let maze = mazeObj.GetFormattedMaze();
-        if (maze.solvable) currentMaze = maze.maze;
+        if (maze.solvable)
+        {
+            currentMaze = maze.maze;
+            startXEl.value = 1;
+            startYEl.value = 1;
+            finishXEl.value = mazeWidth;
+            finishYEl.value = mazeHeight;
+        }
+        
         else maze = null;
     });
 }
