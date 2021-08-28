@@ -169,7 +169,6 @@ function Generate()
             finishXEl.value = mazeWidth;
             finishYEl.value = mazeHeight;
         }
-
         else maze = null;
     });
 }
@@ -181,7 +180,7 @@ function Solve()
         alert("You must generate a valid maze first!");
         return;
     }
-    
+
     let mazeHeight = currentMaze.length;
     let mazeWidth = currentMaze[0].length;
     let solverSelection = solverMap[solverEl.value];   
