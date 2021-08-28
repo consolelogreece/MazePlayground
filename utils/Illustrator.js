@@ -84,19 +84,6 @@ class Illustrator
         });   
     }
 
-    DrawChamber(topLeftCellRow, topLeftCellCol, bottomRightCellRow, bottomRightCellCol)
-    {
-        let fromX = (topLeftCellCol * this.cellWidth) + 0.5;
-        let fromY = (topLeftCellRow * this.cellHeight) + 0.5;
-
-        let height = (bottomRightCellRow - topLeftCellRow + 1) * this.cellHeight;
-        let width = (bottomRightCellCol - topLeftCellCol + 1) * this.cellWidth
-
-        this.ctx.strokeStyle = "orange";
-        this.ctx.rect(fromX, fromY, width, height);
-        ctx.stroke(); 
-    }
-
     DrawCircleAtLocation(row, col, radialDeterminantFunc, fillStyle)
     {
         let radius = radialDeterminantFunc({width: this.cellWidth, height: this.cellHeight});
