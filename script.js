@@ -1,32 +1,25 @@
 let mazeCanvas = document.getElementById("MazeCanvas");
-
 let ctx = mazeCanvas.getContext("2d");
 
 let mazeHeightEl = document.getElementById("MazeHeightInput");
 let mazeWidthEl = document.getElementById("MazeWidthInput");
+let stepIntervalEl = document.getElementById("stepInterval");
+let stepsPerCycleEl = document.getElementById("stepsPerCycle");
+let shouldVisualiseEl = document.getElementById("ShouldVisualise");
+let generatorEl = document.getElementById("GeneratorSelector");
+let unsolvableNoteEl = document.getElementById("unsolvableNote")
+let solverEl = document.getElementById("SolverSelector");
+let operationSelectorEl = document.getElementById("OperationSelector");
+let buttonEl = document.getElementById("actionButton");
 
 mazeHeightEl.onchange = () => ValidateBounds(mazeHeightEl, 1000, 1);
 mazeWidthEl.onchange = () => ValidateBounds(mazeWidthEl, 1000, 1);
-
-let generatorEl = document.getElementById("GeneratorSelector");
+stepsPerCycleEl.onchange = () => ValidateBounds(stepsPerCycleEl, 1000, 1)
 generatorEl.onchange = handleAlgoChange;
-
-let unsolvableNoteEl = document.getElementById("unsolvableNote")
-
-let solverEl = document.getElementById("SolverSelector");
-let operationSelectorEl = document.getElementById("OperationSelector");
-
 operationSelectorEl.onchange = () => {
     handleAlgoChange();
     UpdateOperationDisplay();
 };
-let buttonEl = document.getElementById("actionButton");
-
-function handleAlgoChange()
-{
-    if (operationSelectorEl.value != "Generate" || generatorMap[generatorEl.value].Solvable)  unsolvableNoteEl.style.display = "none"
-    else unsolvableNoteEl.style.display = "block"
-}
 
 let inProgress = false;
 
@@ -91,6 +84,12 @@ let operationElCallbackMap = {
     UpdateOperationDisplay()
 })();
 
+function handleAlgoChange()
+{
+    if (operationSelectorEl.value != "Generate" || generatorMap[generatorEl.value].Solvable)  unsolvableNoteEl.style.display = "none"
+    else unsolvableNoteEl.style.display = "block"
+}
+
 function UpdateOperationDisplay()
 {
     let opSelector = operationSelectorEl.value;
@@ -107,14 +106,14 @@ function UpdateOperationDisplay()
 
 function GetSpeedParameters()
 {    
-    let stepInterval = document.getElementById("stepInterval").value;
-    let stepsPerCycle = document.getElementById("stepsPerCycle").value;
-    let ShouldVisualise = document.getElementById("ShouldVisualise").checked;
+    let stepInterval = stepIntervalEl.value;
+    let stepsPerCycle = stepsPerCycleEl.value;
+    let shouldVisualise = shouldVisualiseEl.checked;
 
     return {
         cycleInterval: 1000 - stepInterval, 
         stepsPerCycle: stepsPerCycle,
-        shouldAnimate: ShouldVisualise
+        shouldAnimate: shouldVisualise
     }
 }
 
