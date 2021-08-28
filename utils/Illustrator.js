@@ -118,7 +118,7 @@ class Illustrator
         let y = (row + 1) * this.cellHeight;
         this.ctx.font = fontSize + "px Arial";
         this.ctx.fillStyle = "red";
-        ctx.fillText(text, x, y);
+        this.ctx.fillText(text, x, y);
     }
 
     DrawWall(row, col, dir, colour, lineWidth = 3)
