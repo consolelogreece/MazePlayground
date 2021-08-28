@@ -129,12 +129,13 @@ button:hover {
     box-sizing: border-box;
     border-top: 1px solid #999;
     width: 100%;
-    font-size: 12px;
+    font-size: 12px;    
 }
 .el {
     border-top: 1px dashed #555;
     padding: 10px 0px;
     margin-top: 6px;
+    position: relative;
 }
 .dimBox {
     width: 50px;
@@ -179,4 +180,17 @@ button:hover {
     border-top: 1px dashed #555;
     width: 100%;
     padding: 7px 0px
+}
+
+.indicatorCircle
+{
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    display: inline-block;
+    position: absolute;
+    left: 3%;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
 }
