@@ -117,7 +117,7 @@ class WallFlowerMazeSolver
             illustrator.DrawCircleAtLocation(this.startCellCoords.row, this.startCellCoords.col, (dimensions) => dimensions.width, "lime");
             illustrator.DrawCircleAtLocation(this.endCellCoords.row, this.endCellCoords.col, (dimensions) => dimensions.width, "red");
 
-           this.initialDraw = false;
+            this.initialDraw = false;
         }   
         
         if (!this.completed)
@@ -160,14 +160,17 @@ class WallFlowerMazeSolver
                     width => width * offSetX, height => height * offSetY)
                 })
 
-                if (cell === currentCell)
+                if (cell !== this.maze[this.startCellCoords.row][this.startCellCoords.col])
                 {
-                    illustrator.DrawCircleAtLocation(currentCell.row, currentCell.col, (dimensions) => dimensions.width / 1.8, "cyan");
-                }
-                else
-                {
-                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.2, "#222");
-                }
+                    if (cell === currentCell)
+                    {
+                        illustrator.DrawCircleAtLocation(currentCell.row, currentCell.col, (dimensions) => dimensions.width / 1.8, "cyan");
+                    }
+                    else
+                    {
+                        illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.2, "#222");
+                    }
+                }  
             });
         }       
 
@@ -182,6 +185,9 @@ class WallFlowerMazeSolver
 
                 illustrator.DrawLineBetweenCells(from.row, from.col, to.row, to.col, "magenta");
             }
+
+            illustrator.DrawCircleAtLocation(this.startCellCoords.row, this.startCellCoords.col, (dimensions) => dimensions.width, "lime");
+            illustrator.DrawCircleAtLocation(this.endCellCoords.row, this.endCellCoords.col, (dimensions) => dimensions.width, "red");
         }
     }
 }

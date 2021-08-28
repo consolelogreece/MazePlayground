@@ -150,6 +150,9 @@ class BreadthFirstMazeSolver
     
                 illustrator.DrawLineBetweenCells(from.row, from.col, to.row, to.col, "magenta");
             }
+
+            illustrator.DrawCircleAtLocation(this.startCellCoords.row, this.startCellCoords.col, (dimensions) => dimensions.width, "lime");
+            illustrator.DrawCircleAtLocation(this.endCellCoords.row, this.endCellCoords.col, (dimensions) => dimensions.width, "red");
         }
     }
 }

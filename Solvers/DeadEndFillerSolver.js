@@ -173,13 +173,6 @@ class DeadEndFillerMazeSolver
            this.initialDraw = false;
         }   
 
-        if (!this.completed)
-        {
-            this.cellsToDraw.forEach(cell => {
-                illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.6, "#a1ffff");
-            })   
-        }       
-        
         for (let i = 0; i < this.path.length - 1; i++)
         {
             let from = this.path[i];
@@ -188,6 +181,18 @@ class DeadEndFillerMazeSolver
             illustrator.DrawLineBetweenCells(from.row, from.col, to.row, to.col, "magenta");
         }
 
+        if (!this.completed)
+        {
+            this.cellsToDraw.forEach(cell => {
+                illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.6, "#a1ffff");
+            })   
+        }      
+        else
+        {
+            illustrator.DrawCircleAtLocation(this.startCellCoords.row, this.startCellCoords.col, (dimensions) => dimensions.width, "lime");
+            illustrator.DrawCircleAtLocation(this.endCellCoords.row, this.endCellCoords.col, (dimensions) => dimensions.width, "red");
+        } 
+        
         this.cellsToDraw = [];
     }
 }
