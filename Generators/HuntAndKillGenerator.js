@@ -93,18 +93,18 @@ class HuntAndKillMazeGen
                 this.pathStack = [currentCell];
             }
             else
-            {            
+            {        
+                this.nVisited++;   
+
                 let nextNeighbour = unvisitedNeighbours[RandomizationUtils.RandomFromZero(unvisitedNeighbours.length)];
                 
                 nextNeighbour.cell.visited = true;
 
-                this.nVisited++;               
-    
                 nextNeighbour.cell.currentPath = true;
+
+                nextNeighbour.cell.connectedCells.push(nextNeighbour.relativePositionRequesting);      
     
                 this.maze[currentCell.row][currentCell.col].connectedCells.push(nextNeighbour.dir);
-
-                nextNeighbour.cell.connectedCells.push(nextNeighbour.relativePositionRequesting);
 
                 this.cellsToDraw.push(nextNeighbour.cell);
 

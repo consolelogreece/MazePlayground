@@ -56,20 +56,20 @@ class RecursiveBacktrackMazeGen
                 this.cellsToDraw.push(this.maze[redundant.row][redundant.col]);
             }
             else
-            {            
+            {         
+                this.nVisited++;
+
                 let nextNeighbour = unvisitedNeighbours[RandomizationUtils.RandomFromZero(unvisitedNeighbours.length)];
                 
                 nextNeighbour.cell.visited = true;
     
                 nextNeighbour.cell.currentPath = true;
+
+                nextNeighbour.cell.connectedCells.push(nextNeighbour.relativePositionRequesting);
     
                 this.maze[currentCoords.row][currentCoords.col].connectedCells.push(nextNeighbour.dir);
     
-                this.nVisited++;
-    
-                this.pathStack.push({row: nextNeighbour.cell.row, col: nextNeighbour.cell.col});
-
-                nextNeighbour.cell.connectedCells.push(nextNeighbour.relativePositionRequesting);
+                this.pathStack.push({row: nextNeighbour.cell.row, col: nextNeighbour.cell.col});      
 
                 this.cellsToDraw.push(nextNeighbour.cell);
             }
