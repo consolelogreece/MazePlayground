@@ -141,7 +141,7 @@ button:hover {
     text-align: center;
 }
 .dimLbl {
-    margin-right: 6px;
+    margin: 0px 8px;
 }
 .github {
     height: 40px;

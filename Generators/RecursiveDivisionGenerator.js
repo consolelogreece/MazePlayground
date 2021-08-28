@@ -1,13 +1,10 @@
 class RecursiveDivisionMazeGen
 {
-    constructor(mazeHeight, mazeWidth, startCellCoords, endCellCoords, params){
+    constructor(mazeHeight, mazeWidth, params){
         this.mazeWidth = mazeWidth;
         this.mazeHeight = mazeHeight;
-        this.startCellCoords = startCellCoords;
-        this.endCellCoords = endCellCoords;
         this.maze = [];
         this.completed = false;
-        this.initialDraw = true;
         this.cellsToDraw = [];
 
         this.randomizeChamberBreaks = params.RandomizeChamberBreaks;

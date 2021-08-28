@@ -1,11 +1,10 @@
 class CellularAutomataMazeGen
 {
-    constructor(mazeHeight, mazeWidth, startCellCoords, endCellCoords, params){
+    constructor(mazeHeight, mazeWidth, params){
         this.mazeWidth = mazeWidth;
         this.mazeHeight = mazeHeight;
         this.maze = [];
         this.completed = false;
-        this.initialDraw = true;
         this.cellsToDraw = [];
         this.bornMin = params.bornMin;
         this.bornMax = params.bornMax;

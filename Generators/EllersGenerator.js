@@ -1,13 +1,10 @@
 class EllersMazeGen
 {
-    constructor(mazeHeight, mazeWidth, startCellCoords, endCellCoords){
+    constructor(mazeHeight, mazeWidth){
         this.mazeWidth = mazeWidth;
         this.mazeHeight = mazeHeight;
-        this.startCellCoords = startCellCoords;
-        this.endCellCoords = endCellCoords;
         this.maze = [];
         this.completed = false;
-        this.initialDraw = true;
         this.cellsToDraw = [];
         this.currentRow = 0;
         this.iSet = 1;
@@ -190,9 +187,6 @@ class EllersMazeGen
                     illustrator.DrawWallBreaks(cell)
                 }
             }
-
-            illustrator.DrawCircleAtLocation(this.startCellCoords.row, this.startCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
-            illustrator.DrawCircleAtLocation(this.endCellCoords.row, this.endCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
         }  
         
         this.cellsToDraw = [];

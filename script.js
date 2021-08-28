@@ -11,6 +11,10 @@ let unsolvableNoteEl = document.getElementById("unsolvableNote")
 let solverEl = document.getElementById("SolverSelector");
 let operationSelectorEl = document.getElementById("OperationSelector");
 let buttonEl = document.getElementById("actionButton");
+let startXEl = document.getElementById("StartX");
+let startYEl = document.getElementById("StartY");
+let finishXEl = document.getElementById("FinishX");
+let finishYEl = document.getElementById("FinishY");
 
 mazeHeightEl.onchange = () => ValidateBounds(mazeHeightEl, 1000, 1);
 mazeWidthEl.onchange = () => ValidateBounds(mazeWidthEl, 1000, 1);
@@ -123,6 +127,24 @@ function ValidateBounds(el, ubound, lbound)
     else if(el.value < lbound)el.value = lbound;
 }
 
+function GetFormattedCoords(upperBoundX, upperBoundY)
+{
+    let start = {x: startXEl.value - 1, y: startYEl.value - 1};
+    let finish = {x: finishXEl.value - 1, y: finishYEl.value - 1};
+
+    if (start.x < 0) start.x = 0;
+    if (start.y < 0) start.y = 0;
+    if (finish.x < 0) finish.x = 0;
+    if (finish.y < 0) finish.y = 0;
+
+    if (start.x > upperBoundX) start.x = upperBoundX;
+    if (start.y > upperBoundY) start.y = upperBoundY;
+    if (finish.x > upperBoundX) finish.x = upperBoundX;
+    if (finish.y > upperBoundY) finish.y = upperBoundY;
+
+    return {start, finish};
+}
+
 function Generate()
 {
     currentMaze = null;
@@ -131,8 +153,7 @@ function Generate()
     let generatorSelection = generatorMap[generatorEl.value];
 
     let generator = new generatorSelection.Class(
-        mazeHeight, mazeWidth, {row: 0, col: 0}, 
-        {row: mazeHeight - 1, col: mazeWidth - 1}, generatorSelection.AdditionalParams);
+        mazeHeight, mazeWidth, generatorSelection.AdditionalParams);
     
     let illustrator = new Illustrator(ctx, mazeWidth, mazeHeight);
     
@@ -156,8 +177,10 @@ function Solve()
     let mazeWidth = currentMaze[0].length;
     let solverSelection = solverMap[solverEl.value];   
 
-    let solver = new solverSelection.Class(currentMaze, {row: 0, col: 0}, 
-        {row: mazeHeight - 1, col: mazeWidth - 1}, solverSelection.AdditionalParams);
+    let coords = GetFormattedCoords(currentMaze.length - 1, currentMaze[0].length - 1)
+
+    let solver = new solverSelection.Class(currentMaze, {row: coords.start.y, col: coords.start.x}, 
+        {row: coords.finish.y, col: coords.finish.x}, solverSelection.AdditionalParams);
     
     let illustrator = new Illustrator(ctx, mazeWidth, mazeHeight);
 
