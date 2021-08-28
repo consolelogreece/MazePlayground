@@ -106,9 +106,6 @@ class WallFlowerMazeSolver
             illustrator.EraseContents();
             illustrator.DrawGrid();
 
-            illustrator.DrawCircleAtLocation(this.startCellCoords.row, this.startCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
-            illustrator.DrawCircleAtLocation(this.endCellCoords.row, this.endCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
-            
             for (let row = 0; row < this.maze.length; row++)
             {
                 for (let col = 0; col < this.maze[row].length; col++)
@@ -116,6 +113,9 @@ class WallFlowerMazeSolver
                     illustrator.DrawWallBreaks(this.maze[row][col]);
                 }
             }
+
+            illustrator.DrawCircleAtLocation(this.startCellCoords.row, this.startCellCoords.col, (dimensions) => dimensions.width, "lime");
+            illustrator.DrawCircleAtLocation(this.endCellCoords.row, this.endCellCoords.col, (dimensions) => dimensions.width, "red");
 
            this.initialDraw = false;
         }   

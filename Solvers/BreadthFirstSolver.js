@@ -33,6 +33,7 @@ class BreadthFirstMazeSolver
     * StepMaze()
     { 
         let pathKeyIterator = 0;
+
         while (!this.completed)
         {        
             let deadEndPaths = [];
@@ -116,8 +117,8 @@ class BreadthFirstMazeSolver
             illustrator.EraseContents();
             illustrator.DrawGrid();
 
-            illustrator.DrawCircleAtLocation(this.startCellCoords.row, this.startCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
-            illustrator.DrawCircleAtLocation(this.endCellCoords.row, this.endCellCoords.col, (dimensions) => dimensions.width / 1.3, "red");
+            illustrator.DrawCircleAtLocation(this.startCellCoords.row, this.startCellCoords.col, (dimensions) => dimensions.width, "lime");
+            illustrator.DrawCircleAtLocation(this.endCellCoords.row, this.endCellCoords.col, (dimensions) => dimensions.width, "red");
             
             for (let row = 0; row < this.maze.length; row++)
             {
