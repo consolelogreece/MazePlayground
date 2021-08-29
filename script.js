@@ -38,6 +38,9 @@ let generatorMap = {
     "Recursive Backtrack": {Class: RecursiveBacktrackMazeGen, Solvable: true, AdditionalParams: {}},
     "Recursive Division": {Class: RecursiveDivisionMazeGen, Solvable: true, AdditionalParams: {RandomizeChamberBreaks: false}},
     "Recursive Division (Randomized Chamber Breaks)": {Class: RecursiveDivisionMazeGen, Solvable: true, AdditionalParams: {RandomizeChamberBreaks: true}},
+    "Tree Growing (pick first added)": {Class: TreeGrowingMazeGen, Solvable: true, AdditionalParams: {nextCellIndexDecidingFunc: cells => 0}},
+    "Tree Growing (pick last added)": {Class: TreeGrowingMazeGen, Solvable: true, AdditionalParams: {nextCellIndexDecidingFunc: cells => cells.length - 1}},
+    "Tree Growing (pick random)": {Class: TreeGrowingMazeGen, Solvable: true, AdditionalParams: {nextCellIndexDecidingFunc: cells => RandomizationUtils.RandomFromZero(cells.length)}},
     "Cellular Automata B3/S1234": {Class: CellularAutomataMazeGen, Solvable: false, AdditionalParams: {surviveMin: 1, surviveMax: 5, bornMin: 3, bornMax: 3}},
     "Cellular Automata B3/S12345": {Class: CellularAutomataMazeGen, Solvable: false, AdditionalParams: {surviveMin: 1, surviveMax: 4, bornMin: 3, bornMax: 3}},
 };
