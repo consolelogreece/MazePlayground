@@ -48,6 +48,7 @@ let generatorMap = {
 let solverMap = {
     "Breadth First": {Class: BreadthFirstMazeSolver, AdditionalParams: {}},
     "Dead End Filler": {Class: DeadEndFillerMazeSolver, AdditionalParams: {}},
+    "Random Mouse": {Class: RandomMouseMazeSolver, AdditionalParams: {}},
     "Recursive Backtrack": {Class: RecursiveBacktrackMazeSolver, AdditionalParams: {}},
     "Trémaux": {Class: TremauxMazeSolver, AdditionalParams: {}},
     "Wall Flower": {Class: WallFlowerMazeSolver, AdditionalParams: {}}
@@ -234,7 +235,7 @@ function Go(maze, illustrator, cb)
         let genResult;
         do 
         {
-            genResult = mazeGen.next(1)
+            genResult = mazeGen.next(1);
         } while (!genResult.done);
 
         maze.Draw(illustrator);
