@@ -16,9 +16,9 @@ let startYEl = document.getElementById("StartY");
 let finishXEl = document.getElementById("FinishX");
 let finishYEl = document.getElementById("FinishY");
 
-mazeHeightEl.onchange = () => ValidateBounds(mazeHeightEl, 1000, 1);
-mazeWidthEl.onchange = () => ValidateBounds(mazeWidthEl, 1000, 1);
-stepsPerCycleEl.onchange = () => ValidateBounds(stepsPerCycleEl, 1000, 1)
+mazeHeightEl.onchange = () => ValidateBounds(mazeHeightEl, 500, 2);
+mazeWidthEl.onchange = () => ValidateBounds(mazeWidthEl, 500, 2);
+stepsPerCycleEl.onchange = () => ValidateBounds(stepsPerCycleEl, 500, 1)
 generatorEl.onchange = handleAlgoChange;
 operationSelectorEl.onchange = () => {
     handleAlgoChange();
@@ -161,8 +161,9 @@ function Generate()
     let mazeWidth = mazeWidthEl.value;
     let generatorSelection = generatorMap[generatorEl.value];
 
-    let generator = new generatorSelection.Class(
-        mazeHeight, mazeWidth, generatorSelection.AdditionalParams);
+    buttonEl.innerText = "Generating...";
+
+    let generator = new generatorSelection.Class(mazeHeight, mazeWidth, generatorSelection.AdditionalParams);
     
     let illustrator = new Illustrator(ctx, mazeWidth, mazeHeight);
     
@@ -179,6 +180,8 @@ function Generate()
             finishYEl.value = mazeHeight;
         }
         else maze = null;
+
+        buttonEl.innerText = "Go";
     });
 }
 
@@ -192,7 +195,9 @@ function Solve()
 
     let mazeHeight = currentMaze.length;
     let mazeWidth = currentMaze[0].length;
-    let solverSelection = solverMap[solverEl.value];   
+    let solverSelection = solverMap[solverEl.value];  
+    
+    buttonEl.innerText = "Solving...";
 
     let coords = GetFormattedCoords(currentMaze.length - 1, currentMaze[0].length - 1)
 
@@ -201,7 +206,7 @@ function Solve()
     
     let illustrator = new Illustrator(ctx, mazeWidth, mazeHeight);
 
-    Go(solver, illustrator, () => {});
+    Go(solver, illustrator, () => {buttonEl.innerText = "Go"});
 }
 
 function Go(maze, illustrator, cb)
