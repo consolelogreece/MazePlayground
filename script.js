@@ -25,8 +25,6 @@ operationSelectorEl.onchange = () => {
     UpdateOperationDisplay();
 };
 
-let inProgress = false;
-
 let currentMaze = null;
 
 let interval;
@@ -118,6 +116,13 @@ function GetSpeedParameters()
     let stepsPerCycle = stepsPerCycleEl.value;
     let shouldVisualise = shouldVisualiseEl.checked;
 
+    if (!shouldVisualise)
+    {
+        stepsPerCycle = 100;
+
+        stepInterval = 1000;
+    }
+
     return {
         cycleInterval: 1000 - stepInterval, 
         stepsPerCycle: stepsPerCycle,
@@ -206,40 +211,24 @@ function Go(maze, illustrator, cb)
     let speedParams = GetSpeedParameters();
 
     clearInterval(interval);
-    
-    if (speedParams.shouldAnimate)
-    {
-        interval = setInterval(function()
-        { 
-            let genResult;
 
-            for (let step = 0; step < speedParams.stepsPerCycle; step++)
-            {
-                genResult = mazeGen.next(1);
-
-                if (genResult.done) break;                
-            }
-            
-            if (genResult.done)
-            {
-                clearInterval(interval);
-                inProgress = false;                   
-                maze.Draw(illustrator);
-                cb(maze);
-            }
-            else genResult.value.Draw(illustrator);
-        }, speedParams.cycleInterval);
-    }
-    else
-    {
+    interval = setInterval(function()
+    { 
         let genResult;
-        do 
+
+        for (let step = 0; step < speedParams.stepsPerCycle; step++)
         {
             genResult = mazeGen.next(1);
-        } while (!genResult.done);
 
-        maze.Draw(illustrator);
-        inProgress = false;
-        cb(maze);
-    }
+            if (genResult.done) break;                
+        }
+        
+        if (genResult.done)
+        {
+            clearInterval(interval);               
+            maze.Draw(illustrator);
+            cb(maze);
+        }
+        else if (speedParams.shouldAnimate) genResult.value.Draw(illustrator);
+    }, speedParams.cycleInterval);
 }
