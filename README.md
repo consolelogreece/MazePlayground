@@ -15,9 +15,10 @@ Experimental maze page which visualises some different maze generation and solut
 ## Solving Algorithms:
 1. Breadth first
 2. Dead end filler
-3. Recursive backtrack
-4. Trémaux
-5. Wall flower
+3. Random mouse
+4. Recursive backtrack
+5. Trémaux
+6. Wall flower
 
 Notes: 
 - All algorithms were are designed for easy visualisation, and as such, they lose a good deal of performance.

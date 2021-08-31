@@ -208,7 +208,7 @@ function Solve()
 
     Go(solver, illustrator, () => {buttonEl.innerText = "Go"});
 }
-
+// TODO: Separate the drawing aspect of each class into its own class, pass in illustrators and the respective maze into it. this should hopefully allow use of workers.
 function Go(maze, illustrator, cb)
 {
     let mazeGen = maze.StepMaze();
