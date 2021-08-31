@@ -118,7 +118,7 @@ function GetSpeedParameters()
 
     if (!shouldVisualise)
     {
-        stepsPerCycle = 100;
+        stepsPerCycle = 50;
 
         stepInterval = 1000;
     }
