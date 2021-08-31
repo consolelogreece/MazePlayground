@@ -16,8 +16,8 @@ let startYEl = document.getElementById("StartY");
 let finishXEl = document.getElementById("FinishX");
 let finishYEl = document.getElementById("FinishY");
 
-mazeHeightEl.onchange = () => ValidateBounds(mazeHeightEl, 500, 2);
-mazeWidthEl.onchange = () => ValidateBounds(mazeWidthEl, 500, 2);
+mazeHeightEl.onchange = () => ValidateBounds(mazeHeightEl, 300, 2);
+mazeWidthEl.onchange = () => ValidateBounds(mazeWidthEl, 300, 2);
 stepsPerCycleEl.onchange = () => ValidateBounds(stepsPerCycleEl, 500, 1)
 generatorEl.onchange = handleAlgoChange;
 operationSelectorEl.onchange = () => {
