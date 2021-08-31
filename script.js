@@ -46,7 +46,7 @@ let generatorMap = {
 let solverMap = {
     "Breadth First": {Class: BreadthFirstMazeSolver, AdditionalParams: {}},
     "Dead End Filler": {Class: DeadEndFillerMazeSolver, AdditionalParams: {}},
-    "Random Mouse": {Class: RandomMouseMazeSolver, AdditionalParams: {}},
+    "Random Mouse (may take forever)": {Class: RandomMouseMazeSolver, AdditionalParams: {}},
     "Recursive Backtrack": {Class: RecursiveBacktrackMazeSolver, AdditionalParams: {}},
     "Trémaux": {Class: TremauxMazeSolver, AdditionalParams: {}},
     "Wall Flower": {Class: WallFlowerMazeSolver, AdditionalParams: {}}
