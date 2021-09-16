@@ -5,7 +5,7 @@ class RandomMouseMazeSolver
         this.startCellCoords = startCellCoords;
         this.endCellCoords = endCellCoords;
         this.pathStack = [startCellCoords];
-        this.completed =  false;
+        this.completed = false;
         this.initialDraw = true;
         this.cellsToDraw = [];
         this.pathStack = [];
@@ -61,8 +61,8 @@ class RandomMouseMazeSolver
             }
             else
             {
-                let nextNeighbour = validNeighbours.filter(n => n.cell != previousCell)[0]
-                nextCell = nextNeighbour.cell
+                let nextNeighbour = validNeighbours.filter(n => n.cell != previousCell)[0];
+                nextCell = nextNeighbour.cell;
             }
 
             currentCell.currentCell = false;
@@ -118,7 +118,7 @@ class RandomMouseMazeSolver
                 }
                 else 
                 {                    
-                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width, "#222")
+                    illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width, "#222");
                 }
             });
         }       

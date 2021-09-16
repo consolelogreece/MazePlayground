@@ -15,10 +15,10 @@ class HuntAndKillMazeGen
             let mazeRow = [];
             for (let col = 0; col < mazeWidth; col++)
             {
-                mazeRow.push({row: row, col: col, visited: false, currentPath: false, connectedCells: [] })
+                mazeRow.push({row: row, col: col, visited: false, currentPath: false, connectedCells: [] });
             }
     
-            this.maze.push(mazeRow)
+            this.maze.push(mazeRow);
         }
     }
 
@@ -69,7 +69,7 @@ class HuntAndKillMazeGen
         
             let neighbours = FindNeighbours(this.maze, currentCell.row, currentCell.col);
     
-            let unvisitedNeighbours = neighbours.filter(neighbour => !neighbour.cell.visited)
+            let unvisitedNeighbours = neighbours.filter(neighbour => !neighbour.cell.visited);
     
             if (unvisitedNeighbours.length == 0) 
             {
@@ -84,7 +84,7 @@ class HuntAndKillMazeGen
 
                 neighbour.cell.connectedCells.push(neighbour.relativePositionRequesting);
 
-                currentCell.connectedCells.push(neighbour.dir)
+                currentCell.connectedCells.push(neighbour.dir);
 
                 currentCell.visited = true;
 
@@ -108,7 +108,7 @@ class HuntAndKillMazeGen
 
                 this.cellsToDraw.push(nextNeighbour.cell);
 
-                this.pathStack.push(nextNeighbour.cell)                
+                this.pathStack.push(nextNeighbour.cell);          
             }
             
             if (this.nVisited == this.nCells)
@@ -116,7 +116,6 @@ class HuntAndKillMazeGen
                 this.completed = true;
             }
             
-
             yield this;
         }        
     }
@@ -150,7 +149,7 @@ class HuntAndKillMazeGen
                 {
                     illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "#ffff66");
                 }
-            })   
+            });
         }       
 
         this.cellsToDraw = [];

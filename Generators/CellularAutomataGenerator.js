@@ -16,10 +16,10 @@ class CellularAutomataMazeGen
             let mazeRow = [];
             for (let col = 0; col < mazeWidth; col++)
             {
-                mazeRow.push({row: row, col: col, aliveNow: RandomizationUtils.RandomNumberBetweenMinMaxInclusive(1, 20) === 1, aliveNext: false})
+                mazeRow.push({row: row, col: col, aliveNow: RandomizationUtils.RandomNumberBetweenMinMaxInclusive(1, 20) === 1, aliveNext: false});
             }
     
-            this.maze.push(mazeRow)
+            this.maze.push(mazeRow);
         }
     }
 

@@ -7,7 +7,7 @@ let stepIntervalEl = document.getElementById("stepInterval");
 let stepsPerCycleEl = document.getElementById("stepsPerCycle");
 let shouldVisualiseEl = document.getElementById("ShouldVisualise");
 let generatorEl = document.getElementById("GeneratorSelector");
-let unsolvableNoteEl = document.getElementById("unsolvableNote")
+let unsolvableNoteEl = document.getElementById("unsolvableNote");
 let solverEl = document.getElementById("SolverSelector");
 let operationSelectorEl = document.getElementById("OperationSelector");
 let buttonEl = document.getElementById("actionButton");
@@ -18,7 +18,7 @@ let finishYEl = document.getElementById("FinishY");
 
 mazeHeightEl.onchange = () => ValidateBounds(mazeHeightEl, 300, 2);
 mazeWidthEl.onchange = () => ValidateBounds(mazeWidthEl, 300, 2);
-stepsPerCycleEl.onchange = () => ValidateBounds(stepsPerCycleEl, 500, 1)
+stepsPerCycleEl.onchange = () => ValidateBounds(stepsPerCycleEl, 500, 1);
 generatorEl.onchange = handleAlgoChange;
 operationSelectorEl.onchange = () => {
     handleAlgoChange();
@@ -87,7 +87,7 @@ let operationElCallbackMap = {
         operationSelectorEl.appendChild(opt);
     }
 
-    UpdateOperationDisplay()
+    UpdateOperationDisplay();
 })();
 
 function handleAlgoChange()
@@ -199,7 +199,7 @@ function Solve()
     
     buttonEl.innerText = "Solving...";
 
-    let coords = GetFormattedCoords(currentMaze.length - 1, currentMaze[0].length - 1)
+    let coords = GetFormattedCoords(currentMaze.length - 1, currentMaze[0].length - 1);
 
     let solver = new solverSelection.Class(currentMaze, {row: coords.start.y, col: coords.start.x}, 
         {row: coords.finish.y, col: coords.finish.x}, solverSelection.AdditionalParams);

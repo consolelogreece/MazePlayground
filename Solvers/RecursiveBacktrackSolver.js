@@ -5,7 +5,7 @@ class RecursiveBacktrackMazeSolver
         this.startCellCoords = startCellCoords;
         this.endCellCoords = endCellCoords;
         this.pathStack = [startCellCoords];
-        this.completed =  false;
+        this.completed = false;
         this.initialDraw = true;
         this.cellsToDraw = [];
 
@@ -24,8 +24,8 @@ class RecursiveBacktrackMazeSolver
 
         this.maze = formattedMaze;
 
-        this.maze[startCellCoords.row][startCellCoords.col].visited =  true;
-        this.maze[startCellCoords.row][startCellCoords.col].currentPath =  true;
+        this.maze[startCellCoords.row][startCellCoords.col].visited = true;
+        this.maze[startCellCoords.row][startCellCoords.col].currentPath = true;
     }
 
     * StepMaze()
@@ -107,7 +107,7 @@ class RecursiveBacktrackMazeSolver
                     illustrator.EraseCellContents(cell.row, cell.col);
                 }
                 
-                illustrator.DrawWallBreaks(cell)
+                illustrator.DrawWallBreaks(cell);
             })   
         }       
 

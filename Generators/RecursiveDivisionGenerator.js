@@ -27,7 +27,7 @@ class RecursiveDivisionMazeGen
                 mazeRow.push(cell);
             }
     
-            this.maze.push(mazeRow)
+            this.maze.push(mazeRow);
         }
     
     }
@@ -79,9 +79,9 @@ class RecursiveDivisionMazeGen
             chamber1 = [topLeftCell, this.maze[splitRow][splitCol]];
             chamber2 = [this.maze[topLeftCell.row][splitCol + 1], this.maze[splitRow][bottomRightCell.col]];
             chamber3 = [this.maze[splitRow + 1][topLeftCell.col], this.maze[bottomRightCell.row][splitCol]];
-            chamber4 = [this.maze[splitRow + 1][splitCol + 1], bottomRightCell]
+            chamber4 = [this.maze[splitRow + 1][splitCol + 1], bottomRightCell];
 
-            this.chamberStack.push(chamber1, chamber2, chamber3, chamber4)
+            this.chamberStack.push(chamber1, chamber2, chamber3, chamber4);
 
             // Register the walls as boundaries for each cell adjacent to the wall
             for (let col = topLeftCell.col; col <= bottomRightCell.col; col++)
@@ -188,8 +188,8 @@ class RecursiveDivisionMazeGen
             this.cellsToDraw.forEach(cell => {
                 cell.boundaries.forEach(b => {
                     illustrator.DrawWall(cell.row, cell.col, b, "tomato");
-                })
-            })
+                });
+            });
          }       
 
         this.cellsToDraw = [];

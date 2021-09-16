@@ -4,7 +4,7 @@ class DeadEndFillerMazeSolver
     {
         this.startCellCoords = startCellCoords;
         this.endCellCoords = endCellCoords;
-        this.completed =  false;
+        this.completed = false;
         this.initialDraw = true;
         this.cellsToDraw = [];
 
@@ -92,7 +92,7 @@ class DeadEndFillerMazeSolver
                     // Get neighbours of the neighbour. This techincally includs the current cell, but that is eliminated by a filled check next.
                     let connectedNeighbours = FindNeighbours(this.maze, neighbour.cell.row, neighbour.cell.col).filter(neighboursNeighbour => neighbour.cell.connectedCells.includes(neighboursNeighbour.dir));
                     
-                    let nValidRoutes = connectedNeighbours.reduce((n, val) => n + (!val.cell.filled), 0)
+                    let nValidRoutes = connectedNeighbours.reduce((n, val) => n + (!val.cell.filled), 0);
 
                     // If there is only 1 valid route, fill it as it the next logical square of the deadend and is not at a junction.
                     if (nValidRoutes == 1)
@@ -111,7 +111,7 @@ class DeadEndFillerMazeSolver
             }   
             
             // Remove finished deadends
-            for(let i = deadEndsToForget.length - 1; i >= 0; i--) this.deadEnds.splice(deadEndsToForget[i], 1)
+            for(let i = deadEndsToForget.length - 1; i >= 0; i--) this.deadEnds.splice(deadEndsToForget[i], 1);
             
             yield this;
         }
@@ -130,7 +130,7 @@ class DeadEndFillerMazeSolver
 
         let currentCell = startCell;
 
-        let previousCell = startCell
+        let previousCell = startCell;
 
         let endCell = this.maze[this.endCellCoords.row][this.endCellCoords.col];
 

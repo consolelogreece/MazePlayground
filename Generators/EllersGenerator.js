@@ -14,10 +14,10 @@ class EllersMazeGen
             let mazeRow = [];
             for (let col = 0; col < mazeWidth; col++)
             {
-                mazeRow.push({row: row, col: col, set: -1, connectedCells: [] })
+                mazeRow.push({row: row, col: col, set: -1, connectedCells: [] });
             }
     
-            this.maze.push(mazeRow)
+            this.maze.push(mazeRow);
         }
     }
 
@@ -61,7 +61,7 @@ class EllersMazeGen
                     // update all cells of same set
                     if (cell.set != neighbour.set)
                     {
-                        this.UpdateAllOfSetOnRow(row, neighbour.set, cell.set)
+                        this.UpdateAllOfSetOnRow(row, neighbour.set, cell.set);
                         cell.connectedCells.push(Paths.RIGHT);
                         neighbour.connectedCells.push(Paths.LEFT);
                         this.cellsToDraw.push(cell, neighbour);
@@ -125,9 +125,9 @@ class EllersMazeGen
                     // Connect disjointed sets.
                     if (cell.set != rightNeighbour.cell.set) 
                     {                       
-                        this.UpdateAllOfSetOnRow(row, rightNeighbour.cell.set, cell.set)
+                        this.UpdateAllOfSetOnRow(row, rightNeighbour.cell.set, cell.set);
                         
-                        cell.connectedCells.push(Paths.RIGHT)
+                        cell.connectedCells.push(Paths.RIGHT);
                         rightNeighbour.cell.connectedCells.push(Paths.LEFT);
 
                        this.cellsToDraw.push(cell, rightNeighbour.cell);
@@ -160,7 +160,7 @@ class EllersMazeGen
                 for(let i = 0; i < this.mazeWidth; i++)  
                 {
                     illustrator.EraseCellContents(this.currentRow  -1, i);
-                    illustrator.DrawWallBreaks(this.maze[this.currentRow - 1][i])
+                    illustrator.DrawWallBreaks(this.maze[this.currentRow - 1][i]);
                 } 
             }
             
@@ -168,9 +168,9 @@ class EllersMazeGen
                 
                 illustrator.EraseCellContents(cell.row, cell.col);
                 
-                illustrator.DrawWallBreaks(cell)
+                illustrator.DrawWallBreaks(cell);
 
-                if (cell.set != -1) illustrator.DrawTextInCell(cell.row, cell.col, cell.set)
+                if (cell.set != -1) illustrator.DrawTextInCell(cell.row, cell.col, cell.set);
             })   
         }  
         else // redraw everything on last cycle to make the process more efficient, while preserving functionality when visualisation is disabled.
@@ -184,7 +184,7 @@ class EllersMazeGen
                     let cell = this.maze[row][col];
 
                     illustrator.EraseCellContents(cell.row, cell.col);
-                    illustrator.DrawWallBreaks(cell)
+                    illustrator.DrawWallBreaks(cell);
                 }
             }
         }  

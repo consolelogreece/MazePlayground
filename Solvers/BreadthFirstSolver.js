@@ -4,7 +4,7 @@ class BreadthFirstMazeSolver
     {
         this.startCellCoords = startCellCoords;
         this.endCellCoords = endCellCoords;
-        this.completed =  false;
+        this.completed = false;
         this.paths = [];
         this.shortestPath = [];
         this.initialDraw = true;
@@ -46,7 +46,7 @@ class BreadthFirstMazeSolver
 
                 let currentCell = path[path.length - 1];
 
-                let neighbours = FindNeighbours(this.maze, currentCell.row, currentCell.col)
+                let neighbours = FindNeighbours(this.maze, currentCell.row, currentCell.col);
 
                 let validNeighbours = neighbours.filter(neighbour => !neighbour.cell.visited && currentCell.connectedCells.includes(neighbour.dir));
 
@@ -134,9 +134,9 @@ class BreadthFirstMazeSolver
         if (!this.completed)
         {
             this.cellsToDraw.forEach(cell => {
-                illustrator.DrawTextInCell(cell.row, cell.col, cell.pathKey)
+                illustrator.DrawTextInCell(cell.row, cell.col, cell.pathKey);
                 illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "#bfff00");
-            })   
+            });
         }       
 
         this.cellsToDraw = [];

@@ -12,10 +12,10 @@ class RandomizedPrimsMazeGen
             let mazeRow = [];
             for (let col = 0; col < mazeWidth; col++)
             {
-                mazeRow.push({row: row, col: col, visited: false, connectedCells: []})
+                mazeRow.push({row: row, col: col, visited: false, connectedCells: []});
             }
     
-            this.maze.push(mazeRow)
+            this.maze.push(mazeRow);
         }
 
     }
@@ -58,7 +58,7 @@ class RandomizedPrimsMazeGen
             {
                 nextWall.cell1.connectedCells.push(nextWall.dir);
 
-                nextWall.cell2.connectedCells.push(nextWall.relativePositionRequesting)
+                nextWall.cell2.connectedCells.push(nextWall.relativePositionRequesting);
 
                 nextWall.cell2.visited = true;
 
@@ -100,7 +100,7 @@ class RandomizedPrimsMazeGen
                 illustrator.EraseCellContents(cell.row, cell.col);
                 illustrator.DrawWallBreaks(cell);
                 illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "#00ff80");;   
-            })   
+            });
         }       
 
         this.cellsToDraw = [];

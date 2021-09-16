@@ -15,10 +15,10 @@ class RecursiveBacktrackMazeGen
             let mazeRow = [];
             for (let col = 0; col < mazeWidth; col++)
             {
-                mazeRow.push({row: row, col: col, visited: false, currentPath: false, connectedCells: [] })
+                mazeRow.push({row: row, col: col, visited: false, currentPath: false, connectedCells: [] });
             }
     
-            this.maze.push(mazeRow)
+            this.maze.push(mazeRow);
         }
     
         this.maze[0][0].visited = true;
@@ -45,7 +45,7 @@ class RecursiveBacktrackMazeGen
         
             let neighbours = FindNeighbours(this.maze, currentCoords.row, currentCoords.col);
     
-            let unvisitedNeighbours = neighbours.filter(neighbour => !neighbour.cell.visited)
+            let unvisitedNeighbours = neighbours.filter(neighbour => !neighbour.cell.visited);
     
             if (unvisitedNeighbours.length == 0) 
             {
@@ -112,7 +112,7 @@ class RecursiveBacktrackMazeGen
                 {
                     illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "cyan");
                 }
-            })   
+            });
         }       
 
         this.cellsToDraw = [];

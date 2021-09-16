@@ -1,13 +1,4 @@
-// https://weblog.jamisbuck.org/2011/1/27/maze-generation-growing-tree-algorithm
-
-/*
-
-    Let C be a list of cells, initially empty. Add one cell to C, at random.
-    Choose a cell from C, and carve a passage to any unvisited neighbor of that cell, adding that neighbor to C as well. If there are no unvisited neighbors, remove the cell from C.
-    Repeat #2 until C is empty.
- */
-
-    class TreeGrowingMazeGen
+class TreeGrowingMazeGen
 {
     constructor(mazeHeight, mazeWidth, params){
         this.mazeWidth = mazeWidth;
@@ -25,7 +16,7 @@
             let mazeRow = [];
             for (let col = 0; col < mazeWidth; col++)
             {
-                mazeRow.push({row: row, col: col, visited: false, activeCell: false, connectedCells: [] })
+                mazeRow.push({row: row, col: col, visited: false, activeCell: false, connectedCells: [] });
             }
     
             this.maze.push(mazeRow)
@@ -82,7 +73,7 @@
 
                 this.cellsWithUnvisitedNeighbours.push(neighbourToConnect.cell);
 
-                this.cellsToDraw.push(neighbourToConnect.cell)
+                this.cellsToDraw.push(neighbourToConnect.cell);
 
                 nextCell.connectedCells.push(neighbourToConnect.dir);
 
@@ -90,7 +81,7 @@
 
                 neighbourToConnect.cell.activeCell = false;
 
-                this.cellsToDraw.push(neighbourToConnect.cell)
+                this.cellsToDraw.push(neighbourToConnect.cell);
             }
 
             currentCell = nextCell;
@@ -115,7 +106,7 @@
             }
         }   
         else
-        {          
+        {
             this.cellsToDraw.forEach(cell => {
                 illustrator.EraseCellContents(cell.row, cell.col);
                 illustrator.DrawWallBreaks(cell);
@@ -127,8 +118,8 @@
                 {
                     illustrator.DrawCircleAtLocation(cell.row, cell.col, (dimensions) => dimensions.width / 1.8, "#9900ff");
                 }
-            })   
-        }       
+            });
+        }
 
         this.cellsToDraw = [];
     }
