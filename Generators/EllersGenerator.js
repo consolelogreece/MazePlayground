@@ -43,7 +43,7 @@ class EllersMazeGen
                 if (this.maze[row][col].set === -1)
                 {
                     this.maze[row][col].set = this.iSet;
-                    this.iSet ++;
+                    this.iSet++;
                     this.cellsToDraw.push(this.maze[row][col]);
                 }
             }
@@ -150,7 +150,7 @@ class EllersMazeGen
             if (cell.set == from) cell.set = to;
         }
     }
-    // multiple step ellers not removing old numbers for some reason...
+    // TODO: multiple step ellers not removing old numbers for some reason...
     Draw(illustrator)
     {   
         if (!this.completed)
