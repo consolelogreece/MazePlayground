@@ -19,7 +19,7 @@ class TreeGrowingMazeGen
                 mazeRow.push({row: row, col: col, visited: false, activeCell: false, connectedCells: [] });
             }
     
-            this.maze.push(mazeRow)
+            this.maze.push(mazeRow);
         }
     
         let firstCell = this.maze[RandomizationUtils.RandomFromZero(mazeHeight)][RandomizationUtils.RandomFromZero(mazeWidth)];
