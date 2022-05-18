@@ -71,6 +71,10 @@ class WallFlowerMazeSolver
 
                     nextCell = nextNeighbour.cell;
 
+                    var indexOfNextCellInPath = this.path.indexOf(nextCell);
+
+                    if (indexOfNextCellInPath != -1) this.path.length = indexOfNextCellInPath;
+
                     this.currentWallDir = this.dirWallMap[dir];
 
                     this.path.push(nextCell);
